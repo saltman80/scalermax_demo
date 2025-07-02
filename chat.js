@@ -99,7 +99,14 @@
             body: JSON.stringify({ prompt }),
             signal
         });
-        if (!res.ok) throw new Error(res.statusText || 'Network response was not ok');
+        if (!res.ok) {
+            let errMsg = res.statusText;
+            try {
+                const errData = await res.json();
+                if (errData && errData.error) errMsg = errData.error;
+            } catch {}
+            throw new Error(errMsg || 'Network response was not ok');
+        }
         if (!res.body) throw new Error('ReadableStream not supported in this browser.');
         const reader = res.body.getReader();
         const decoder = new TextDecoder();

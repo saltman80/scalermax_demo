@@ -140,6 +140,8 @@
     #chat-input {
       flex: 1;
       font-size: 1.05rem;
+      min-height: 3.5rem;
+      min-width: 250px;
     }
 
     #chat-form .glow-button {
@@ -228,7 +230,7 @@
         <div class="card chat-card text-light">
           <div id="chat-container" class="mb-2" aria-live="polite" role="log"></div>
           <form id="chat-form" class="d-flex gap-2">
-            <input id="chat-input" type="text" class="glow-input flex-grow-1" placeholder="Type a message..." aria-label="chat input" disabled>
+            <textarea id="chat-input" class="glow-input flex-grow-1" placeholder="Type a message..." aria-label="chat input" rows="3" disabled></textarea>
             <button id="send-button" class="glow-button" type="submit" disabled>Send</button>
           </form>
         </div>
@@ -297,7 +299,7 @@
           <div class="card-counter">
             <div>
               <div class="card-title">Error Rate</div>
-              <div class="count"><span class="counter" data-target="2.5" data-decimals="1" data-metric="errorRate">0</span><span>%</span></div>
+              <div class="count"><span class="counter" data-target="1.5" data-decimals="1" data-min="0" data-max="1.9" data-metric="errorRate">0</span><span>%</span></div>
             </div>
             <div class="icon"></div>
           </div>

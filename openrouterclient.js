@@ -56,10 +56,12 @@ async function sendRequest(model, prompt, options = {}) {
           messages: [{ role: 'user', content: prompt }],
         }),
       });
-      const data = await response.json();
+      const text = await response.text();
+      let data;
+      try { data = JSON.parse(text); } catch { data = {}; }
       if (!response.ok) {
-        const msg = data.error?.message || response.statusText;
-        throw new Error(`OpenRouter API error: ${msg}`);
+        const msg = data.error?.message || text || response.statusText;
+        throw new Error(`OpenRouter API error ${response.status}: ${msg}`);
       }
       const content = data.choices?.[0]?.message?.content;
       if (typeof content !== 'string') {
