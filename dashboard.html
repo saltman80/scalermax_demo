@@ -55,6 +55,11 @@
     <a href="#">Settings</a>
   </aside>
   <main role="main" class="container-fluid">
+    <div class="connect-box card p-3 mb-4 text-center">
+      <p class="mb-3">Connect your accounts to get started.</p>
+      <button id="openrouterBtn" class="btn api-btn btn-lg me-2">OpenRouter</button>
+      <button id="straicoBtn" class="btn api-btn btn-lg">Straico</button>
+    </div>
     <div class="row">
       <div class="col-lg-4 order-lg-1 mb-4">
         <h2>Chat Demo</h2>
@@ -67,11 +72,6 @@
         </div>
       </div>
       <div class="col-lg-8 order-lg-2">
-        <div class="connect-box card p-3 mb-4 text-center">
-          <p class="mb-3">Connect your accounts to get started.</p>
-          <button id="openrouterBtn" class="btn api-btn btn-lg me-2">OpenRouter</button>
-          <button id="straicoBtn" class="btn api-btn btn-lg">Straico</button>
-        </div>
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h1 class="h2 m-0">Dashboard</h1>
           <div>
@@ -79,6 +79,20 @@
           </div>
         </div>
         <div id="apikeyMessage" class="mb-4" style="color:#fff; display:none;"></div>
+        <div class="card p-3 mb-4">
+          <div class="input-group">
+            <input id="keyNameInput" type="text" class="form-control" placeholder="Name of Key">
+            <button id="getKeyBtn" class="btn api-btn">Get Key</button>
+          </div>
+        </div>
+        <div class="card p-3 mb-4">
+          <h5 class="mb-3">Demo Keys</h5>
+          <ul class="mb-0" id="demoKeyList">
+            <li>VibeSheet</li>
+            <li>AahSheet</li>
+            <li>AI Tool</li>
+          </ul>
+        </div>
         <div class="row g-3 mb-4">
       <div class="col-sm-6 col-md-3">
         <div class="card bg-primary">
@@ -264,6 +278,7 @@
       }
       document.getElementById('openrouterBtn').addEventListener('click', showDemoMessage);
       document.getElementById('straicoBtn').addEventListener('click', showDemoMessage);
+      document.getElementById('getKeyBtn').addEventListener('click', showDemoMessage);
     });
   </script>
   <script src="chat.js" nonce="a1b2c3"></script>
