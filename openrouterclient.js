@@ -4,8 +4,13 @@ const DEFAULT_TIMEOUT_MS = process.env.OPENROUTER_TIMEOUT_MS
   : 10000;
 const DEFAULT_RETRIES = 3;
 
+// For demo purposes a hardcoded API key can be placed below.
+// Leave as an empty string to rely on the OPENROUTER_API_KEY environment variable.
+const HARDCODED_API_KEY = '';
+
 async function sendRequest(model, prompt, options = {}) {
-  const apiKey = options.apiKey || process.env.OPENROUTER_API_KEY;
+  const apiKey =
+    options.apiKey || process.env.OPENROUTER_API_KEY || HARDCODED_API_KEY;
   const url =
     options.url ||
     process.env.OPENROUTER_URL ||
