@@ -112,9 +112,20 @@ function logError(error, requestId = null) {
   console.error(safeStringify(entry))
 }
 
+function logModelSelection(intent, model) {
+  const entry = {
+    timestamp: new Date().toISOString(),
+    level: 'info',
+    message: 'Model selection',
+    data: { intent, model }
+  }
+  console.log(safeStringify(entry))
+}
+
 module.exports = {
   logRequest,
   logResponse,
   logError,
+  logModelSelection,
   safeStringify
 }

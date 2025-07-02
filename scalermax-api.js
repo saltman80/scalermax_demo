@@ -1,4 +1,4 @@
-const { logRequest, logResponse, logError } = require('./logger');
+const { logRequest, logResponse, logError, logModelSelection } = require('./logger');
 const { sendRequest } = require('./openrouterclient');
 
 const CORS_HEADERS = {
@@ -115,6 +115,7 @@ exports.handler = async function(event, context) {
   }
   const intent = classifyPrompt(prompt);
   const route = ROUTER_CONFIG[intent] || ROUTER_CONFIG.planning;
+  logModelSelection(intent, route.model);
   const messages = [
     { role: 'system', content: `You are a helpful assistant specialized in ${intent} tasks.` },
     { role: 'user', content: prompt }
