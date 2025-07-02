@@ -1,128 +1,100 @@
-const ACTIVE_CLASS = 'active';
-  const HIDDEN_CLASS = 'hidden';
-  const STORAGE_KEY = 'activeSidebarTab';
-  let tabButtons = [];
-  let tabPanels = [];
+var sidebarContainerSelector = '#sidebar';
+  var sidebarItemSelector = '.sidebar-item[data-route]';
+  var sectionSelector = '[data-route-section]';
+  var activeClass = 'active';
+  var hiddenClass = 'hidden';
+  var defaultRoute = '';
+  var cachedItems = [];
+  var cachedSections = [];
+
+  function normalizeRoute(route) {
+    if (!route) return '';
+    return route.toString().replace(/^#/, '').replace(/^\//, '');
+  }
+
+  function getCurrentRoute() {
+    var hash = location.hash.slice(1);
+    var normalizedHash = normalizeRoute(hash);
+    if (normalizedHash) return normalizedHash;
+    return normalizeRoute(location.pathname);
+  }
 
   function initSidebar() {
-    tabButtons = Array.from(document.querySelectorAll('[data-sidebar-tab]'));
-    tabPanels = Array.from(document.querySelectorAll('[data-sidebar-panel]'));
-    if (!tabButtons.length || !tabPanels.length) return;
-    tabButtons.forEach(btn => {
-      btn.setAttribute('role', 'tab');
-      btn.setAttribute('aria-selected', 'false');
-      btn.setAttribute('tabindex', '-1');
-    });
-    tabPanels.forEach(panel => {
-      panel.setAttribute('role', 'tabpanel');
-      panel.setAttribute('aria-hidden', 'true');
-      panel.classList.add(HIDDEN_CLASS);
-    });
-    const tabList = document.querySelector('[data-sidebar-tablist]');
-    if (tabList) {
-      tabList.setAttribute('role', 'tablist');
-      tabList.addEventListener('click', event => {
-        const btn = event.target.closest('[data-sidebar-tab]');
-        if (btn && tabButtons.includes(btn)) {
-          event.preventDefault();
-          toggleTab(btn.dataset.sidebarTab);
-        }
-      });
-      tabList.addEventListener('keydown', onKeydownTablist);
-    } else {
-      tabButtons.forEach(btn => {
-        btn.addEventListener('click', event => {
-          event.preventDefault();
-          toggleTab(btn.dataset.sidebarTab);
-        });
-        btn.addEventListener('keydown', onKeydownTablist);
-      });
-    }
-    const lastTab = window.localStorage.getItem(STORAGE_KEY);
-    const defaultTab = lastTab && tabButtons.some(btn => btn.dataset.sidebarTab === lastTab)
-      ? lastTab
-      : tabButtons[0].dataset.sidebarTab;
-    toggleTab(defaultTab, false);
-  }
+    var sidebar = document.querySelector(sidebarContainerSelector);
+    if (!sidebar) return;
 
-  function toggleTab(tabName, setFocus = true) {
-    if (!tabName || !tabPanels.length || !tabButtons.length) return;
-    let found = false;
-    tabPanels.forEach(panel => {
-      if (panel.dataset.sidebarPanel === tabName) {
-        panel.classList.remove(HIDDEN_CLASS);
-        panel.setAttribute('aria-hidden', 'false');
-        found = true;
-      } else {
-        panel.classList.add(HIDDEN_CLASS);
-        panel.setAttribute('aria-hidden', 'true');
+    var itemsNodeList = sidebar.querySelectorAll(sidebarItemSelector);
+    var items = Array.prototype.slice.call(itemsNodeList);
+    if (!items.length) return;
+
+    // Find first valid non-empty route
+    var validRoutes = items.map(function(item){
+      return normalizeRoute(item.getAttribute('data-route'));
+    }).filter(function(r){ return r; });
+    if (!validRoutes.length) {
+      console.warn('Sidebar: no valid data-route attributes found on sidebar items.');
+      return;
+    }
+    defaultRoute = validRoutes[0];
+
+    // Cache items and sections
+    cachedItems = items;
+    var sectionsNodeList = document.querySelectorAll(sectionSelector);
+    cachedSections = Array.prototype.slice.call(sectionsNodeList);
+
+    // Click navigation
+    sidebar.addEventListener('click', function(e){
+      var item = e.target.closest(sidebarItemSelector);
+      if (item && sidebar.contains(item)) {
+        e.preventDefault();
+        var route = item.getAttribute('data-route');
+        navigateTo(route);
       }
     });
-    if (!found) return;
-    highlightActiveTab(tabName);
-    if (setFocus) {
-      const activeBtn = tabButtons.find(btn => btn.dataset.sidebarTab === tabName);
-      if (activeBtn) activeBtn.focus();
-    }
-    try {
-      window.localStorage.setItem(STORAGE_KEY, tabName);
-    } catch (e) {
-      console.error('Failed to save active tab to localStorage', e);
-    }
-  }
 
-  function highlightActiveTab(tabName) {
-    if (!tabButtons.length) return;
-    tabButtons.forEach(btn => {
-      const isActive = btn.dataset.sidebarTab === tabName;
-      if (isActive) {
-        btn.classList.add(ACTIVE_CLASS);
-        btn.setAttribute('aria-selected', 'true');
-        btn.setAttribute('tabindex', '0');
-      } else {
-        btn.classList.remove(ACTIVE_CLASS);
-        btn.setAttribute('aria-selected', 'false');
-        btn.setAttribute('tabindex', '-1');
-      }
+    // Browser navigation (back/forward)
+    window.addEventListener('popstate', function(e){
+      var route = e.state && e.state.route ? e.state.route : getCurrentRoute();
+      navigateTo(route, false);
     });
+
+    // Initial navigation
+    var initRoute = getCurrentRoute() || defaultRoute;
+    navigateTo(initRoute, false);
   }
 
-  function onKeydownTablist(event) {
-    const { key } = event;
-    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(key)) return;
-    event.preventDefault();
-    const currentBtn = event.target.closest('[data-sidebar-tab]');
-    if (!currentBtn) return;
-    const currentIndex = tabButtons.indexOf(currentBtn);
-    if (currentIndex === -1) return;
-    let newIndex;
-    const lastIndex = tabButtons.length - 1;
-    switch (key) {
-      case 'ArrowRight':
-      case 'ArrowDown':
-        newIndex = (currentIndex + 1) % tabButtons.length;
-        break;
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
-        break;
-      case 'Home':
-        newIndex = 0;
-        break;
-      case 'End':
-        newIndex = lastIndex;
-        break;
-      default:
-        return;
-    }
-    const newBtn = tabButtons[newIndex];
-    if (newBtn) {
-      toggleTab(newBtn.dataset.sidebarTab);
+  function navigateTo(route, pushState) {
+    if (pushState === undefined) pushState = true;
+    route = normalizeRoute(route) || defaultRoute;
+
+    // Show/hide sections
+    cachedSections.forEach(function(sec){
+      var secRoute = normalizeRoute(sec.getAttribute('data-route-section'));
+      var isVisible = secRoute === route;
+      sec.classList.toggle(hiddenClass, !isVisible);
+    });
+
+    // Toggle active class on items
+    cachedItems.forEach(function(item){
+      var itemRoute = normalizeRoute(item.getAttribute('data-route'));
+      var isActive = itemRoute === route;
+      item.classList.toggle(activeClass, isActive);
+    });
+
+    // Update URL hash
+    if (pushState) {
+      var encodedRoute = encodeURIComponent(route);
+      var url = '#' + encodedRoute;
+      if (location.hash !== url) {
+        history.pushState({ route: route }, '', url);
+      }
     }
   }
 
-  window.initSidebar = initSidebar;
-  window.toggleTab = toggleTab;
-  window.highlightActiveTab = highlightActiveTab;
+  window.Sidebar = {
+    initSidebar: initSidebar,
+    navigateTo: navigateTo
+  };
+
   document.addEventListener('DOMContentLoaded', initSidebar);
-})(window, document);
+})();
