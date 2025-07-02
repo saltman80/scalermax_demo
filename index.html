@@ -16,6 +16,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script defer src="headernav.js"></script>
+  <script defer src="animationsmanager.js"></script>
+  <script defer src="glow.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -39,12 +41,31 @@
       <div class="container hero-content">
         <h1 class="hero-title">Welcome to ScalerMax</h1>
         <p class="hero-subtitle">AI-Powered Intent Analysis, Privacy-First &amp; Easy to Use.</p>
-        <a href="login.html" class="btn btn-primary">Get Started</a>
+        <a href="login.html" class="btn btn-primary" id="hero-start">Get Started</a>
       </div>
       <ul class="animated-shapes" aria-hidden="true">
         <li></li><li></li><li></li><li></li><li></li>
         <li></li><li></li><li></li><li></li><li></li>
       </ul>
+    </section>
+    <section class="marketing" data-animation="fade-up">
+      <div class="container">
+        <h2>Discover the Future of AI Automation</h2>
+        <p>ScalerMax continuously benchmarks the world's best AI models so you don't have to. Our system automatically selects the optimal model for your task, delivering state-of-the-art results with zero hassle.</p>
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" alt="abstract ai graphic">
+      </div>
+    </section>
+    <section class="marketing" data-animation="fade-up" data-animation-delay="200">
+      <div class="container">
+        <h2>Always the Best Model</h2>
+        <p>Our smart selector analyzes your requirements and instantly routes requests to the highest performing model available, ensuring quality and efficiency on every call.</p>
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80" alt="model selection illustration">
+      </div>
+    </section>
+    <section class="marketing callout" data-animation="fade-up" data-animation-delay="400">
+      <h2>Ready to Experience the Power of ScalerMax?</h2>
+      <p>Join us today and let the automation do the heavy lifting.</p>
+      <a href="login.html" class="btn btn-primary" id="cta-start">Get Started</a>
     </section>
   </main>
   <footer class="site-footer">
@@ -52,5 +73,15 @@
       <p>&copy; 2025 ScalerMax. All rights reserved.</p>
     </div>
   </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var heroBtn = document.getElementById('hero-start');
+      var ctaBtn = document.getElementById('cta-start');
+      if (window.Glow) {
+        if (heroBtn) Glow.applyGlow(heroBtn, { color: '#9b5cf5', blur: 20, pulse: true });
+        if (ctaBtn) Glow.applyGlow(ctaBtn, { color: '#9b5cf5', blur: 20, pulse: true });
+      }
+    });
+  </script>
 </body>
 </html>

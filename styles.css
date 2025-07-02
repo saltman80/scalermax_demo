@@ -353,3 +353,114 @@ button:focus,
   background-color: var(--color-primary);
   box-shadow: 0 0 10px var(--color-primary);
 }
+
+/* Layout helpers */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hero section styling */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(circle at 30% 30%, rgba(155, 92, 245, 0.4), var(--color-bg) 70%);
+  overflow: hidden;
+}
+
+.hero-content {
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  color: var(--color-text-light);
+}
+
+.hero .btn-primary {
+  font-size: 1.25rem;
+  width: auto;
+  padding: 0.75rem 2rem;
+}
+
+.animated-shapes {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.animated-shapes li {
+  position: absolute;
+  width: 40vmax;
+  height: 40vmax;
+  background: radial-gradient(circle, rgba(155, 92, 245, 0.3), transparent 70%);
+  border-radius: 50%;
+  animation: floatShape 20s linear infinite;
+}
+
+@keyframes floatShape {
+  from {
+    transform: translateY(0) rotate(0deg);
+  }
+  to {
+    transform: translateY(-100vh) rotate(360deg);
+  }
+}
+
+/* Marketing sections */
+.marketing {
+  padding: 4rem 0;
+}
+
+.marketing h2 {
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.marketing p {
+  color: var(--color-text-light);
+  max-width: 50rem;
+  margin: 0.5rem auto 2rem auto;
+  text-align: center;
+}
+
+.callout {
+  background: linear-gradient(135deg, #371c59, #1b1431);
+  padding: 3rem 1rem;
+  text-align: center;
+  border-radius: 0.5rem;
+}
+
+.callout .btn-primary {
+  font-size: 1.5rem;
+  width: auto;
+  padding: 1rem 3rem;
+}
+
+/* Simple fade-up animation */
+[data-animation='fade-up'] {
+  opacity: 0;
+  transform: translateY(2rem);
+}
+
+@keyframes fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
