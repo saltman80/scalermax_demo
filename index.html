@@ -14,17 +14,17 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script defer src="js/main.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="headernav.js"></script>
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <a href="index.html" class="logo">ScalerMax</a>
-      <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation">
+      <button class="nav-toggle" data-nav-toggle aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation">
         <span class="hamburger"></span>
       </button>
-      <nav id="primary-navigation" class="site-nav" aria-label="Primary navigation">
+      <nav id="primary-navigation" data-nav-menu class="site-nav" aria-label="Primary navigation">
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="login.html">Login</a></li>

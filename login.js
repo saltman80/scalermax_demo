@@ -1,3 +1,4 @@
+(function() {
 const LOGIN_FORM_ID = 'login-form';
   const USERNAME_INPUT_ID = 'username';
   const PASSWORD_INPUT_ID = 'password';

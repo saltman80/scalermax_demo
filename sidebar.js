@@ -1,3 +1,4 @@
+(function() {
 var sidebarContainerSelector = '#sidebar';
   var sidebarItemSelector = '.sidebar-item[data-route]';
   var sectionSelector = '[data-route-section]';

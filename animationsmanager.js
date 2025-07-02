@@ -1,3 +1,4 @@
+(function() {
 var DEFAULT_SCROLL_OPTIONS = { root: null, rootMargin: '0px', threshold: 0.1 };
 
   function getAnimationOptions(element, overrides) {
