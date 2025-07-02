@@ -1,98 +1,161 @@
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-Privacy Policy - ScalerMax Demo</title>
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="headernav.js"></script>
-  <script defer src="glow.js"></script>
-</head>
-<body>
-  <a href="#main-content" class="skip-link">Skip to content</a>
-  <header class="site-header" data-animation="fade-up" data-animation-trigger="timed" data-animation-delay="100">
-    <div class="container">
-      <a href="index.html" class="logo">ScalerMax</a>
-      <button class="nav-toggle" data-nav-toggle aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation">
-        <span class="hamburger"></span>
-      </button>
-      <nav id="primary-navigation" data-nav-menu class="site-nav" aria-label="Primary navigation">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy - ScalerMax Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="headernav.js"></script>
+    <script defer src="glow.js"></script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <header
+      class="site-header"
+      data-animation="fade-up"
+      data-animation-trigger="timed"
+      data-animation-delay="100"
+    >
+      <div class="container">
+        <a href="index.html" class="logo">ScalerMax</a>
+        <button
+          class="nav-toggle"
+          data-nav-toggle
+          aria-label="Open navigation"
+          aria-expanded="false"
+          aria-controls="primary-navigation"
+        >
+          <span class="hamburger"></span>
+        </button>
+        <nav
+          id="primary-navigation"
+          data-nav-menu
+          class="site-nav"
+          aria-label="Primary navigation"
+        >
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li data-dashboard-link style="display: none">
+              <a href="dashboard.html">Dashboard</a>
+            </li>
+            <li><a href="privacy.html" aria-current="page">Privacy</a></li>
+          </ul>
+        </nav>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Toggle dark mode"
+        ></button>
+      </div>
+    </header>
+
+    <main id="main-content" class="site-main container">
+      <h1>Privacy Policy</h1>
+      <p>Effective Date: July 1, 2025</p>
+
+      <section>
+        <h2>1. Introduction</h2>
+        <p>
+          ScalerMax FE is a static, demo frontend designed to showcase the
+          ScalerMax AI Intent Server. We prioritize your privacy and do not
+          collect or store personal information through this demo application.
+        </p>
+      </section>
+
+      <section>
+        <h2>2. Information We Collect</h2>
+        <p>
+          No personal data is collected or stored. Any input you enter (e.g.,
+          chat messages) is sent directly to the ScalerMax AI API for real-time
+          processing and not retained on our servers.
+        </p>
+      </section>
+
+      <section>
+        <h2>3. Use of Data</h2>
+        <p>
+          All user inputs are used solely to provide interactive AI chat
+          functionality during your session. Once the session ends or the
+          browser is closed, no data persists.
+        </p>
+      </section>
+
+      <section>
+        <h2>4. Cookies, Tracking, and Local Storage</h2>
+        <p>
+          This demo does not use cookies, web beacons, or other tracking
+          technologies. We do not embed analytics or third-party trackers on
+          this site. However, we use localStorage to persist your theme
+          preference (light or dark mode) across sessions.
+        </p>
+      </section>
+
+      <section>
+        <h2>5. Third-Party Services</h2>
+        <p>
+          We utilize the ScalerMax AI Intent Server API to process chat
+          interactions. Please review the
+          <a
+            href="https://scalermax.ai/api-privacy-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            >ScalerMax API Privacy Policy</a
+          >
+          for details on their data handling practices.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. Children's Privacy</h2>
+        <p>
+          This demo is not intended for use by children under 13. We do not
+          knowingly collect information from minors.
+        </p>
+      </section>
+
+      <section>
+        <h2>7. Policy Updates</h2>
+        <p>
+          We may update this Privacy Policy to reflect changes in technology or
+          legal requirements. The revised policy will include the effective
+          date.
+        </p>
+      </section>
+
+      <section>
+        <h2>8. Contact Us</h2>
+        <p>
+          For questions about this Privacy Policy, please contact us at
+          <a href="mailto:privacy@scalermax.ai">privacy@scalermax.ai</a>.
+        </p>
+      </section>
+      <nav class="page-nav">
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="login.html">Login</a></li>
-          <li data-dashboard-link style="display:none;"><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="privacy.html" aria-current="page">Privacy</a></li>
         </ul>
       </nav>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode"></button>
-    </div>
-  </header>
+    </main>
 
-  <main id="main-content" class="site-main container">
-    <h1>Privacy Policy</h1>
-    <p>Effective Date: July 1, 2025</p>
+    <footer class="site-footer container">
+      <p>
+        &copy; <span id="current-year"></span> ScalerMax. All rights reserved.
+      </p>
+    </footer>
 
-    <section>
-      <h2>1. Introduction</h2>
-      <p>ScalerMax FE is a static, demo frontend designed to showcase the ScalerMax AI Intent Server. We prioritize your privacy and do not collect or store personal information through this demo application.</p>
-    </section>
-
-    <section>
-      <h2>2. Information We Collect</h2>
-      <p>No personal data is collected or stored. Any input you enter (e.g., chat messages) is sent directly to the ScalerMax AI API for real-time processing and not retained on our servers.</p>
-    </section>
-
-    <section>
-      <h2>3. Use of Data</h2>
-      <p>All user inputs are used solely to provide interactive AI chat functionality during your session. Once the session ends or the browser is closed, no data persists.</p>
-    </section>
-
-    <section>
-      <h2>4. Cookies, Tracking, and Local Storage</h2>
-      <p>This demo does not use cookies, web beacons, or other tracking technologies. We do not embed analytics or third-party trackers on this site. However, we use localStorage to persist your theme preference (light or dark mode) across sessions.</p>
-    </section>
-
-    <section>
-      <h2>5. Third-Party Services</h2>
-      <p>We utilize the ScalerMax AI Intent Server API to process chat interactions. Please review the <a href="https://scalermax.ai/api-privacy-policy" target="_blank" rel="noopener noreferrer">ScalerMax API Privacy Policy</a> for details on their data handling practices.</p>
-    </section>
-
-    <section>
-      <h2>6. Children's Privacy</h2>
-      <p>This demo is not intended for use by children under 13. We do not knowingly collect information from minors.</p>
-    </section>
-
-    <section>
-      <h2>7. Policy Updates</h2>
-      <p>We may update this Privacy Policy to reflect changes in technology or legal requirements. The revised policy will include the effective date.</p>
-    </section>
-
-    <section>
-      <h2>8. Contact Us</h2>
-      <p>For questions about this Privacy Policy, please contact us at <a href="mailto:privacy@scalermax.ai">privacy@scalermax.ai</a>.</p>
-    </section>
-  </main>
-
-  <footer class="site-footer container">
-    <p>&copy; <span id="current-year"></span> ScalerMax. All rights reserved.</p>
-  </footer>
-
-  <script>
-    document.getElementById('current-year').textContent = new Date().getFullYear();
-    const toggle = document.getElementById('theme-toggle');
-    const root = document.documentElement;
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme) root.setAttribute('data-theme', storedTheme);
-    toggle.addEventListener('click', () => {
-      const current = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', current);
-      localStorage.setItem('theme', current);
-    });
-    const brand = document.querySelector('.logo');
-    if (window.Glow && brand) {
-      Glow.applyGlow(brand, { color: '#9b5cf5', blur: 8, pulse: false });
-    }
-  </script>
-</body>
+    <script>
+      document.getElementById("current-year").textContent =
+        new Date().getFullYear();
+      const toggle = document.getElementById("theme-toggle");
+      const root = document.documentElement;
+      const storedTheme = localStorage.getItem("theme");
+      if (storedTheme) root.setAttribute("data-theme", storedTheme);
+      toggle.addEventListener("click", () => {
+        const current =
+          root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", current);
+        localStorage.setItem("theme", current);
+      });
+    </script>
+  </body>
 </html>

@@ -10,11 +10,13 @@
   --color-text: #e0e0e0;
   --color-text-light: #b0b0b0;
   --color-border: #36304b;
-  --font-sans: 'Inter', sans-serif;
+  --font-sans: "Inter", sans-serif;
   --transition-fast: 0.2s ease-in-out;
   --transition-medium: 0.4s ease-in-out;
 }
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -33,7 +35,8 @@ a {
   color: inherit;
   text-decoration: none;
 }
-img, svg {
+img,
+svg {
   display: block;
   max-width: 100%;
 }
@@ -54,24 +57,23 @@ header {
   right: 0;
   height: 4rem;
   background-color: var(--color-header-bg);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   padding: 0 1.5rem;
   z-index: 100;
 }
-.site-header .container{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  width:100%;
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 .logo {
   font-size: 1.25rem;
   font-weight: 700;
   color: #9b5cf5;
-  text-shadow: 0 0 8px rgba(155, 92, 245, 0.6);
-  margin-right:auto;
+  margin-right: auto;
 }
 
 /* Navigation menu */
@@ -85,7 +87,7 @@ header {
 .hamburger,
 .hamburger::before,
 .hamburger::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -97,11 +99,21 @@ header {
   top: 50%;
   transform: translateY(-50%);
 }
-.hamburger::before { top: -6px; }
-.hamburger::after { top: 6px; }
-.nav-toggle.is-open .hamburger { background: transparent; }
-.nav-toggle.is-open .hamburger::before { transform: translateY(6px) rotate(45deg); }
-.nav-toggle.is-open .hamburger::after { transform: translateY(-6px) rotate(-45deg); }
+.hamburger::before {
+  top: -6px;
+}
+.hamburger::after {
+  top: 6px;
+}
+.nav-toggle.is-open .hamburger {
+  background: transparent;
+}
+.nav-toggle.is-open .hamburger::before {
+  transform: translateY(6px) rotate(45deg);
+}
+.nav-toggle.is-open .hamburger::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
 
 .site-nav ul {
   display: flex;
@@ -113,7 +125,9 @@ header {
   font-size: 0.95rem;
   font-weight: 500;
   color: var(--color-text-light);
-  transition: color var(--transition-fast), text-shadow var(--transition-fast);
+  transition:
+    color var(--transition-fast),
+    text-shadow var(--transition-fast);
 }
 .site-nav a:hover {
   color: #fff;
@@ -126,7 +140,9 @@ header {
 }
 
 @media (max-width: 768px) {
-  .nav-toggle { display: block; }
+  .nav-toggle {
+    display: block;
+  }
   .site-nav {
     position: absolute;
     top: 100%;
@@ -135,13 +151,18 @@ header {
     background: var(--color-header-bg);
     transform: translateY(-200%);
     opacity: 0;
-    transition: transform var(--transition-medium), opacity var(--transition-medium);
+    transition:
+      transform var(--transition-medium),
+      opacity var(--transition-medium);
   }
   .site-nav.is-open {
     transform: translateY(0);
     opacity: 1;
   }
-  .site-nav ul { flex-direction: column; padding: 1rem; }
+  .site-nav ul {
+    flex-direction: column;
+    padding: 1rem;
+  }
 }
 .sidebar {
   position: fixed;
@@ -160,12 +181,14 @@ header {
   padding: 0.75rem 1.5rem;
   font-size: 0.875rem;
   color: var(--color-sidebar-text);
-  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 .sidebar nav a:hover,
 .sidebar nav a.active {
-  background-color: rgba(155,92,245,0.2);
-  box-shadow: 0 0 6px rgba(155,92,245,0.6);
+  background-color: rgba(155, 92, 245, 0.2);
+  box-shadow: 0 0 6px rgba(155, 92, 245, 0.6);
   color: #fff;
 }
 .main {
@@ -196,12 +219,14 @@ header {
   border: 1px solid var(--color-border);
   border-radius: 0.5rem;
   padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   animation: fadeIn var(--transition-medium) forwards;
   opacity: 0;
 }
 @keyframes fadeIn {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
 }
 .metric-card {
   display: flex;
@@ -268,7 +293,9 @@ header {
   animation: growBar var(--transition-medium) forwards;
 }
 @keyframes growBar {
-  to { transform: scaleY(calc(var(--value, 0) / 100)); }
+  to {
+    transform: scaleY(calc(var(--value, 0) / 100));
+  }
 }
 .pie-chart {
   position: relative;
@@ -297,7 +324,9 @@ header {
   animation: spinPie var(--transition-medium) forwards;
 }
 @keyframes spinPie {
-  to { stroke-dashoffset: calc(440 - (440 * var(--percent) / 100)); }
+  to {
+    stroke-dashoffset: calc(440 - (440 * var(--percent) / 100));
+  }
 }
 .table {
   width: 100%;
@@ -326,7 +355,7 @@ header {
   transition: background var(--transition-fast);
 }
 .button:hover {
-  background-color: hsl(219,93%,55%);
+  background-color: hsl(219, 93%, 55%);
 }
 a:focus,
 button:focus,
@@ -359,7 +388,9 @@ button:focus,
   margin: 2rem auto;
 }
 @keyframes spinLoader {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Login form styling */
@@ -428,7 +459,9 @@ button:focus,
   color: #fff;
   font-size: 0.875rem;
   border-radius: 0.375rem;
-  transition: box-shadow var(--transition-fast), background var(--transition-fast);
+  transition:
+    box-shadow var(--transition-fast),
+    background var(--transition-fast);
 }
 
 .btn:hover {
@@ -451,7 +484,11 @@ button:focus,
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: radial-gradient(circle at 30% 30%, rgba(155, 92, 245, 0.4), var(--color-bg) 70%);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(155, 92, 245, 0.4),
+    var(--color-bg) 70%
+  );
   overflow: hidden;
 }
 
@@ -535,7 +572,7 @@ button:focus,
 }
 
 /* Simple fade-up animation */
-[data-animation='fade-up'] {
+[data-animation="fade-up"] {
   opacity: 0;
   transform: translateY(2rem);
 }
@@ -617,6 +654,21 @@ button:focus,
 }
 
 @keyframes pulseGlow {
-  0%, 100% { text-shadow: 0 0 8px rgba(155, 92, 245, 0.6); }
-  50% { text-shadow: 0 0 12px rgba(155, 92, 245, 1); }
+  0%,
+  100% {
+    text-shadow: 0 0 8px rgba(155, 92, 245, 0.6);
+  }
+  50% {
+    text-shadow: 0 0 12px rgba(155, 92, 245, 1);
+  }
+}
+
+.page-nav {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.page-nav a {
+  color: #9b5cf5;
+  text-decoration: underline;
 }
