@@ -49,9 +49,11 @@ let menuToggle, navMenu;
   }
 
   function initHeaderNav() {
-    console.log('[headernav] loaded');
+    console.log('[headernav] initHeaderNav running');
     menuToggle = document.querySelector('[data-nav-toggle]');
     navMenu = document.querySelector('[data-nav-menu]');
+    console.log('[headernav] toggle:', menuToggle);
+    console.log('[headernav] menu:', navMenu);
     if (!menuToggle || !navMenu) return;
     if (!menuToggle.id) {
       menuToggle.id = `nav-toggle-${Date.now()}`;
