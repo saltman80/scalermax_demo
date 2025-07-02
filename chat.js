@@ -83,7 +83,8 @@
             if (err.name === 'AbortError') {
                 aiEl.textContent = 'Error: Request timed out';
             } else {
-                aiEl.textContent = 'Error: ' + err.message;
+                aiEl.textContent = `⚠️ ${err.message}`;
+                aiEl.classList.add('message-system');
             }
             scrollToBottom();
         } finally {
@@ -100,12 +101,17 @@
             signal
         });
         if (!res.ok) {
-            let errMsg = res.statusText;
+            let errorMessage = `Error ${res.status}: ${res.statusText}`;
             try {
-                const errData = await res.json();
-                if (errData && errData.error) errMsg = errData.error;
-            } catch {}
-            throw new Error(errMsg || 'Network response was not ok');
+                const errorData = await res.json();
+                if (errorData?.error) {
+                    errorMessage = `❌ ${errorData.error}`;
+                }
+            } catch {
+                const raw = await res.text();
+                if (raw) errorMessage = `❌ ${raw}`;
+            }
+            throw new Error(errorMessage);
         }
         if (!res.body) throw new Error('ReadableStream not supported in this browser.');
         const reader = res.body.getReader();
