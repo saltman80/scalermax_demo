@@ -97,11 +97,14 @@
     }
 
     .button-row {
-      display: flex;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
       margin-bottom: 0.75rem;
-      flex-wrap: wrap;
+    }
+
+    .button-row .glow-button {
+      width: 100%;
     }
 
     .demo-note {
@@ -225,10 +228,16 @@
       <p class="subtitle">Connect your accounts to get started.</p>
 
       <div class="button-row">
+        <button onclick="showDemoText('demo-openai')" class="glow-button">OpenAI</button>
+        <button onclick="showDemoText('demo-gemini')" class="glow-button">Gemini</button>
+        <button onclick="showDemoText('demo-claude')" class="glow-button">Claude</button>
         <button onclick="showDemoText('demo-openrouter')" class="glow-button">OpenRouter</button>
         <button onclick="showDemoText('demo-straico')" class="glow-button">Straico</button>
       </div>
 
+      <div id="demo-openai" class="demo-note" style="display:none;">🔒 Demo Only</div>
+      <div id="demo-gemini" class="demo-note" style="display:none;">🔒 Demo Only</div>
+      <div id="demo-claude" class="demo-note" style="display:none;">🔒 Demo Only</div>
       <div id="demo-openrouter" class="demo-note" style="display:none;">🔒 Demo Only</div>
       <div id="demo-straico" class="demo-note" style="display:none;">🔒 Demo Only</div>
 
@@ -465,11 +474,22 @@
   </script>
   <script>
     function showDemoText(id) {
-      document.getElementById(id).style.display = "block";
+      document.querySelectorAll('.demo-note').forEach(el => {
+        el.style.display = 'none';
+      });
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.display = 'block';
+        setTimeout(() => { el.style.display = 'none'; }, 3000);
+      }
     }
 
     function showDemoMessage() {
-      document.getElementById("keyStatus").style.display = "block";
+      const el = document.getElementById('keyStatus');
+      if (el) {
+        el.style.display = 'block';
+        setTimeout(() => { el.style.display = 'none'; }, 3000);
+      }
     }
   </script>
   <script src="dashboard.js" nonce="a1b2c3"></script>
