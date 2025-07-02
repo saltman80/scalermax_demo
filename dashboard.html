@@ -19,6 +19,7 @@
     }
     .card-counter { display: flex; align-items: center; justify-content: space-between; padding: 1rem; color: #fff; }
     .card-counter .icon { font-size: 2rem; opacity: .7; }
+    .card-counter img.icon-img { width:32px; height:32px; opacity:.7; }
     .card-counter .count { font-size: 1.75rem; font-weight: bold; }
     .card { background:#1d1533; border:none; color:#e0e0e0; box-shadow:0 0 10px rgba(155,92,245,0.3); }
     .chat-card { background:#1e1e2f; box-shadow:0 0 10px 2px rgba(155,92,245,0.6); }
@@ -44,10 +45,10 @@
     </div>
   </nav>
   <aside class="sidebar-desktop">
-    <a href="#" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-    <a href="#"><i class="fas fa-brain me-2"></i>Intents</a>
-    <a href="#"><i class="fas fa-route me-2"></i>Routes</a>
-    <a href="#"><i class="fas fa-cogs me-2"></i>Settings</a>
+    <a href="#" class="active"><img src="dashboard_icon.png" alt="Dashboard" class="icon-img me-2">Dashboard</a>
+    <a href="#"><img src="intents_icon.png" alt="Intents" class="icon-img me-2">Intents</a>
+    <a href="#"><img src="routes_icon.png" alt="Routes" class="icon-img me-2">Routes</a>
+    <a href="#"><img src="settings_icon.png" alt="Settings" class="icon-img me-2">Settings</a>
   </aside>
   <aside class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
     <div class="offcanvas-header bg-dark text-white">
@@ -55,10 +56,10 @@
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-0 bg-dark">
-      <a href="#" class="d-block text-light px-3 py-2 active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-      <a href="#" class="d-block text-light px-3 py-2"><i class="fas fa-brain me-2"></i>Intents</a>
-      <a href="#" class="d-block text-light px-3 py-2"><i class="fas fa-route me-2"></i>Routes</a>
-      <a href="#" class="d-block text-light px-3 py-2"><i class="fas fa-cogs me-2"></i>Settings</a>
+      <a href="#" class="d-block text-light px-3 py-2 active"><img src="dashboard_icon.png" alt="Dashboard" class="icon-img me-2">Dashboard</a>
+      <a href="#" class="d-block text-light px-3 py-2"><img src="intents_icon.png" alt="Intents" class="icon-img me-2">Intents</a>
+      <a href="#" class="d-block text-light px-3 py-2"><img src="routes_icon.png" alt="Routes" class="icon-img me-2">Routes</a>
+      <a href="#" class="d-block text-light px-3 py-2"><img src="settings_icon.png" alt="Settings" class="icon-img me-2">Settings</a>
     </div>
   </aside>
   <main role="main" class="container-fluid">
@@ -77,7 +78,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h1 class="h2">Dashboard</h1>
           <div>
-            <button id="refreshBtn" class="btn btn-sm btn-outline-secondary me-2"><i class="fas fa-sync-alt"></i> Refresh</button>
+            <button id="refreshBtn" class="btn btn-sm btn-outline-secondary me-2"><img src="refresh_icon.png" alt="Refresh" class="icon-img me-1">Refresh</button>
             <button id="openrouterBtn" class="btn btn-sm api-btn me-2">Add OpenRouter API Key</button>
             <button id="straicoBtn" class="btn btn-sm api-btn">Add Straico API Key</button>
           </div>
@@ -91,7 +92,7 @@
               <div class="card-title">Total Requests</div>
               <div class="count"><span class="counter" data-target="12345">0</span></div>
             </div>
-            <div class="icon"><i class="fas fa-chart-line"></i></div>
+            <div class="icon"><img src="requests_icon.png" alt="Total requests" class="icon-img"></div>
           </div>
         </div>
       </div>
@@ -102,7 +103,7 @@
               <div class="card-title">Active Intents</div>
               <div class="count"><span class="counter" data-target="456">0</span></div>
             </div>
-            <div class="icon"><i class="fas fa-brain"></i></div>
+            <div class="icon"><img src="intents_icon.png" alt="Active intents" class="icon-img"></div>
           </div>
         </div>
       </div>
@@ -113,7 +114,7 @@
               <div class="card-title">Error Rate</div>
               <div class="count"><span class="counter" data-target="2.5" data-decimals="1">0</span><span>%</span></div>
             </div>
-            <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="icon"><img src="error_icon.png" alt="Error rate" class="icon-img"></div>
           </div>
         </div>
       </div>
@@ -124,7 +125,7 @@
               <div class="card-title">Avg Latency</div>
               <div class="count"><span class="counter" data-target="120">0</span><span>ms</span></div>
             </div>
-            <div class="icon"><i class="fas fa-stopwatch"></i></div>
+            <div class="icon"><img src="latency_icon.png" alt="Average latency" class="icon-img"></div>
           </div>
         </div>
       </div>
