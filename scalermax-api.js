@@ -103,15 +103,17 @@ exports.handler = async function(event, context) {
   const userId = body.userId;
   let temperature = typeof body.temperature === 'number' ? body.temperature : 0.7;
   temperature = Math.min(Math.max(temperature, 0.0), 1.0);
-  if (!prompt || typeof prompt !== 'string') {
-    return errorResponse(400, 'Missing prompt in request body');
+
+  if (!OPENROUTER_API_KEY) {
+    console.error('❌ Missing OPENROUTER_API_KEY in environment');
+    return errorResponse(500, 'Server misconfiguration: missing OpenRouter API key');
+  }
+
+  if (!prompt || typeof prompt !== 'string' || !prompt.trim()) {
+    return errorResponse(400, 'Missing or empty prompt');
   }
   if (prompt.length > MAX_PROMPT_LENGTH) {
     return errorResponse(400, `Prompt too long (max ${MAX_PROMPT_LENGTH} characters)`);
-  }
-  if (!OPENROUTER_API_KEY) {
-    logError('Missing OPENROUTER_API_KEY');
-    return errorResponse(500, 'Server misconfiguration: Missing OPENROUTER_API_KEY');
   }
   const intent = classifyPrompt(prompt);
   const route = ROUTER_CONFIG[intent] || ROUTER_CONFIG.planning;
