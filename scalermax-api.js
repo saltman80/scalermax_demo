@@ -58,14 +58,6 @@ exports.handler = async function(event, context) {
     acc[key.toLowerCase()] = event.headers[key];
     return acc;
   }, {});
-  logRequest({
-    method: event.httpMethod,
-    path: event.path || '/',
-    headers: {
-      'user-agent': headers['user-agent'],
-      'x-forwarded-for': headers['x-forwarded-for'] || headers['x-nf-client-connection-ip']
-    }
-  });
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: CORS_HEADERS, body: '' };
   }
@@ -99,6 +91,16 @@ exports.handler = async function(event, context) {
     logError(err);
     return errorResponse(400, 'Invalid JSON');
   }
+  logRequest({
+    httpMethod: event.httpMethod,
+    path: event.path || '/',
+    headers: {
+      'user-agent': headers['user-agent'],
+      'x-forwarded-for': headers['x-forwarded-for'] || headers['x-nf-client-connection-ip']
+    },
+    queryStringParameters: event.queryStringParameters,
+    body
+  });
   const prompt = body.prompt;
   const userId = body.userId;
   let temperature = typeof body.temperature === 'number' ? body.temperature : 0.7;
