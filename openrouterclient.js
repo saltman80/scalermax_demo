@@ -1,4 +1,12 @@
-const fetch = globalThis.fetch || require('node-fetch');
+let fetchFn = globalThis.fetch;
+if (!fetchFn) {
+  try {
+    // Lazy load node-fetch only if needed
+    fetchFn = (...args) => import('node-fetch').then(m => m.default(...args));
+  } catch {
+    throw new Error('Fetch API is not available. Install node-fetch to proceed.');
+  }
+}
 const DEFAULT_TIMEOUT_MS = process.env.OPENROUTER_TIMEOUT_MS
   ? parseInt(process.env.OPENROUTER_TIMEOUT_MS, 10)
   : 10000;
@@ -36,7 +44,7 @@ async function sendRequest(model, prompt, options = {}) {
     }
 
     try {
-      const response = await fetch(url, {
+      const response = await fetchFn(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
