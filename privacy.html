@@ -35,18 +35,13 @@
         >
           <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="login.html">Login</a></li>
+            <li><a href="login.html" id="nav-login">Login</a></li>
             <li data-dashboard-link style="display: none">
               <a href="dashboard.html">Dashboard</a>
             </li>
             <li><a href="privacy.html" aria-current="page">Privacy</a></li>
           </ul>
         </nav>
-        <button
-          id="theme-toggle"
-          class="theme-toggle"
-          aria-label="Toggle dark mode"
-        ></button>
       </div>
     </header>
 
@@ -151,16 +146,6 @@
     <script>
       document.getElementById("current-year").textContent =
         new Date().getFullYear();
-      const toggle = document.getElementById("theme-toggle");
-      const root = document.documentElement;
-      const storedTheme = localStorage.getItem("theme");
-      if (storedTheme) root.setAttribute("data-theme", storedTheme);
-      toggle.addEventListener("click", () => {
-        const current =
-          root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-        root.setAttribute("data-theme", current);
-        localStorage.setItem("theme", current);
-      });
     </script>
   </body>
 </html>
