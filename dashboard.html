@@ -148,6 +148,23 @@
     #chat-form .glow-button {
       padding: 0.75rem 1.4rem;
     }
+
+    .project-keys {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .chat-wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    #refreshBtn {
+      width: 160px;
+      display: block;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
@@ -226,7 +243,7 @@
     </div>
   </section>
     <div class="row">
-      <div class="col-lg-6 offset-lg-3 mb-4 text-center">
+      <div class="chat-wrapper mb-4 text-center">
         <h2>Chat Demo</h2>
         <div class="card chat-card text-light">
           <div id="chat-container" class="mb-2" aria-live="polite" role="log"></div>
@@ -245,7 +262,7 @@
         </div>
         <div class="card p-3 mb-4">
           <h5 class="mb-4">Your Project Keys</h5>
-          <div class="project-keys d-grid gap-3" style="grid-template-columns:repeat(3,1fr);">
+          <div class="project-keys">
             <div class="tile card h-100 text-center p-3">
               <h5 class="mb-2">VibeSheet</h5>
               <span class="badge bg-success mb-2">✅ Active</span>
