@@ -1,2 +1,211 @@
 # scalermax_demo
-ScalerMax_Demo
+
+**ScalerMax ? Netlify Backend API + Admin Dashboard**
+
+---
+
+## Table of Contents
+
+- [Description](#description)  
+- [Overview](#overview)  
+- [Architecture](#architecture)  
+- [Flow](#flow)  
+  - [API Flow](#api-flow)  
+  - [Admin UI Flow](#admin-ui-flow)  
+- [Installation](#installation)  
+- [Configuration](#configuration)  
+- [Usage](#usage)  
+  - [AI Chat Endpoint](#ai-chat-endpoint)  
+  - [Admin Dashboard](#admin-dashboard)  
+- [Components](#components)  
+- [Dependencies](#dependencies)  
+- [Features](#features)  
+- [Not Included](#not-included)  
+- [Contributing](#contributing)  
+- [License](#license)  
+
+---
+
+## Description
+
+ScalerMax is a demo-ready AI Intent Server deployed on Netlify. It classifies user prompts with a lightweight model (gpt-4o-mini), routes them dynamically via OpenRouter to the optimal LLM (gpt-4o-mini-high), and presents a static, animated admin dashboard with fake usage metrics.
+
+---
+
+## Overview
+
+- **API**: Serverless endpoint at `/.netlify/functions/scalermax-api`  
+- **Intent Classification**: Uses `openai/gpt-4o-mini`  
+- **Execution Model**: `openai/gpt-4o-mini-high`  
+- **Hosting**: Netlify Functions (Node.js), static admin UI  
+- **Admin UI**: Dark-themed HTML/CSS/JS with glowing cards, animated charts, and fake metrics  
+
+---
+
+## Architecture
+
+- **Static Files** at project root:
+  - `admin.html`, `dashboard.html`, `styles.css`, `dashboard.js`, `glow.js`, `utils.js`, `chartIntegration.js`, `sidebar.js`
+- **Serverless Functions** under `netlify/functions/`:
+  - `scalermax-api.js` (entrypoint)
+  - `modelClassifier.js`
+  - `modelSelector.js`
+  - `openrouterClient.js`
+  - `config.js`
+  - `logger.js`
+  - `errorHandler.js`
+
+---
+
+## Flow
+
+### API Flow
+
+1. Client POSTs `{ "prompt": "..." }` to `/.netlify/functions/scalermax-api`  
+2. `scalermax-api.js` loads config & logs request  
+3. `modelClassifier.js` calls OpenRouter (`gpt-4o-mini`) to classify intent (`planning` vs `coding`)  
+4. `modelSelector.js` picks `gpt-4o-mini` (planning) or `gpt-4o-mini-high` (coding)  
+5. `openrouterClient.js` sends the prompt to OpenRouter, receives LLM response  
+6. Response is logged and returned as `{ "output": "..." }`  
+
+### Admin UI Flow
+
+1. User visits `admin.html` and submits any credentials  
+2. Page shows loading, then redirects to `dashboard.html`  
+3. `sidebar.js` renders navigation  
+4. `dashboard.js`, `glow.js`, `utils.js`, and `chartIntegration.js` generate animated counters, charts, and glowing cards  
+
+---
+
+## Installation
+
+1. Clone the repo  
+   ```bash
+   git clone https://github.com/your-org/scalermax_demo.git
+   cd scalermax_demo
+   ```
+2. (Optional) Install Netlify CLI for local testing  
+   ```bash
+   npm install netlify-cli -g
+   ```
+3. Deploy to Netlify  
+   - Connect this repo to your Netlify account  
+   - Ensure `netlify/functions` is set as your Functions directory in `netlify.toml`  
+
+---
+
+## Configuration
+
+- By default, `openrouterClient.js` uses a **hardcoded** `OPENROUTER_API_KEY` for rapid demo.
+- **Optional**: To use your own key, set an environment variable in Netlify:
+  ```
+  OPENROUTER_API_KEY=your_openrouter_key
+  ```
+  or edit `netlify/functions/config.js` to load from `process.env.OPENROUTER_API_KEY`.
+
+---
+
+## Usage
+
+### AI Chat Endpoint
+
+```bash
+curl -X POST https://<your-site>.netlify.app/.netlify/functions/scalermax-api \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"Write a unit test for my React component"}'
+```
+
+Response:
+```json
+{
+  "output": "Here?s a Jest test suite for your React component..."
+}
+```
+
+### Admin Dashboard
+
+1. Open `https://<your-site>.netlify.app/admin.html`  
+2. Enter any email/password ? click **Login**  
+3. Watch the glowing, animated `dashboard.html` with fake metrics  
+
+---
+
+## Components
+
+- **netlify.toml**  
+  Netlify configuration (functions directory).  
+- **netlify/functions/scalermax-api.js**  
+  Entrypoint: handles requests, classification, routing, response.  
+- **netlify/functions/modelClassifier.js**  
+  Uses `gpt-4o-mini` to classify prompt intent.  
+- **netlify/functions/modelSelector.js**  
+  Chooses execution model based on intent.  
+- **netlify/functions/openrouterClient.js**  
+  Sends requests to OpenRouter using hardcoded key.  
+- **netlify/functions/config.js**  
+  Loads and validates environment-driven configuration.  
+- **netlify/functions/logger.js**  
+  Logs requests, responses, and errors.  
+- **netlify/functions/errorHandler.js**  
+  Formats and returns standardized error responses.  
+- **admin.html**  
+  Static login page (accepts any credentials).  
+- **dashboard.html**  
+  Animated admin dashboard with glowing cards & charts.  
+- **styles.css**  
+  Dark theme, neon-purple glow styling.  
+- **dashboard.js**  
+  Initializes counters and charts with fake data.  
+- **glow.js**  
+  Applies hover, glow, and pulse visual effects.  
+- **utils.js**  
+  Helpers: random metrics, fake names, animation timing.  
+- **chartIntegration.js**  
+  Encapsulates Chart.js setup and updates.  
+- **sidebar.js**  
+  Renders the responsive navigation sidebar.  
+
+---
+
+## Dependencies
+
+- Netlify (Hosting & Functions)  
+- Node.js (?14) for serverless functions  
+- Chart.js (for admin charts)  
+- TailwindCSS or custom CSS (optional)  
+- Netlify CLI (local development)  
+
+---
+
+## Features
+
+? Serverless AI intent routing on Netlify Functions  
+? Lightweight classification with gpt-4o-mini  
+? Dynamic routing to gpt-4o-mini-high for ?coding? prompts  
+? Static admin UI with glowing, animated metrics  
+? Zero build step?deploy static files & functions directly  
+
+---
+
+## Not Included
+
+? Real user authentication  
+? Database or persistent storage  
+? Real-time metrics or logging dashboard  
+? Session handling, rate limiting, retries  
+
+---
+
+## Contributing
+
+1. Fork the repository  
+2. Create a feature branch (`git checkout -b feature/foo`)  
+3. Commit your changes (`git commit -m "feat: add foo"`)  
+4. Push to the branch (`git push origin feature/foo`)  
+5. Open a Pull Request  
+
+---
+
+## License
+
+MIT ? [Your Name or Organization]
