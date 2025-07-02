@@ -126,10 +126,12 @@
       var heroBtn = document.getElementById('hero-start');
       var ctaBtn = document.getElementById('cta-start');
       var loginLink = document.getElementById('nav-login');
+      var brand = document.querySelector('.logo');
       if (window.Glow) {
         if (heroBtn) Glow.applyGlow(heroBtn, { color: '#9b5cf5', blur: 20, pulse: true });
         if (ctaBtn) Glow.applyGlow(ctaBtn, { color: '#9b5cf5', blur: 20, pulse: true });
         if (loginLink) Glow.applyGlow(loginLink, { color: '#9b5cf5', blur: 15, pulse: true });
+        if (brand) Glow.applyGlow(brand, { color: '#9b5cf5', blur: 8, pulse: true });
       }
     });
   </script>

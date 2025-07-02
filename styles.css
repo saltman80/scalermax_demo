@@ -62,8 +62,10 @@ header {
 }
 .logo {
   font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-primary);
+  font-weight: 700;
+  color: #9b5cf5;
+  text-shadow: 0 0 8px rgba(155, 92, 245, 0.6);
+  animation: pulseGlow 3s ease-in-out infinite;
 }
 
 /* Navigation menu */
@@ -97,21 +99,24 @@ header {
 
 .site-nav ul {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 .site-nav a {
-  padding: 0.5rem 0.75rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
   color: var(--color-text-light);
-  transition: background var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+  transition: color var(--transition-fast), text-shadow var(--transition-fast);
 }
 .site-nav a:hover {
   color: #fff;
-  background: rgba(155, 92, 245, 0.2);
+  text-shadow: 0 0 8px rgba(155, 92, 245, 0.8);
 }
 .site-nav a.active {
   color: #fff;
-  box-shadow: 0 0 6px rgba(155, 92, 245, 0.8);
+  font-weight: 600;
+  border-bottom: 2px solid #9b5cf5;
 }
 
 @media (max-width: 768px) {
@@ -603,4 +608,9 @@ button:focus,
   width: 4rem;
   filter: drop-shadow(0 0 6px rgba(155, 92, 245, 0.6));
   border-radius: 0.5rem;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { text-shadow: 0 0 8px rgba(155, 92, 245, 0.6); }
+  50% { text-shadow: 0 0 12px rgba(155, 92, 245, 1); }
 }

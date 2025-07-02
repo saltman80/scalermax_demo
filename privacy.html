@@ -6,20 +6,27 @@
   <title>
 Privacy Policy - ScalerMax Demo</title>
   <link rel="stylesheet" href="styles.css">
+  <script defer src="headernav.js"></script>
+  <script defer src="glow.js"></script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to content</a>
-  <header class="site-header">
-    <nav class="navbar container" aria-label="Main navigation">
-      <a href="index.html" class="navbar__brand">ScalerMax</a>
-      <ul class="navbar__list">
-        <li class="navbar__item"><a href="index.html" class="navbar__link">Home</a></li>
-        <li class="navbar__item"><a href="login.html" class="navbar__link">Login</a></li>
-        <li class="navbar__item"><a href="dashboard.html" class="navbar__link">Dashboard</a></li>
-        <li class="navbar__item"><a href="privacy.html" class="navbar__link is-active" aria-current="page">Privacy</a></li>
-      </ul>
+  <header class="site-header" data-animation="fade-up" data-animation-trigger="timed" data-animation-delay="100">
+    <div class="container">
+      <a href="index.html" class="logo">ScalerMax</a>
+      <button class="nav-toggle" data-nav-toggle aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation">
+        <span class="hamburger"></span>
+      </button>
+      <nav id="primary-navigation" data-nav-menu class="site-nav" aria-label="Primary navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="privacy.html" aria-current="page">Privacy</a></li>
+        </ul>
+      </nav>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode"></button>
-    </nav>
+    </div>
   </header>
 
   <main id="main-content" class="site-main container">
@@ -82,6 +89,10 @@ Privacy Policy - ScalerMax Demo</title>
       root.setAttribute('data-theme', current);
       localStorage.setItem('theme', current);
     });
+    const brand = document.querySelector('.logo');
+    if (window.Glow && brand) {
+      Glow.applyGlow(brand, { color: '#9b5cf5', blur: 8, pulse: true });
+    }
   </script>
 </body>
 </html>
