@@ -1,499 +1,810 @@
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ScalerMax Admin Dashboard</title>
-  <meta property="og:title" content="ScalerMax Dashboard">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' https: 'nonce-a1b2c3'; style-src 'self' https: 'nonce-a1b2c3'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1CnGdZXQ7YKj+47HCsHEB2z9vOo5dKZ7HisZV64VAN2" crossorigin="anonymous">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha512-p6N8z1lnjIYE/4ub2QzEC2lN6pGHixuJv2z7P7q+VZl+PvGhDwXMJv+0U1TpH+EOqs0c1aj3Gq38PDRYTq0c9w==" crossorigin="anonymous" referrerpolicy="no-referrer">
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="headernav.js"></script>
-  <script defer src="animationsmanager.js"></script>
-  <script defer src="glow.js"></script>
-  <style nonce="a1b2c3">
-    body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #0d0b1f; color:#e0e0e0; }
-    .sidebar-desktop { height: 100vh; position: fixed; top: 0; left: 0; width: 240px; padding-top: 1rem; background-color: #1b1431; overflow-y: auto; }
-    .sidebar-desktop a { color: #d1c4e9; padding: .75rem 1.25rem; display: block; text-decoration: none; }
-    .sidebar-desktop a.active, .sidebar-desktop a:hover { color: #fff; background-color: #371c59; }
-    .sidebar-logo { font-size: 1.5rem; color: #fff; font-weight: bold; }
-    .site-header { display: none; }
-        main { margin-top: 0; margin-left: 240px; padding: 1rem; }
-    @media (max-width: 768px) {
-      .sidebar-desktop { display: none; }
-      main { margin-left: 0; }
-    }
-    .card-counter { display: flex; align-items: center; justify-content: space-between; padding: 1rem; color: #fff; }
-    .card-counter .icon { font-size: 2rem; opacity: .7; }
-    .card-counter .count { font-size: 1.75rem; font-weight: bold; }
-    .card { background:#1d1533; border:none; color:#e0e0e0; box-shadow:0 0 10px rgba(155,92,245,0.3); }
-    .chat-card { background:#1e1e2f; box-shadow:0 0 10px 2px rgba(155,92,245,0.6); }
-    #chat-container { height:300px; overflow-y:auto; padding:0.5rem; }
-    .message { padding:0.25rem 0.5rem; margin-bottom:0.25rem; border-radius:4px; }
-    .message-user { background:#4b0082; color:#fff; text-align:right; }
-    .message-ai { background:#333; color:#fff; }
-    .message-system { background:#222; color:#e0e0e0; font-style:italic; }
-    .send-btn {
-      background: linear-gradient(45deg, #9b5cf5, #22c55e);
-      color: #fff;
-      border: none;
-    }
-    .send-btn:hover { opacity: 0.9; }
-    .glow-button {
-      padding: 0.75rem 1.4rem;
-      background: linear-gradient(135deg, #39e09b, #9b6dfc);
-      border: none;
-      border-radius: 10px;
-      color: white;
-      font-weight: 500;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .glow-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(147, 97, 255, 0.5);
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ScalerMax Admin Dashboard</title>
+    <meta property="og:title" content="ScalerMax Dashboard" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https:; script-src 'self' https: 'nonce-a1b2c3'; style-src 'self' https: 'nonce-a1b2c3'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1CnGdZXQ7YKj+47HCsHEB2z9vOo5dKZ7HisZV64VAN2"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+      integrity="sha512-p6N8z1lnjIYE/4ub2QzEC2lN6pGHixuJv2z7P7q+VZl+PvGhDwXMJv+0U1TpH+EOqs0c1aj3Gq38PDRYTq0c9w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="headernav.js"></script>
+    <script defer src="animationsmanager.js"></script>
+    <script defer src="glow.js"></script>
+    <style nonce="a1b2c3">
+      body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background-color: #0d0b1f;
+        color: #e0e0e0;
+      }
+      .sidebar-desktop {
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 240px;
+        padding-top: 1rem;
+        background-color: #1b1431;
+        overflow-y: auto;
+      }
+      .sidebar-desktop a {
+        color: #d1c4e9;
+        padding: 0.75rem 1.25rem;
+        display: block;
+        text-decoration: none;
+      }
+      .sidebar-desktop a.active,
+      .sidebar-desktop a:hover {
+        color: #fff;
+        background-color: #371c59;
+      }
+      .sidebar-logo {
+        font-size: 1.5rem;
+        color: #fff;
+        font-weight: bold;
+      }
+      .site-header {
+        display: none;
+      }
+      main {
+        margin-top: 0;
+        margin-left: 240px;
+        padding: 1rem;
+      }
+      @media (max-width: 768px) {
+        .sidebar-desktop {
+          display: none;
+        }
+        main {
+          margin-left: 0;
+        }
+      }
+      .card-counter {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        color: #fff;
+      }
+      .card-counter .icon {
+        font-size: 2rem;
+        opacity: 0.7;
+      }
+      .card-counter .count {
+        font-size: 1.75rem;
+        font-weight: bold;
+      }
+      .card {
+        background: #1d1533;
+        border: none;
+        color: #e0e0e0;
+        box-shadow: 0 0 10px rgba(155, 92, 245, 0.3);
+      }
+      .chat-card {
+        background: #1e1e2f;
+        box-shadow: 0 0 10px 2px rgba(155, 92, 245, 0.6);
+      }
+      #chat-container {
+        height: 300px;
+        overflow-y: auto;
+        padding: 0.5rem;
+      }
+      .message {
+        padding: 0.25rem 0.5rem;
+        margin-bottom: 0.25rem;
+        border-radius: 4px;
+      }
+      .message-user {
+        background: #4b0082;
+        color: #fff;
+        text-align: right;
+      }
+      .message-ai {
+        background: #333;
+        color: #fff;
+      }
+      .message-system {
+        background: #222;
+        color: #e0e0e0;
+        font-style: italic;
+      }
+      .send-btn {
+        background: linear-gradient(45deg, #9b5cf5, #22c55e);
+        color: #fff;
+        border: none;
+      }
+      .send-btn:hover {
+        opacity: 0.9;
+      }
+      .glow-button {
+        padding: 0.75rem 1.4rem;
+        background: linear-gradient(135deg, #39e09b, #9b6dfc);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .glow-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(147, 97, 255, 0.5);
+      }
 
-    .glow-input {
-      padding: 0.7rem 1rem;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      background: #1c1b2e;
-      color: #e0e0ff;
-      font-size: 0.95rem;
-      min-width: 200px;
-      box-shadow: inset 0 0 6px rgba(100, 70, 200, 0.2);
-    }
+      .glow-input {
+        padding: 0.7rem 1rem;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        background: #1c1b2e;
+        color: #e0e0ff;
+        font-size: 0.95rem;
+        min-width: 200px;
+        box-shadow: inset 0 0 6px rgba(100, 70, 200, 0.2);
+      }
 
-    .demo-text {
-      display: none;
-      color: #ffb86c;
-      font-size: 0.9rem;
-      margin-top: 0.25rem;
-    }
+      .demo-text {
+        display: none;
+        color: #ffb86c;
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+      }
 
-    .highlight-box {
-      background: #141324;
-      box-shadow: 0 0 20px rgba(155, 92, 245, 0.4);
-      border-radius: 1rem;
-      padding: 3rem 1.5rem;
-      margin: 2rem auto;
-      max-width: 800px;
-      text-align: center;
-    }
+      .highlight-box {
+        background: #141324;
+        box-shadow: 0 0 20px rgba(155, 92, 245, 0.4);
+        border-radius: 1rem;
+        padding: 3rem 1.5rem;
+        margin: 2rem auto;
+        max-width: 800px;
+        text-align: center;
+      }
 
-    .highlight-inner h2 {
-      font-size: 2rem;
-      color: #fff;
-      margin-bottom: 0.5rem;
-    }
+      .highlight-inner h2 {
+        font-size: 2rem;
+        color: #fff;
+        margin-bottom: 0.5rem;
+      }
 
-    .subtitle {
-      color: #ccc;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-    }
+      .subtitle {
+        color: #ccc;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
 
-    .button-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 0.75rem;
-    }
+      .button-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+      }
 
-    .button-row .glow-button {
-      width: 100%;
-    }
+      .button-row .glow-button {
+        width: 100%;
+      }
 
-    .demo-note {
-      font-size: 0.9rem;
-      color: #fbbf24;
-      margin: 0.25rem 0;
-    }
+      .demo-note {
+        font-size: 0.9rem;
+        color: #fbbf24;
+        margin: 0.25rem 0;
+      }
 
-    .key-input-wrap {
-      margin-top: 2rem;
-    }
+      .key-input-wrap {
+        margin-top: 2rem;
+      }
 
-    .key-input-wrap h3 {
-      font-size: 1.2rem;
-      color: #f3e8ff;
-      margin-bottom: 1rem;
-    }
+      .key-input-wrap h3 {
+        font-size: 1.2rem;
+        color: #f3e8ff;
+        margin-bottom: 1rem;
+      }
 
-    .key-form {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
+      .key-form {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
 
-    .key-input {
-      padding: 0.75rem 1rem;
-      background: #1e1b33;
-      color: #fff;
-      border: none;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      min-width: 200px;
-      box-shadow: inset 0 0 5px rgba(100, 70, 200, 0.2);
-    }
+      .key-input {
+        padding: 0.75rem 1rem;
+        background: #1e1b33;
+        color: #fff;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        min-width: 200px;
+        box-shadow: inset 0 0 5px rgba(100, 70, 200, 0.2);
+      }
 
-    #chat-input {
-      flex: 1;
-      font-size: 1.05rem;
-      min-height: 3.5rem;
-      min-width: 250px;
-    }
+      #chat-input {
+        flex: 1;
+        font-size: 1.05rem;
+        min-height: 3.5rem;
+        min-width: 250px;
+      }
 
-    #chat-form .glow-button {
-      padding: 0.75rem 1.4rem;
-    }
+      #chat-form .glow-button {
+        padding: 0.75rem 1.4rem;
+      }
 
-    .project-keys {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
-    }
+      .project-keys {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+      }
 
-    .chat-wrapper {
-      max-width: 600px;
-      margin: 0 auto;
-    }
+      .chat-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header
+      class="site-header"
+      data-animation="fade-up"
+      data-animation-trigger="timed"
+      data-animation-delay="100"
+    >
+      <div class="container">
+        <a href="index.html" class="logo">ScalerMax</a>
+        <button
+          class="nav-toggle"
+          data-nav-toggle
+          aria-label="Open navigation"
+          aria-expanded="false"
+          aria-controls="primary-navigation"
+        >
+          <span class="hamburger"></span>
+        </button>
+        <nav
+          id="primary-navigation"
+          data-nav-menu
+          class="site-nav"
+          aria-label="Primary navigation"
+        >
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="login.html" id="nav-login">Login</a></li>
+            <li data-dashboard-link style="display: none">
+              <a href="dashboard.html">Dashboard</a>
+            </li>
+            <li><a href="privacy.html">Privacy</a></li>
+          </ul>
+        </nav>
+        <noscript>
+          <style>
+            .site-nav {
+              transform: none !important;
+              opacity: 1 !important;
+            }
+          </style>
+        </noscript>
+      </div>
+    </header>
 
-    #refreshBtn {
-      width: 160px;
-      display: block;
-      margin: 0 auto;
-    }
-  </style>
-</head>
-<body>
-  <header
-    class="site-header"
-    data-animation="fade-up"
-    data-animation-trigger="timed"
-    data-animation-delay="100"
-  >
-    <div class="container">
-      <a href="index.html" class="logo">ScalerMax</a>
-      <button
-        class="nav-toggle"
-        data-nav-toggle
-        aria-label="Open navigation"
-        aria-expanded="false"
-        aria-controls="primary-navigation"
-      >
-        <span class="hamburger"></span>
-      </button>
-      <nav
-        id="primary-navigation"
-        data-nav-menu
-        class="site-nav"
-        aria-label="Primary navigation"
-      >
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="login.html" id="nav-login">Login</a></li>
-          <li data-dashboard-link style="display: none">
-            <a href="dashboard.html">Dashboard</a>
-          </li>
-          <li><a href="privacy.html">Privacy</a></li>
-        </ul>
-      </nav>
-      <noscript>
-        <style>
-          .site-nav {
-            transform: none !important;
-            opacity: 1 !important;
-          }
-        </style>
-      </noscript>
-    </div>
-  </header>
-
-  <aside class="sidebar-desktop">
-    <div class="text-center mb-3 sidebar-logo">ScalerMax</div>
-    <a href="#" class="active">Dashboard</a>
-    <a href="admin.html">Super Admin</a>
-    <a href="#">Intents</a>
-    <a href="#">Routes</a>
-    <a href="#">Settings</a>
-  </aside>
+    <aside class="sidebar-desktop">
+      <div class="text-center mb-3 sidebar-logo">ScalerMax</div>
+      <a href="#" class="active">Dashboard</a>
+      <a href="admin.html">Super Admin</a>
+      <a href="#">Intents</a>
+      <a href="#">Routes</a>
+      <a href="#">Settings</a>
+    </aside>
     <main role="main" class="container-fluid">
-  <section class="highlight-box">
-    <div class="highlight-inner">
-      <h2>Connect Your AI Provider</h2>
-      <p class="subtitle">Connect your accounts to get started.</p>
+      <div class="row mb-4">
+        <div class="col-lg-6">
+          <div class="chat-wrapper mb-4 text-center">
+            <h2>Chat Demo</h2>
+            <div class="card chat-card text-light">
+              <div
+                id="chat-container"
+                class="mb-2"
+                aria-live="polite"
+                role="log"
+              ></div>
+              <form
+                id="chat-form"
+                class="d-flex flex-column gap-2 align-items-center"
+              >
+                <textarea
+                  id="chat-input"
+                  class="glow-input w-100"
+                  placeholder="Type a message..."
+                  aria-label="chat input"
+                  rows="3"
+                  disabled
+                ></textarea>
+                <button
+                  id="send-button"
+                  class="glow-button"
+                  type="submit"
+                  disabled
+                >
+                  Send
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <section class="highlight-box">
+            <div class="highlight-inner">
+              <h2>Connect Your AI Provider</h2>
+              <p class="subtitle">Connect your accounts to get started.</p>
 
-      <div class="button-row">
-        <button onclick="showDemoText('demo-openai')" class="glow-button">OpenAI</button>
-        <button onclick="showDemoText('demo-gemini')" class="glow-button">Gemini</button>
-        <button onclick="showDemoText('demo-claude')" class="glow-button">Claude</button>
-        <button onclick="showDemoText('demo-openrouter')" class="glow-button">OpenRouter</button>
-        <button onclick="showDemoText('demo-straico')" class="glow-button">Straico</button>
-      </div>
+              <div class="button-row">
+                <button
+                  onclick="showDemoText('demo-openai')"
+                  class="glow-button"
+                >
+                  OpenAI
+                </button>
+                <button
+                  onclick="showDemoText('demo-gemini')"
+                  class="glow-button"
+                >
+                  Gemini
+                </button>
+                <button
+                  onclick="showDemoText('demo-claude')"
+                  class="glow-button"
+                >
+                  Claude
+                </button>
+                <button
+                  onclick="showDemoText('demo-openrouter')"
+                  class="glow-button"
+                >
+                  OpenRouter
+                </button>
+                <button
+                  onclick="showDemoText('demo-straico')"
+                  class="glow-button"
+                >
+                  Straico
+                </button>
+              </div>
 
-      <div id="demo-openai" class="demo-note" style="display:none;">🔒 Demo Only</div>
-      <div id="demo-gemini" class="demo-note" style="display:none;">🔒 Demo Only</div>
-      <div id="demo-claude" class="demo-note" style="display:none;">🔒 Demo Only</div>
-      <div id="demo-openrouter" class="demo-note" style="display:none;">🔒 Demo Only</div>
-      <div id="demo-straico" class="demo-note" style="display:none;">🔒 Demo Only</div>
+              <div id="demo-openai" class="demo-note" style="display: none">
+                🔒 Demo Only
+              </div>
+              <div id="demo-gemini" class="demo-note" style="display: none">
+                🔒 Demo Only
+              </div>
+              <div id="demo-claude" class="demo-note" style="display: none">
+                🔒 Demo Only
+              </div>
+              <div id="demo-openrouter" class="demo-note" style="display: none">
+                🔒 Demo Only
+              </div>
+              <div id="demo-straico" class="demo-note" style="display: none">
+                🔒 Demo Only
+              </div>
 
-      <div class="key-input-wrap">
-        <h3>ScalerMax Key - <span style="color:#9b5cf5;">Build Smart Tools Faster!</span></h3>
-        <div class="key-form">
-          <input type="text" placeholder="Name of Key" class="key-input" />
-          <button onclick="showDemoMessage()" class="glow-button">Get Key</button>
-        </div>
-        <p id="keyStatus" class="demo-note" style="display:none;">🔒 Demo Only</p>
-      </div>
-    </div>
-  </section>
-    <div class="row">
-      <div class="chat-wrapper mb-4 text-center">
-        <h2>Chat Demo</h2>
-        <div class="card chat-card text-light">
-          <div id="chat-container" class="mb-2" aria-live="polite" role="log"></div>
-          <form id="chat-form" class="d-flex flex-column gap-2 align-items-center">
-            <textarea id="chat-input" class="glow-input w-100" placeholder="Type a message..." aria-label="chat input" rows="3" disabled></textarea>
-            <button id="send-button" class="glow-button" type="submit" disabled>Send</button>
-          </form>
-        </div>
-      </div>
-      <div class="col-lg-8 order-lg-2">
-        <div class="mb-2 d-flex justify-content-between align-items-center">
-          <h1 class="h2 m-0">Dashboard</h1>
-        </div>
-        <div class="text-center mb-4">
-          <button id="refreshBtn" class="btn btn-outline-secondary">Refresh</button>
-        </div>
-        <div class="card p-3 mb-4">
-          <h5 class="mb-4">Your Project Keys</h5>
-          <div class="project-keys">
-            <div class="tile card h-100 text-center p-3">
-              <h5 class="mb-2">VibeSheet</h5>
-              <span class="badge bg-success mb-2">✅ Active</span>
-              <p class="small text-muted">Requests Today: <strong>128</strong></p>
-              <p class="small text-muted">Failures: <strong>1</strong></p>
+              <div class="key-input-wrap">
+                <h3>
+                  ScalerMax Key -
+                  <span style="color: #9b5cf5">Build Smart Tools Faster!</span>
+                </h3>
+                <div class="key-form">
+                  <input
+                    type="text"
+                    placeholder="Name of Key"
+                    class="key-input"
+                  />
+                  <button onclick="showDemoMessage()" class="glow-button">
+                    Get Key
+                  </button>
+                </div>
+                <p id="keyStatus" class="demo-note" style="display: none">
+                  🔒 Demo Only
+                </p>
+              </div>
             </div>
-            <div class="tile card h-100 text-center p-3">
-              <h5 class="mb-2">AahSheet</h5>
-              <span class="badge bg-success mb-2">✅ Active</span>
-              <p class="small text-muted">Requests Today: <strong>64</strong></p>
-              <p class="small text-muted">Failures: <strong>0</strong></p>
+          </section>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 order-lg-2">
+          <div class="mb-2 d-flex justify-content-between align-items-center">
+            <h1 class="h2 m-0">Dashboard</h1>
+          </div>
+          <div class="card p-3 mb-4">
+            <h5 class="mb-4">Your Project Keys</h5>
+            <div class="project-keys">
+              <div class="tile card h-100 text-center p-3">
+                <h5 class="mb-2">VibeSheet</h5>
+                <span class="badge bg-success mb-2">✅ Active</span>
+                <p class="small text-muted">
+                  Requests Today: <strong>128</strong>
+                </p>
+                <p class="small text-muted">Failures: <strong>1</strong></p>
+              </div>
+              <div class="tile card h-100 text-center p-3">
+                <h5 class="mb-2">AahSheet</h5>
+                <span class="badge bg-success mb-2">✅ Active</span>
+                <p class="small text-muted">
+                  Requests Today: <strong>64</strong>
+                </p>
+                <p class="small text-muted">Failures: <strong>0</strong></p>
+              </div>
+              <div class="tile card h-100 text-center p-3">
+                <h5 class="mb-2">AI Tool</h5>
+                <span class="badge bg-success mb-2">✅ Active</span>
+                <p class="small text-muted">
+                  Requests Today: <strong>89</strong>
+                </p>
+                <p class="small text-muted">Failures: <strong>2</strong></p>
+              </div>
             </div>
-            <div class="tile card h-100 text-center p-3">
-              <h5 class="mb-2">AI Tool</h5>
-              <span class="badge bg-success mb-2">✅ Active</span>
-              <p class="small text-muted">Requests Today: <strong>89</strong></p>
-              <p class="small text-muted">Failures: <strong>2</strong></p>
+          </div>
+          <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-md-3">
+              <div
+                class="card bg-primary"
+                data-animation="fade-up"
+                data-animation-delay="100"
+              >
+                <div class="card-counter">
+                  <div>
+                    <div class="card-title">Total Requests</div>
+                    <div class="count">
+                      <span
+                        class="counter"
+                        data-target="12345"
+                        data-metric="totalRequests"
+                        >0</span
+                      >
+                    </div>
+                  </div>
+                  <div class="icon"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div
+                class="card bg-success"
+                data-animation="fade-up"
+                data-animation-delay="200"
+              >
+                <div class="card-counter">
+                  <div>
+                    <div class="card-title">Active Intents</div>
+                    <div class="count">
+                      <span
+                        class="counter"
+                        data-target="456"
+                        data-metric="activeIntents"
+                        >0</span
+                      >
+                    </div>
+                  </div>
+                  <div class="icon"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div
+                class="card bg-warning"
+                data-animation="fade-up"
+                data-animation-delay="300"
+              >
+                <div class="card-counter">
+                  <div>
+                    <div class="card-title">Error Rate</div>
+                    <div class="count">
+                      <span
+                        class="counter"
+                        data-target="1.5"
+                        data-decimals="1"
+                        data-min="0"
+                        data-max="1.9"
+                        data-metric="errorRate"
+                        >0</span
+                      ><span>%</span>
+                    </div>
+                  </div>
+                  <div class="icon"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div
+                class="card bg-danger"
+                data-animation="fade-up"
+                data-animation-delay="400"
+              >
+                <div class="card-counter">
+                  <div>
+                    <div class="card-title">Avg Latency</div>
+                    <div class="count">
+                      <span
+                        class="counter"
+                        data-target="120"
+                        data-metric="avgLatency"
+                        >0</span
+                      ><span>ms</span>
+                    </div>
+                  </div>
+                  <div class="icon"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div
+                class="card bg-info"
+                data-animation="fade-up"
+                data-animation-delay="500"
+              >
+                <div class="card-counter">
+                  <div>
+                    <div class="card-title">Placeholder A</div>
+                    <div class="count">
+                      <span
+                        class="counter"
+                        data-target="0"
+                        data-metric="placeholderA"
+                        >0</span
+                      >
+                    </div>
+                  </div>
+                  <div class="icon"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div
+                class="card bg-secondary"
+                data-animation="fade-up"
+                data-animation-delay="600"
+              >
+                <div class="card-counter">
+                  <div>
+                    <div class="card-title">Placeholder B</div>
+                    <div class="count">
+                      <span
+                        class="counter"
+                        data-target="0"
+                        data-metric="placeholderB"
+                        >0</span
+                      >
+                    </div>
+                  </div>
+                  <div class="icon"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row g-4">
+            <div class="col-lg-6">
+              <div
+                class="card"
+                data-animation="fade-up"
+                data-animation-delay="100"
+              >
+                <div class="card-header">Requests per Hour</div>
+                <div class="card-body">
+                  <canvas id="requestsChart" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div
+                class="card"
+                data-animation="fade-up"
+                data-animation-delay="200"
+              >
+                <div class="card-header">Latency Over Last 7 Days</div>
+                <div class="card-body">
+                  <canvas id="latencyChart" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h2>Recent Logs</h2>
+            <div class="table-responsive">
+              <table class="table table-striped table-sm align-middle">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Intent</th>
+                    <th>Model</th>
+                    <th>Latency</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="logsTable"></tbody>
+              </table>
             </div>
           </div>
         </div>
-        <div class="row g-3 mb-4">
-      <div class="col-sm-6 col-md-3">
-        <div class="card bg-primary" data-animation="fade-up" data-animation-delay="100">
-          <div class="card-counter">
-            <div>
-              <div class="card-title">Total Requests</div>
-              <div class="count"><span class="counter" data-target="12345" data-metric="totalRequests">0</span></div>
-            </div>
-            <div class="icon"></div>
-          </div>
-        </div>
       </div>
-      <div class="col-sm-6 col-md-3">
-        <div class="card bg-success" data-animation="fade-up" data-animation-delay="200">
-          <div class="card-counter">
-            <div>
-              <div class="card-title">Active Intents</div>
-              <div class="count"><span class="counter" data-target="456" data-metric="activeIntents">0</span></div>
-            </div>
-            <div class="icon"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <div class="card bg-warning" data-animation="fade-up" data-animation-delay="300">
-          <div class="card-counter">
-            <div>
-              <div class="card-title">Error Rate</div>
-              <div class="count"><span class="counter" data-target="1.5" data-decimals="1" data-min="0" data-max="1.9" data-metric="errorRate">0</span><span>%</span></div>
-            </div>
-            <div class="icon"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <div class="card bg-danger" data-animation="fade-up" data-animation-delay="400">
-          <div class="card-counter">
-            <div>
-              <div class="card-title">Avg Latency</div>
-              <div class="count"><span class="counter" data-target="120" data-metric="avgLatency">0</span><span>ms</span></div>
-            </div>
-            <div class="icon"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <div class="card bg-info" data-animation="fade-up" data-animation-delay="500">
-          <div class="card-counter">
-            <div>
-              <div class="card-title">Placeholder A</div>
-              <div class="count"><span class="counter" data-target="0" data-metric="placeholderA">0</span></div>
-            </div>
-            <div class="icon"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <div class="card bg-secondary" data-animation="fade-up" data-animation-delay="600">
-          <div class="card-counter">
-            <div>
-              <div class="card-title">Placeholder B</div>
-              <div class="count"><span class="counter" data-target="0" data-metric="placeholderB">0</span></div>
-            </div>
-            <div class="icon"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row g-4">
-      <div class="col-lg-6">
-        <div class="card" data-animation="fade-up" data-animation-delay="100">
-          <div class="card-header">Requests per Hour</div>
-          <div class="card-body">
-            <canvas id="requestsChart" height="200"></canvas>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="card" data-animation="fade-up" data-animation-delay="200">
-          <div class="card-header">Latency Over Last 7 Days</div>
-          <div class="card-body">
-            <canvas id="latencyChart" height="200"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mt-4">
-      <h2>Recent Logs</h2>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm align-middle">
-          <thead>
-            <tr>
-              <th>Timestamp</th>
-              <th>Intent</th>
-              <th>Model</th>
-              <th>Latency</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="logsTable">
-          </tbody>
-        </table>
-      </div>
-    </div>
-      </div>
-    </div>
-  </main>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1CnGdZXQ7YKj+47HCsHEB2z9vOo5dKZ7HisZV64VAN2" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.min.js" integrity="sha512-pHTWx2cjYLuQHtyQpSkXw3tI+pBcj+oZ7qwy3Lf2XyZDjWzB+dpftafJ+zI74hiL2rOHYNOiLmKTjaezJ4+MaA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.6.2/countUp.umd.js" integrity="sha512-3fLb1LeKx9Gi+eZ9kr1OeU9wo3ArfLqNL/ODL5OwG0QLJV5vcVDZdJxzUP+vc3dZSOzM/6xY9cE1Cpf9sminbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script nonce="a1b2c3">
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('.counter').forEach(function(el) {
-        const end = parseFloat(el.getAttribute('data-target'));
-        const decimals = parseInt(el.getAttribute('data-decimals')) || 0;
-        new countUp.CountUp(el, end, { duration: 2, decimalPlaces: decimals }).start();
-      });
-      const hours = Array.from({length:24}, (_,i) => i + ':00');
-      const reqData = hours.map(() => Math.floor(Math.random() * 400 + 100));
-      let reqChart, latChart;
-      function createReqChart(){
-        const ctx = document.getElementById('requestsChart').getContext('2d');
-        reqChart = new Chart(ctx, { type:'line', data:{ labels:hours, datasets:[{ label:'Requests', data:reqData, fill:true, backgroundColor:'rgba(13,110,253,0.2)', borderColor:'rgba(13,110,253,1)', tension:0.4 }] }, options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true } } } });
-      }
-      const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-      const latData = days.map(() => Math.floor(Math.random() * 200 + 50));
-      function createLatChart(){
-        const ctx = document.getElementById('latencyChart').getContext('2d');
-        latChart = new Chart(ctx, { type:'bar', data:{ labels:days, datasets:[{ label:'Latency (ms)', data:latData, backgroundColor:'rgba(220,53,69,0.7)', borderColor:'rgba(220,53,69,1)', borderWidth:1 }] }, options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true } } } });
-      }
-      function observeChart(id, creator){
-        const el = document.getElementById(id);
-        if(!el) return;
-        const observer = new IntersectionObserver(entries => {
-          if(entries[0].isIntersecting){
-            creator();
-            observer.disconnect();
-          }
-        }, {threshold:0.3});
-        observer.observe(el);
-      }
-      observeChart('requestsChart', createReqChart);
-      observeChart('latencyChart', createLatChart);
-      const models = ['gpt-4','gpt-3.5-turbo','claude-v1','llama-2'];
-      const intents = ['Translate','Summarize','Answer','Classify','Generate'];
-      const statuses = ['Success','Error'];
-      const logs = [];
-      for (let i = 0; i < 8; i++) {
-        const time = new Date(Date.now() - Math.random() * 3600000 * 24).toISOString().slice(0,19).replace('T',' ');
-        logs.push({
-          timestamp: time,
-          intent: intents[Math.floor(Math.random()*intents.length)],
-          model: models[Math.floor(Math.random()*models.length)],
-          latency: Math.floor(Math.random()*200+50) + 'ms',
-          status: statuses[Math.random() < 0.9 ? 0 : 1]
+    </main>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1CnGdZXQ7YKj+47HCsHEB2z9vOo5dKZ7HisZV64VAN2"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.min.js"
+      integrity="sha512-pHTWx2cjYLuQHtyQpSkXw3tI+pBcj+oZ7qwy3Lf2XyZDjWzB+dpftafJ+zI74hiL2rOHYNOiLmKTjaezJ4+MaA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.6.2/countUp.umd.js"
+      integrity="sha512-3fLb1LeKx9Gi+eZ9kr1OeU9wo3ArfLqNL/ODL5OwG0QLJV5vcVDZdJxzUP+vc3dZSOzM/6xY9cE1Cpf9sminbw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script nonce="a1b2c3">
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".counter").forEach(function (el) {
+          const end = parseFloat(el.getAttribute("data-target"));
+          const decimals = parseInt(el.getAttribute("data-decimals")) || 0;
+          new countUp.CountUp(el, end, {
+            duration: 2,
+            decimalPlaces: decimals,
+          }).start();
         });
-      }
-      const tbody = document.getElementById('logsTable');
-      logs.forEach(log => {
-        const tr = document.createElement('tr');
-        const tdTime = document.createElement('td');
-        tdTime.textContent = log.timestamp;
-        tr.appendChild(tdTime);
-        const tdIntent = document.createElement('td');
-        tdIntent.textContent = log.intent;
-        tr.appendChild(tdIntent);
-        const tdModel = document.createElement('td');
-        tdModel.textContent = log.model;
-        tr.appendChild(tdModel);
-        const tdLatency = document.createElement('td');
-        tdLatency.textContent = log.latency;
-        tr.appendChild(tdLatency);
-        const tdStatus = document.createElement('td');
-        tdStatus.textContent = log.status;
-        tr.appendChild(tdStatus);
-        tbody.appendChild(tr);
+        const hours = Array.from({ length: 24 }, (_, i) => i + ":00");
+        const reqData = hours.map(() => Math.floor(Math.random() * 400 + 100));
+        let reqChart, latChart;
+        function createReqChart() {
+          const ctx = document.getElementById("requestsChart").getContext("2d");
+          reqChart = new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: hours,
+              datasets: [
+                {
+                  label: "Requests",
+                  data: reqData,
+                  fill: true,
+                  backgroundColor: "rgba(13,110,253,0.2)",
+                  borderColor: "rgba(13,110,253,1)",
+                  tension: 0.4,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: { legend: { display: false } },
+              scales: { y: { beginAtZero: true } },
+            },
+          });
+        }
+        const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+        const latData = days.map(() => Math.floor(Math.random() * 200 + 50));
+        function createLatChart() {
+          const ctx = document.getElementById("latencyChart").getContext("2d");
+          latChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: days,
+              datasets: [
+                {
+                  label: "Latency (ms)",
+                  data: latData,
+                  backgroundColor: "rgba(220,53,69,0.7)",
+                  borderColor: "rgba(220,53,69,1)",
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: { legend: { display: false } },
+              scales: { y: { beginAtZero: true } },
+            },
+          });
+        }
+        function observeChart(id, creator) {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const observer = new IntersectionObserver(
+            (entries) => {
+              if (entries[0].isIntersecting) {
+                creator();
+                observer.disconnect();
+              }
+            },
+            { threshold: 0.3 },
+          );
+          observer.observe(el);
+        }
+        observeChart("requestsChart", createReqChart);
+        observeChart("latencyChart", createLatChart);
+        const models = ["gpt-4", "gpt-3.5-turbo", "claude-v1", "llama-2"];
+        const intents = [
+          "Translate",
+          "Summarize",
+          "Answer",
+          "Classify",
+          "Generate",
+        ];
+        const statuses = ["Success", "Error"];
+        const logs = [];
+        for (let i = 0; i < 8; i++) {
+          const time = new Date(Date.now() - Math.random() * 3600000 * 24)
+            .toISOString()
+            .slice(0, 19)
+            .replace("T", " ");
+          logs.push({
+            timestamp: time,
+            intent: intents[Math.floor(Math.random() * intents.length)],
+            model: models[Math.floor(Math.random() * models.length)],
+            latency: Math.floor(Math.random() * 200 + 50) + "ms",
+            status: statuses[Math.random() < 0.9 ? 0 : 1],
+          });
+        }
+        const tbody = document.getElementById("logsTable");
+        logs.forEach((log) => {
+          const tr = document.createElement("tr");
+          const tdTime = document.createElement("td");
+          tdTime.textContent = log.timestamp;
+          tr.appendChild(tdTime);
+          const tdIntent = document.createElement("td");
+          tdIntent.textContent = log.intent;
+          tr.appendChild(tdIntent);
+          const tdModel = document.createElement("td");
+          tdModel.textContent = log.model;
+          tr.appendChild(tdModel);
+          const tdLatency = document.createElement("td");
+          tdLatency.textContent = log.latency;
+          tr.appendChild(tdLatency);
+          const tdStatus = document.createElement("td");
+          tdStatus.textContent = log.status;
+          tr.appendChild(tdStatus);
+          tbody.appendChild(tr);
+        });
       });
-      document.getElementById('refreshBtn').addEventListener('click', () => location.reload());
-    });
-  </script>
-  <script>
-    function showDemoText(id) {
-      document.querySelectorAll('.demo-note').forEach(el => {
-        el.style.display = 'none';
-      });
-      const el = document.getElementById(id);
-      if (el) {
-        el.style.display = 'block';
-        setTimeout(() => { el.style.display = 'none'; }, 3000);
+    </script>
+    <script>
+      function showDemoText(id) {
+        document.querySelectorAll(".demo-note").forEach((el) => {
+          el.style.display = "none";
+        });
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.display = "block";
+          setTimeout(() => {
+            el.style.display = "none";
+          }, 3000);
+        }
       }
-    }
 
-    function showDemoMessage() {
-      const el = document.getElementById('keyStatus');
-      if (el) {
-        el.style.display = 'block';
-        setTimeout(() => { el.style.display = 'none'; }, 3000);
+      function showDemoMessage() {
+        const el = document.getElementById("keyStatus");
+        if (el) {
+          el.style.display = "block";
+          setTimeout(() => {
+            el.style.display = "none";
+          }, 3000);
+        }
       }
-    }
-  </script>
-  <script src="dashboard.js" nonce="a1b2c3"></script>
-  <script src="chat.js" nonce="a1b2c3"></script>
-</body>
+    </script>
+    <script src="dashboard.js" nonce="a1b2c3"></script>
+    <script src="chat.js" nonce="a1b2c3"></script>
+  </body>
 </html>
