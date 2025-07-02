@@ -29,11 +29,14 @@
     .message-ai { background:#333; color:#fff; }
     .message-system { background:#222; color:#e0e0e0; font-style:italic; }
     .api-btn {
-      background: linear-gradient(45deg, #22c55e, #8b5cf6);
+      background: linear-gradient(to right, #39e09b, #9c6dfd);
       color: #fff;
       border: none;
-      padding: 0.75rem 1.5rem;
+      padding: 0.8rem 1.5rem;
       font-size: 1.25rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
     }
     .send-btn {
       background: linear-gradient(45deg, #9b5cf5, #22c55e);
@@ -42,7 +45,15 @@
     }
     .send-btn:hover { opacity: 0.9; }
     .api-btn:hover { opacity: 0.9; }
-    .connect-box { background:#1e1e2f; box-shadow:0 0 10px 2px rgba(155,92,245,0.6); }
+    .connect-box {
+      text-align: center;
+      padding: 2rem 0;
+      background-color: #141324;
+      border-radius: 0.75rem;
+      box-shadow: 0 0 12px #4c2f9b;
+    }
+    .connect-buttons { display: flex; justify-content: center; gap: 1rem; }
+    .demo-note { color: #aaa; margin-top: 1rem; }
   </style>
 </head>
 <body>
@@ -54,12 +65,17 @@
     <a href="#">Routes</a>
     <a href="#">Settings</a>
   </aside>
-  <main role="main" class="container-fluid">
-    <div class="connect-box card p-3 mb-4 text-center">
-      <p class="mb-3">Connect your accounts to get started.</p>
-      <button id="openrouterBtn" class="btn api-btn btn-lg me-2">OpenRouter</button>
-      <button id="straicoBtn" class="btn api-btn btn-lg">Straico</button>
-    </div>
+    <main role="main" class="container-fluid">
+      <div class="connect-box card mb-4">
+        <h2 class="mb-2">Connect Your AI Provider</h2>
+        <p class="text-muted mb-3">Connect your accounts to get started.</p>
+        <div class="connect-buttons">
+          <button class="btn api-btn" onclick="toggleDemoText('openrouter-demo')">OpenRouter</button>
+          <button class="btn api-btn" onclick="toggleDemoText('straico-demo')">Straico</button>
+        </div>
+        <div id="openrouter-demo" class="demo-note" style="display:none;">🔒 Demo Only</div>
+        <div id="straico-demo" class="demo-note" style="display:none;">🔒 Demo Only</div>
+      </div>
     <div class="row">
       <div class="col-lg-4 order-lg-1 mb-4">
         <h2>Chat Demo</h2>
@@ -276,8 +292,10 @@
         msgEl.textContent = 'Demo Only';
         msgEl.style.display = 'block';
       }
-      document.getElementById('openrouterBtn').addEventListener('click', showDemoMessage);
-      document.getElementById('straicoBtn').addEventListener('click', showDemoMessage);
+      function toggleDemoText(id) {
+        const el = document.getElementById(id);
+        el.style.display = el.style.display === 'none' ? 'block' : 'none';
+      }
       document.getElementById('getKeyBtn').addEventListener('click', showDemoMessage);
     });
   </script>
