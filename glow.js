@@ -1,3 +1,4 @@
+(function(window){
 var defaultOptions = {
     type: 'box',
     color: '#ffff00',
