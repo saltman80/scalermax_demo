@@ -79,6 +79,7 @@ let menuToggle, navMenu;
       }
     });
     highlightActiveLink();
+    showDashboardLinkIfLoggedIn();
   }
 
   function highlightActiveLink() {
@@ -94,6 +95,14 @@ let menuToggle, navMenu;
         link.classList.remove('active');
       }
     });
+  }
+
+  function showDashboardLinkIfLoggedIn() {
+    if (!navMenu) return;
+    const dashboardItem = navMenu.querySelector('[data-dashboard-link]');
+    if (!dashboardItem) return;
+    const hasToken = document.cookie.split(';').some(c => c.trim().startsWith('authToken='));
+    dashboardItem.style.display = hasToken ? '' : 'none';
   }
 
   function toggleMobileMenu() {

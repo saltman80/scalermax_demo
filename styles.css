@@ -60,12 +60,18 @@ header {
   padding: 0 1.5rem;
   z-index: 100;
 }
+.site-header .container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+}
 .logo {
   font-size: 1.25rem;
   font-weight: 700;
   color: #9b5cf5;
   text-shadow: 0 0 8px rgba(155, 92, 245, 0.6);
-  animation: pulseGlow 3s ease-in-out infinite;
+  margin-right:auto;
 }
 
 /* Navigation menu */
