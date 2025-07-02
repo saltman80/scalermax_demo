@@ -686,3 +686,13 @@ button:focus,
   color: #9b5cf5;
   text-decoration: underline;
 }
+
+.tile.card {
+  background-color: #1e1e2f;
+  border: 1px solid #31274c;
+  box-shadow: 0 0 8px rgba(155, 92, 245, 0.2);
+  transition: transform 0.3s ease;
+}
+.tile.card:hover {
+  transform: scale(1.03);
+}

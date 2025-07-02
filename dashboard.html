@@ -9,6 +9,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha512-p6N8z1lnjIYE/4ub2QzEC2lN6pGHixuJv2z7P7q+VZl+PvGhDwXMJv+0U1TpH+EOqs0c1aj3Gq38PDRYTq0c9w==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="styles.css">
   <script defer src="headernav.js"></script>
+  <script defer src="animationsmanager.js"></script>
   <script defer src="glow.js"></script>
   <style nonce="a1b2c3">
     body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #0d0b1f; color:#e0e0e0; }
@@ -240,75 +241,96 @@
           </div>
         </div>
         <div class="card p-3 mb-4">
-          <h5 class="mb-3">Demo Keys</h5>
-          <ul class="mb-0" id="demoKeyList">
-            <li>VibeSheet</li>
-            <li>AahSheet</li>
-            <li>AI Tool</li>
-          </ul>
+          <h5 class="mb-4">Your Project Keys</h5>
+          <div class="row row-cols-1 row-cols-md-3 g-3">
+            <div class="col">
+              <div class="tile card h-100 text-center p-3">
+                <h5 class="mb-2">VibeSheet</h5>
+                <span class="badge bg-success mb-2">✅ Active</span>
+                <p class="small text-muted">Requests Today: <strong>128</strong></p>
+                <p class="small text-muted">Failures: <strong>1</strong></p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="tile card h-100 text-center p-3">
+                <h5 class="mb-2">AahSheet</h5>
+                <span class="badge bg-success mb-2">✅ Active</span>
+                <p class="small text-muted">Requests Today: <strong>64</strong></p>
+                <p class="small text-muted">Failures: <strong>0</strong></p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="tile card h-100 text-center p-3">
+                <h5 class="mb-2">AI Tool</h5>
+                <span class="badge bg-success mb-2">✅ Active</span>
+                <p class="small text-muted">Requests Today: <strong>89</strong></p>
+                <p class="small text-muted">Failures: <strong>2</strong></p>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="row g-3 mb-4">
       <div class="col-sm-6 col-md-3">
-        <div class="card bg-primary">
+        <div class="card bg-primary" data-animation="fade-up" data-animation-delay="100">
           <div class="card-counter">
             <div>
               <div class="card-title">Total Requests</div>
-              <div class="count"><span class="counter" data-target="12345">0</span></div>
+              <div class="count"><span class="counter" data-target="12345" data-metric="totalRequests">0</span></div>
             </div>
             <div class="icon"></div>
           </div>
         </div>
       </div>
       <div class="col-sm-6 col-md-3">
-        <div class="card bg-success">
+        <div class="card bg-success" data-animation="fade-up" data-animation-delay="200">
           <div class="card-counter">
             <div>
               <div class="card-title">Active Intents</div>
-              <div class="count"><span class="counter" data-target="456">0</span></div>
+              <div class="count"><span class="counter" data-target="456" data-metric="activeIntents">0</span></div>
             </div>
             <div class="icon"></div>
           </div>
         </div>
       </div>
       <div class="col-sm-6 col-md-3">
-        <div class="card bg-warning">
+        <div class="card bg-warning" data-animation="fade-up" data-animation-delay="300">
           <div class="card-counter">
             <div>
               <div class="card-title">Error Rate</div>
-              <div class="count"><span class="counter" data-target="2.5" data-decimals="1">0</span><span>%</span></div>
+              <div class="count"><span class="counter" data-target="2.5" data-decimals="1" data-metric="errorRate">0</span><span>%</span></div>
             </div>
             <div class="icon"></div>
           </div>
         </div>
       </div>
       <div class="col-sm-6 col-md-3">
-        <div class="card bg-danger">
+        <div class="card bg-danger" data-animation="fade-up" data-animation-delay="400">
           <div class="card-counter">
             <div>
               <div class="card-title">Avg Latency</div>
-              <div class="count"><span class="counter" data-target="120">0</span><span>ms</span></div>
+              <div class="count"><span class="counter" data-target="120" data-metric="avgLatency">0</span><span>ms</span></div>
             </div>
             <div class="icon"></div>
           </div>
         </div>
       </div>
       <div class="col-sm-6 col-md-3">
-        <div class="card bg-info">
+        <div class="card bg-info" data-animation="fade-up" data-animation-delay="500">
           <div class="card-counter">
             <div>
               <div class="card-title">Placeholder A</div>
-              <div class="count"><span class="counter" data-target="0">0</span></div>
+              <div class="count"><span class="counter" data-target="0" data-metric="placeholderA">0</span></div>
             </div>
             <div class="icon"></div>
           </div>
         </div>
       </div>
       <div class="col-sm-6 col-md-3">
-        <div class="card bg-secondary">
+        <div class="card bg-secondary" data-animation="fade-up" data-animation-delay="600">
           <div class="card-counter">
             <div>
               <div class="card-title">Placeholder B</div>
-              <div class="count"><span class="counter" data-target="0">0</span></div>
+              <div class="count"><span class="counter" data-target="0" data-metric="placeholderB">0</span></div>
             </div>
             <div class="icon"></div>
           </div>
