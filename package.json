@@ -20,7 +20,8 @@
     "axios": "^1.4.0",
     "i18next": "^23.6.0",
     "react-i18next": "^12.3.0",
-    "framer-motion": "^10.12.16"
+    "framer-motion": "^10.12.16",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.7",
