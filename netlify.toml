@@ -1,60 +1,59 @@
 [build]
-  publish = "dist"
   command = "npm run build"
+  publish = "."
   functions = "netlify/functions"
 
 [build.environment]
-  NODE_ENV = "production"
-  SCALERMAX_API_URL = "https://api.scalermax.com"
-
-[context.development]
-  command = "npm run dev"
-  publish = "dist"
-
-  [context.development.environment]
-    NODE_ENV = "development"
-    SCALERMAX_API_URL = "https://dev.api.scalermax.com"
-
-[context.production.environment]
-  SCALERMAX_API_URL = "https://api.scalermax.com"
+  NODE_VERSION = "18"
 
 [dev]
-  command = "npm start"
+  command = "npm run dev"
+  publish = "."
+  functions = "netlify/functions"
   port = 8888
-  targetPort = 3000
-  publish = "dist"
 
-[[context.development.headers]]
-  for = "/*"
-  [context.development.headers.values]
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://dev.api.scalermax.com; img-src 'self' data:; font-src 'self';"
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["models/**/*"]
 
-[[context.production.headers]]
-  for = "/*"
-  [context.production.headers.values]
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://api.scalermax.com; img-src 'self' data:; font-src 'self';"
+[context.production.environment]
+  OPENROUTER_BASE_URL = "https://openrouter.ai"
+  MODEL_PATH = "models/classifier.tflite"
 
-[[context.development.redirects]]
+[[redirects]]
   from = "/api/*"
-  to = "https://dev.api.scalermax.com/api/:splat"
-  status = 200
-
-[[context.production.redirects]]
-  from = "/api/*"
-  to = "https://api.scalermax.com/api/:splat"
+  to = "/.netlify/functions/:splat"
   status = 200
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = true
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://your-site.com"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
