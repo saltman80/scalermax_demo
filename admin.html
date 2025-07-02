@@ -3,7 +3,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ScalerMax Admin Dashboard</title>
+  <title>
+ScalerMax Admin Dashboard</title>
+  <meta property="og:title" content="ScalerMax Admin Dashboard">
   <link href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap" rel="stylesheet">
   <style>
     * {box-sizing:border-box;margin:0;padding:0;}
@@ -28,7 +30,6 @@
     .chart-container canvas {width:100%;height:100%;}
     figure {margin:0;height:100%;}
     figure figcaption {text-align:center;font-size:0.9rem;color:#e0e0e0;margin-top:8px;}
-    .card img.icon-img {width:40px;margin-bottom:10px;filter:drop-shadow(0 0 6px rgba(155,92,245,0.8));}
     @media(max-width:768px){.charts {grid-template-columns:1fr;}}
   </style>
 </head>
@@ -40,50 +41,44 @@
     </header>
     <section class="stats-cards">
       <div class="card">
-        <img src="intents_icon.png" alt="Intents" class="icon-img">
         <h3>Total Intents Classified</h3>
         <p id="totalIntents" class="value">0</p>
       </div>
       <div class="card">
-        <img src="requests_icon.png" alt="Requests" class="icon-img">
         <h3>Requests/min</h3>
         <p id="requestsPerMinute" class="value">0</p>
       </div>
       <div class="card">
-        <img src="latency_icon.png" alt="Latency" class="icon-img">
         <h3>Avg Response Time</h3>
         <p id="avgResponseTime" class="value">0ms</p>
       </div>
       <div class="card">
-        <img src="accuracy_icon.png" alt="Accuracy" class="icon-img">
         <h3>Routing Accuracy</h3>
         <p id="routingAccuracy" class="value">0%</p>
       </div>
       <div class="card">
-        <img src="cpu_icon.png" alt="CPU" class="icon-img">
         <h3>CPU Usage</h3>
         <p id="cpuUsage" class="value">0%</p>
       </div>
       <div class="card">
-        <img src="memory_icon.png" alt="Memory" class="icon-img">
         <h3>Memory Usage</h3>
         <p id="memoryUsage" class="value">0%</p>
       </div>
     </section>
     <section class="charts">
-      <div class="chart-container">
+      <div class="chart-container" data-animation="fade-up" data-animation-delay="100">
         <figure aria-label="Requests per minute over time">
           <canvas id="rpmChart">Your browser does not support the canvas element.</canvas>
           <figcaption>Requests per minute over time</figcaption>
         </figure>
       </div>
-      <div class="chart-container">
+      <div class="chart-container" data-animation="fade-up" data-animation-delay="200">
         <figure aria-label="Model usage distribution">
           <canvas id="distributionChart">Your browser does not support the canvas element.</canvas>
           <figcaption>Model usage distribution</figcaption>
         </figure>
       </div>
-      <div class="chart-container">
+      <div class="chart-container" data-animation="fade-up" data-animation-delay="300">
         <figure aria-label="Average response time by model">
           <canvas id="responseTimeChart">Your browser does not support the canvas element.</canvas>
           <figcaption>Average response time by model</figcaption>
@@ -157,32 +152,42 @@
         const models = ['GPT-4','GPT-3.5','Claude','Bard'];
         const rpmLabels = Array.from({length:10},(_,i)=>new Date(Date.now()-(9-i)*5000).toLocaleTimeString());
         const rpmData = rpmLabels.map(()=>adminRandomInt(30,150));
-        const rpmCtx = document.getElementById('rpmChart').getContext('2d');
-        const rpmChart = new Chart(rpmCtx,{
-          type:'line',
-          data:{labels:rpmLabels,datasets:[{label:'Req/min',data:rpmData,borderColor:'#9b5cf5',backgroundColor:'rgba(155,92,245,0.2)',fill:true,tension:0.4}]},
-          options:{responsive:true,maintainAspectRatio:false,animation:{duration:1000},scales:{x:{display:true},y:{beginAtZero:true}}}
-        });
-        const distCtx = document.getElementById('distributionChart').getContext('2d');
-        const distChart = new Chart(distCtx,{
-          type:'pie',
-          data:{labels:models,datasets:[{data:randomDistribution(models.length),backgroundColor:['#8a2be2','#a855f7','#6d28d9','#9333ea']}]},
-          options:{responsive:true,maintainAspectRatio:false,animation:{duration:1000}}
-        });
-        const barCtx = document.getElementById('responseTimeChart').getContext('2d');
-        const barChart = new Chart(barCtx,{
-          type:'bar',
-          data:{labels:models,datasets:[{label:'Avg Response (ms)',data:models.map(()=>adminRandomInt(100,600)),backgroundColor:['#7c3aed','#6d28d9','#8b5cf6','#c084fc']}]},
-          options:{responsive:true,maintainAspectRatio:false,animation:{duration:1000},scales:{y:{beginAtZero:true}}}
-        });
+
+        let rpmChart, distChart, barChart;
+        function createRpmChart(){
+          const ctx = document.getElementById('rpmChart').getContext('2d');
+          rpmChart = new Chart(ctx,{type:'line',data:{labels:rpmLabels,datasets:[{label:'Req/min',data:rpmData,borderColor:'#9b5cf5',backgroundColor:'rgba(155,92,245,0.2)',fill:true,tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:1000},scales:{x:{display:true},y:{beginAtZero:true}}}});
+        }
+        function createDistChart(){
+          const ctx = document.getElementById('distributionChart').getContext('2d');
+          distChart = new Chart(ctx,{type:'pie',data:{labels:models,datasets:[{data:randomDistribution(models.length),backgroundColor:['#8a2be2','#a855f7','#6d28d9','#9333ea']}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:1000}}});
+        }
+        function createBarChart(){
+          const ctx = document.getElementById('responseTimeChart').getContext('2d');
+          barChart = new Chart(ctx,{type:'bar',data:{labels:models,datasets:[{label:'Avg Response (ms)',data:models.map(()=>adminRandomInt(100,600)),backgroundColor:['#7c3aed','#6d28d9','#8b5cf6','#c084fc']}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:1000},scales:{y:{beginAtZero:true}}}});
+        }
+        function observeChart(id, creator){
+          const el = document.getElementById(id);
+          if(!el) return;
+          const observer = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting){
+              creator();
+              observer.disconnect();
+            }
+          }, {threshold:0.3});
+          observer.observe(el);
+        }
+        observeChart('rpmChart', createRpmChart);
+        observeChart('distributionChart', createDistChart);
+        observeChart('responseTimeChart', createBarChart);
         setInterval(function(){
           updateAdminMetrics();
           const newTime = new Date().toLocaleTimeString();
           rpmLabels.push(newTime); rpmLabels.shift();
           rpmData.push(adminRandomInt(30,150)); rpmData.shift();
-          rpmChart.data.labels = rpmLabels; rpmChart.data.datasets[0].data = rpmData; rpmChart.update();
-          distChart.data.datasets[0].data = randomDistribution(models.length); distChart.update();
-          barChart.data.datasets[0].data = models.map(()=>adminRandomInt(100,600)); barChart.update();
+          if(rpmChart){ rpmChart.data.labels = rpmLabels; rpmChart.data.datasets[0].data = rpmData; rpmChart.update(); }
+          if(distChart){ distChart.data.datasets[0].data = randomDistribution(models.length); distChart.update(); }
+          if(barChart){ barChart.data.datasets[0].data = models.map(()=>adminRandomInt(100,600)); barChart.update(); }
         },5000);
       });
     })();

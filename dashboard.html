@@ -3,6 +3,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ScalerMax Admin Dashboard</title>
+  <meta property="og:title" content="ScalerMax Dashboard">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' https: 'nonce-a1b2c3'; style-src 'self' https: 'nonce-a1b2c3'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1CnGdZXQ7YKj+47HCsHEB2z9vOo5dKZ7HisZV64VAN2" crossorigin="anonymous">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha512-p6N8z1lnjIYE/4ub2QzEC2lN6pGHixuJv2z7P7q+VZl+PvGhDwXMJv+0U1TpH+EOqs0c1aj3Gq38PDRYTq0c9w==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -19,7 +20,6 @@
     }
     .card-counter { display: flex; align-items: center; justify-content: space-between; padding: 1rem; color: #fff; }
     .card-counter .icon { font-size: 2rem; opacity: .7; }
-    .card-counter img.icon-img { width:32px; height:32px; opacity:.7; }
     .card-counter .count { font-size: 1.75rem; font-weight: bold; }
     .card { background:#1d1533; border:none; color:#e0e0e0; box-shadow:0 0 10px rgba(155,92,245,0.3); }
     .chat-card { background:#1e1e2f; box-shadow:0 0 10px 2px rgba(155,92,245,0.6); }
@@ -45,10 +45,10 @@
     </div>
   </nav>
   <aside class="sidebar-desktop">
-    <a href="#" class="active"><img src="dashboard_icon.png" alt="Dashboard" class="icon-img me-2">Dashboard</a>
-    <a href="#"><img src="intents_icon.png" alt="Intents" class="icon-img me-2">Intents</a>
-    <a href="#"><img src="routes_icon.png" alt="Routes" class="icon-img me-2">Routes</a>
-    <a href="#"><img src="settings_icon.png" alt="Settings" class="icon-img me-2">Settings</a>
+    <a href="#" class="active">Dashboard</a>
+    <a href="#">Intents</a>
+    <a href="#">Routes</a>
+    <a href="#">Settings</a>
   </aside>
   <aside class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
     <div class="offcanvas-header bg-dark text-white">
@@ -56,10 +56,10 @@
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-0 bg-dark">
-      <a href="#" class="d-block text-light px-3 py-2 active"><img src="dashboard_icon.png" alt="Dashboard" class="icon-img me-2">Dashboard</a>
-      <a href="#" class="d-block text-light px-3 py-2"><img src="intents_icon.png" alt="Intents" class="icon-img me-2">Intents</a>
-      <a href="#" class="d-block text-light px-3 py-2"><img src="routes_icon.png" alt="Routes" class="icon-img me-2">Routes</a>
-      <a href="#" class="d-block text-light px-3 py-2"><img src="settings_icon.png" alt="Settings" class="icon-img me-2">Settings</a>
+      <a href="#" class="d-block text-light px-3 py-2 active">Dashboard</a>
+      <a href="#" class="d-block text-light px-3 py-2">Intents</a>
+      <a href="#" class="d-block text-light px-3 py-2">Routes</a>
+      <a href="#" class="d-block text-light px-3 py-2">Settings</a>
     </div>
   </aside>
   <main role="main" class="container-fluid">
@@ -78,7 +78,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h1 class="h2">Dashboard</h1>
           <div>
-            <button id="refreshBtn" class="btn btn-sm btn-outline-secondary me-2"><img src="refresh_icon.png" alt="Refresh" class="icon-img me-1">Refresh</button>
+            <button id="refreshBtn" class="btn btn-sm btn-outline-secondary me-2">Refresh</button>
             <button id="openrouterBtn" class="btn btn-sm api-btn me-2">Add OpenRouter API Key</button>
             <button id="straicoBtn" class="btn btn-sm api-btn">Add Straico API Key</button>
           </div>
@@ -92,7 +92,7 @@
               <div class="card-title">Total Requests</div>
               <div class="count"><span class="counter" data-target="12345">0</span></div>
             </div>
-            <div class="icon"><img src="requests_icon.png" alt="Total requests" class="icon-img"></div>
+            <div class="icon"></div>
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@
               <div class="card-title">Active Intents</div>
               <div class="count"><span class="counter" data-target="456">0</span></div>
             </div>
-            <div class="icon"><img src="intents_icon.png" alt="Active intents" class="icon-img"></div>
+            <div class="icon"></div>
           </div>
         </div>
       </div>
@@ -114,7 +114,7 @@
               <div class="card-title">Error Rate</div>
               <div class="count"><span class="counter" data-target="2.5" data-decimals="1">0</span><span>%</span></div>
             </div>
-            <div class="icon"><img src="error_icon.png" alt="Error rate" class="icon-img"></div>
+            <div class="icon"></div>
           </div>
         </div>
       </div>
@@ -125,14 +125,14 @@
               <div class="card-title">Avg Latency</div>
               <div class="count"><span class="counter" data-target="120">0</span><span>ms</span></div>
             </div>
-            <div class="icon"><img src="latency_icon.png" alt="Average latency" class="icon-img"></div>
+            <div class="icon"></div>
           </div>
         </div>
       </div>
     </div>
     <div class="row g-4">
       <div class="col-lg-6">
-        <div class="card">
+        <div class="card" data-animation="fade-up" data-animation-delay="100">
           <div class="card-header">Requests per Hour</div>
           <div class="card-body">
             <canvas id="requestsChart" height="200"></canvas>
@@ -140,7 +140,7 @@
         </div>
       </div>
       <div class="col-lg-6">
-        <div class="card">
+        <div class="card" data-animation="fade-up" data-animation-delay="200">
           <div class="card-header">Latency Over Last 7 Days</div>
           <div class="card-body">
             <canvas id="latencyChart" height="200"></canvas>
@@ -181,18 +181,30 @@
       });
       const hours = Array.from({length:24}, (_,i) => i + ':00');
       const reqData = hours.map(() => Math.floor(Math.random() * 400 + 100));
-      new Chart(document.getElementById('requestsChart'), {
-        type: 'line',
-        data: { labels: hours, datasets: [{ label: 'Requests', data: reqData, fill: true, backgroundColor: 'rgba(13,110,253,0.2)', borderColor: 'rgba(13,110,253,1)', tension: 0.4 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
-      });
+      let reqChart, latChart;
+      function createReqChart(){
+        const ctx = document.getElementById('requestsChart').getContext('2d');
+        reqChart = new Chart(ctx, { type:'line', data:{ labels:hours, datasets:[{ label:'Requests', data:reqData, fill:true, backgroundColor:'rgba(13,110,253,0.2)', borderColor:'rgba(13,110,253,1)', tension:0.4 }] }, options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true } } } });
+      }
       const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
       const latData = days.map(() => Math.floor(Math.random() * 200 + 50));
-      new Chart(document.getElementById('latencyChart'), {
-        type: 'bar',
-        data: { labels: days, datasets: [{ label: 'Latency (ms)', data: latData, backgroundColor: 'rgba(220,53,69,0.7)', borderColor: 'rgba(220,53,69,1)', borderWidth: 1 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
-      });
+      function createLatChart(){
+        const ctx = document.getElementById('latencyChart').getContext('2d');
+        latChart = new Chart(ctx, { type:'bar', data:{ labels:days, datasets:[{ label:'Latency (ms)', data:latData, backgroundColor:'rgba(220,53,69,0.7)', borderColor:'rgba(220,53,69,1)', borderWidth:1 }] }, options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true } } } });
+      }
+      function observeChart(id, creator){
+        const el = document.getElementById(id);
+        if(!el) return;
+        const observer = new IntersectionObserver(entries => {
+          if(entries[0].isIntersecting){
+            creator();
+            observer.disconnect();
+          }
+        }, {threshold:0.3});
+        observer.observe(el);
+      }
+      observeChart('requestsChart', createReqChart);
+      observeChart('latencyChart', createLatChart);
       const models = ['gpt-4','gpt-3.5-turbo','claude-v1','llama-2'];
       const intents = ['Translate','Summarize','Answer','Classify','Generate'];
       const statuses = ['Success','Error'];

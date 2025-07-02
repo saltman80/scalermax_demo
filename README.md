@@ -197,7 +197,13 @@ Response:
 2. Create a feature branch (`git checkout -b feature/foo`)  
 3. Commit your changes (`git commit -m "feat: add foo"`)  
 4. Push to the branch (`git push origin feature/foo`)  
-5. Open a Pull Request  
+5. Open a Pull Request
+
+---
+
+## UX Guidance
+
+The interface uses a glowing dark theme built with purples and indigos. All pages rely on modern sans-serif fonts and every button or card casts a soft shadow. Hover states trigger glow effects using `glow.js` while animations are reserved for key moments like hero entrances, card fade-ins and metric pulses. Layouts adapt to mobile with collapsible navigation and smooth sidebar transitions.
 
 ---
 

@@ -65,16 +65,34 @@ let menuToggle, navMenu;
     menuToggle.addEventListener('click', toggleMobileMenu);
     document.addEventListener('click', handleDocumentClick);
     document.addEventListener('keydown', handleKeyDown);
-    const links = navMenu.querySelectorAll('a[href^="#"]');
+    const links = navMenu.querySelectorAll('a[href]');
     links.forEach(link => {
-      link.addEventListener('click', event => {
-        event.preventDefault();
-        const targetId = link.getAttribute('href').slice(1);
-        smoothScrollTo(targetId);
-        if (menuToggle.getAttribute('aria-expanded') === 'true') {
-          toggleMobileMenu();
-        }
-      });
+      if (link.getAttribute('href').startsWith('#')) {
+        link.addEventListener('click', event => {
+          event.preventDefault();
+          const targetId = link.getAttribute('href').slice(1);
+          smoothScrollTo(targetId);
+          if (menuToggle.getAttribute('aria-expanded') === 'true') {
+            toggleMobileMenu();
+          }
+        });
+      }
+    });
+    highlightActiveLink();
+  }
+
+  function highlightActiveLink() {
+    if (!navMenu) return;
+    const path = location.pathname.split('/').pop() || 'index.html';
+    const links = navMenu.querySelectorAll('a[href]');
+    links.forEach(function(link) {
+      const href = link.getAttribute('href');
+      const file = href.split('/').pop();
+      if (file === path) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
     });
   }
 
