@@ -40,6 +40,7 @@ function safeStringify(obj) {
 }
 
 function truncate(data) {
+  if (data == null) return ''
   if (typeof data === 'string') {
     return data.length > MAX_BODY_LENGTH ? data.slice(0, MAX_BODY_LENGTH) + '...' : data
   }
@@ -75,7 +76,7 @@ function logRequest(event) {
       method,
       path,
       headers: maskSensitive(headers || {}),
-      query: truncate(maskSensitive(query || {})),
+      query: truncate(maskSensitive(query || {})) || {},
       body: truncate(maskSensitive(parsedBody))
     }
   }
