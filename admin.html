@@ -36,7 +36,7 @@ ScalerMax Admin Dashboard</title>
 <body>
   <div class="container">
     <header>
-      <h1>ScalerMax Dashboard</h1>
+      <h1>ScalerMax Super Admin</h1>
       <div class="last-updated">Last updated: <span id="lastUpdated"></span></div>
     </header>
     <section class="stats-cards">
@@ -60,10 +60,6 @@ ScalerMax Admin Dashboard</title>
         <h3>CPU Usage</h3>
         <p id="cpuUsage" class="value">0%</p>
       </div>
-      <div class="card">
-        <h3>Memory Usage</h3>
-        <p id="memoryUsage" class="value">0%</p>
-      </div>
     </section>
     <section class="charts">
       <div class="chart-container" data-animation="fade-up" data-animation-delay="100">
@@ -83,6 +79,10 @@ ScalerMax Admin Dashboard</title>
           <canvas id="responseTimeChart">Your browser does not support the canvas element.</canvas>
           <figcaption>Average response time by model</figcaption>
         </figure>
+      </div>
+      <div class="chart-container" id="topAccountsContainer" data-animation="fade-up" data-animation-delay="400">
+        <h3 style="text-align:center;margin-bottom:10px;">Top Active Accounts</h3>
+        <ul id="topAccountsList" style="list-style:none;padding:0;margin:0;text-align:center;"></ul>
       </div>
     </section>
   </div>
@@ -110,8 +110,7 @@ ScalerMax Admin Dashboard</title>
         {id:'requestsPerMinute',suffix:'',isAccum:false,min:20,max:200},
         {id:'avgResponseTime',suffix:'ms',isAccum:false,min:100,max:600},
         {id:'routingAccuracy',suffix:'%',isAccum:false,min:80,max:100},
-        {id:'cpuUsage',suffix:'%',isAccum:false,min:10,max:90},
-        {id:'memoryUsage',suffix:'%',isAccum:false,min:20,max:95}
+        {id:'cpuUsage',suffix:'%',isAccum:false,min:10,max:90}
       ];
       let metricsState = {}, metricEls = {}, lastUpdatedEl;
       function initMetrics(){
@@ -149,6 +148,20 @@ ScalerMax Admin Dashboard</title>
         lastUpdatedEl = document.getElementById('lastUpdated');
         initMetrics();
         lastUpdatedEl.innerText = new Date().toLocaleTimeString();
+        const sampleNames = ['Alice','Bob','Carol','Dave','Eve','Frank'];
+        function updateTopAccountsList(){
+          const list = document.getElementById('topAccountsList');
+          if(!list) return;
+          list.innerHTML = '';
+          for(let i=0;i<3;i++){
+            const name = sampleNames[Math.floor(Math.random()*sampleNames.length)];
+            const usage = adminRandomInt(50,200);
+            const li = document.createElement('li');
+            li.textContent = name + ' - ' + usage + ' reqs';
+            list.appendChild(li);
+          }
+        }
+        updateTopAccountsList();
         const models = ['GPT-4','GPT-3.5','Claude','Bard'];
         const rpmLabels = Array.from({length:10},(_,i)=>new Date(Date.now()-(9-i)*5000).toLocaleTimeString());
         const rpmData = rpmLabels.map(()=>adminRandomInt(30,150));
@@ -188,6 +201,7 @@ ScalerMax Admin Dashboard</title>
           if(rpmChart){ rpmChart.data.labels = rpmLabels; rpmChart.data.datasets[0].data = rpmData; rpmChart.update(); }
           if(distChart){ distChart.data.datasets[0].data = randomDistribution(models.length); distChart.update(); }
           if(barChart){ barChart.data.datasets[0].data = models.map(()=>adminRandomInt(100,600)); barChart.update(); }
+          updateTopAccountsList();
         },5000);
       });
     })();
