@@ -28,32 +28,46 @@
     .message-user { background:#4b0082; color:#fff; text-align:right; }
     .message-ai { background:#333; color:#fff; }
     .message-system { background:#222; color:#e0e0e0; font-style:italic; }
-    .api-btn {
-      background: linear-gradient(to right, #39e09b, #9c6dfd);
-      color: #fff;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      font-size: 1.25rem;
-      border-radius: 0.5rem;
-      font-weight: 500;
-      cursor: pointer;
-    }
     .send-btn {
       background: linear-gradient(45deg, #9b5cf5, #22c55e);
       color: #fff;
       border: none;
     }
     .send-btn:hover { opacity: 0.9; }
-    .api-btn:hover { opacity: 0.9; }
-    .connect-box {
-      text-align: center;
-      padding: 2rem 0;
-      background-color: #141324;
-      border-radius: 0.75rem;
-      box-shadow: 0 0 12px #4c2f9b;
+    .glow-button {
+      padding: 0.75rem 1.4rem;
+      background: linear-gradient(135deg, #39e09b, #9b6dfc);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .connect-buttons { display: flex; justify-content: center; gap: 1rem; }
-    .demo-note { color: #aaa; margin-top: 1rem; }
+    .glow-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(147, 97, 255, 0.5);
+    }
+
+    .glow-input {
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: #1c1b2e;
+      color: #e0e0ff;
+      font-size: 0.95rem;
+      min-width: 200px;
+      box-shadow: inset 0 0 6px rgba(100, 70, 200, 0.2);
+    }
+
+    .demo-text {
+      display: none;
+      color: #ffb86c;
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
   </style>
 </head>
 <body>
@@ -66,23 +80,23 @@
     <a href="#">Settings</a>
   </aside>
     <main role="main" class="container-fluid">
-      <div class="connect-box card mb-4">
-        <h2 class="mb-2">Connect Your AI Provider</h2>
-        <p class="text-muted mb-3">Connect your accounts to get started.</p>
-        <div class="connect-buttons">
-          <button class="btn api-btn" onclick="showDemoText('openrouter-demo')">OpenRouter</button>
-          <button class="btn api-btn" onclick="showDemoText('straico-demo')">Straico</button>
-        </div>
-        <div id="openrouter-demo" class="demo-note" style="display:none;">🔒 Demo Only</div>
-        <div id="straico-demo" class="demo-note" style="display:none;">🔒 Demo Only</div>
-        <div class="mt-3">
-          <div class="input-group">
-            <input id="keyNameInput" type="text" class="form-control" placeholder="Name of Key">
-            <button id="getKeyBtn" class="btn api-btn">Get Key</button>
-          </div>
-          <div id="apikeyMessage" style="color:#fff; display:none;"></div>
-        </div>
-      </div>
+<div class="connect-provider-section" style="background: #131124; border-radius: 16px; padding: 2.5rem 1.5rem; text-align: center; box-shadow: 0 0 15px rgba(140, 100, 255, 0.35); max-width: 600px; margin: 2rem auto;">
+  <h2 style="color: #f2f2ff; font-size: 1.6rem; font-weight: 600; margin-bottom: 0.5rem;">Connect Your AI Provider</h2>
+  <p style="color: #aaa; font-size: 0.95rem; margin-bottom: 1.5rem;">Connect your accounts to get started.</p>
+
+  <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+    <button onclick="showDemoText('demo-openrouter')" class="glow-button">OpenRouter</button>
+    <button onclick="showDemoText('demo-straico')" class="glow-button">Straico</button>
+  </div>
+
+  <div id="demo-openrouter" class="demo-text">🔒 Demo Only</div>
+  <div id="demo-straico" class="demo-text">🔒 Demo Only</div>
+
+  <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+    <input type="text" placeholder="Name of Key" class="glow-input" />
+    <button class="glow-button">Get Key</button>
+  </div>
+</div>
     <div class="row">
       <div class="col-lg-4 order-lg-1 mb-4">
         <h2>Chat Demo</h2>
@@ -287,19 +301,12 @@
         tbody.appendChild(tr);
       });
       document.getElementById('refreshBtn').addEventListener('click', () => location.reload());
-      const msgEl = document.getElementById('apikeyMessage');
-      function showDemoMessage() {
-        msgEl.textContent = 'Demo Only';
-        msgEl.style.display = 'block';
-      }
-      function showDemoText(id) {
-        const el = document.getElementById(id);
-        if (el) {
-          el.style.display = 'block';
-        }
-      }
-      document.getElementById('getKeyBtn').addEventListener('click', showDemoMessage);
     });
+  </script>
+  <script>
+    function showDemoText(id) {
+      document.getElementById(id).style.display = "block";
+    }
   </script>
   <script src="dashboard.js" nonce="a1b2c3"></script>
   <script src="chat.js" nonce="a1b2c3"></script>
