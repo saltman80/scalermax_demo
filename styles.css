@@ -558,6 +558,15 @@ button:focus,
   text-align: center;
 }
 
+/* Banners within marketing sections */
+.banner-img {
+  width: 100%;
+  max-height: 20rem;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+}
+
 .callout {
   background: linear-gradient(135deg, #371c59, #1b1431);
   padding: 3rem 1rem;
@@ -609,7 +618,7 @@ button:focus,
 }
 
 .feature-item img {
-  width: 5rem;
+  width: 6rem;
   margin: 0 auto 1rem auto;
   filter: drop-shadow(0 0 8px rgba(155, 92, 245, 0.8));
 }
@@ -648,7 +657,7 @@ button:focus,
 }
 
 .icon-grid img {
-  width: 4rem;
+  width: 5rem;
   filter: drop-shadow(0 0 6px rgba(155, 92, 245, 0.6));
   border-radius: 0.5rem;
 }
