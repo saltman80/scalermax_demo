@@ -4,7 +4,7 @@ var defaultOptions = {
     color: '#ffff00',
     blur: 20,
     spread: 0,
-    duration: 1000,
+    duration: 2000,
     pulse: true,
     iterations: Infinity,
     easing: 'ease-in-out'

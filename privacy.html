@@ -21,7 +21,7 @@ Privacy Policy - ScalerMax Demo</title>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="login.html">Login</a></li>
-          <li><a href="dashboard.html">Dashboard</a></li>
+          <li data-dashboard-link style="display:none;"><a href="dashboard.html">Dashboard</a></li>
           <li><a href="privacy.html" aria-current="page">Privacy</a></li>
         </ul>
       </nav>
@@ -91,7 +91,7 @@ Privacy Policy - ScalerMax Demo</title>
     });
     const brand = document.querySelector('.logo');
     if (window.Glow && brand) {
-      Glow.applyGlow(brand, { color: '#9b5cf5', blur: 8, pulse: true });
+      Glow.applyGlow(brand, { color: '#9b5cf5', blur: 8, pulse: false });
     }
   </script>
 </body>
