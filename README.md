@@ -46,14 +46,9 @@ ScalerMax is a demo-ready AI Intent Server deployed on Netlify. It classifies us
 
 - **Static Files** at project root:
   - `admin.html`, `dashboard.html`, `styles.css`, `dashboard.js`, `glow.js`, `utils.js`, `chartIntegration.js`, `sidebar.js`
-- **Serverless Functions** under `netlify/functions/`:
-  - `scalermax-api.js` (entrypoint)
-  - `modelClassifier.js`
-  - `modelSelector.js`
-  - `openrouterClient.js`
-  - `config.js`
-  - `logger.js`
-  - `errorHandler.js`
+- **Serverless Functions**:
+  - `netlify/functions/scalermax-api.js` (wrapper entrypoint)
+  - Supporting modules (`scalermax-api.js`, `modelClassifier.js`, `modelSelector.js`, `openrouterClient.js`, `config.js`, `logger.js`, `errorHandler.js`)
 
 ---
 
