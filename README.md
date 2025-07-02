@@ -28,15 +28,15 @@
 
 ## Description
 
-ScalerMax is a demo-ready AI Intent Server deployed on Netlify. It classifies user prompts with a lightweight model (gpt-4o-mini), routes them dynamically via OpenRouter to the optimal LLM (gpt-4o-mini-high), and presents a static, animated admin dashboard with fake usage metrics.
+ScalerMax is a demo-ready AI Intent Server deployed on Netlify. It classifies user prompts with a lightweight model (`openai/4o-mini`), routes them dynamically via OpenRouter to the optimal LLM (`openai/o4-mini-high`), and presents a static, animated admin dashboard with fake usage metrics.
 
 ---
 
 ## Overview
 
 - **API**: Serverless endpoint at `/.netlify/functions/scalermax-api`  
-- **Intent Classification**: Uses `openai/gpt-4o-mini`  
-- **Execution Model**: `openai/gpt-4o-mini-high`  
+- **Intent Classification**: Uses `openai/4o-mini`
+- **Execution Model**: `openai/o4-mini-high`
 - **Hosting**: Netlify Functions (Node.js), static admin UI  
 - **Admin UI**: Dark-themed HTML/CSS/JS with glowing cards, animated charts, and fake metrics  
 
@@ -63,8 +63,8 @@ ScalerMax is a demo-ready AI Intent Server deployed on Netlify. It classifies us
 
 1. Client POSTs `{ "prompt": "..." }` to `/.netlify/functions/scalermax-api`  
 2. `scalermax-api.js` loads config & logs request  
-3. `modelClassifier.js` calls OpenRouter (`gpt-4o-mini`) to classify intent (`planning` vs `coding`)  
-4. `modelSelector.js` picks `gpt-4o-mini` (planning) or `gpt-4o-mini-high` (coding)  
+3. `scalermax-api.js` classifies the prompt as `planning` or `coding`
+4. The API selects `openai/4o-mini` for planning or `openai/o4-mini-high` for coding
 5. `openrouterClient.js` sends the prompt to OpenRouter, receives LLM response  
 6. Response is logged and returned as `{ "output": "..." }`  
 
@@ -136,8 +136,8 @@ Response:
   Netlify configuration (functions directory).  
 - **netlify/functions/scalermax-api.js**  
   Entrypoint: handles requests, classification, routing, response.  
-- **netlify/functions/modelClassifier.js**  
-  Uses `gpt-4o-mini` to classify prompt intent.  
+- **netlify/functions/modelClassifier.js**
+  Uses `openai/4o-mini` to classify prompt intent.
 - **netlify/functions/modelSelector.js**  
   Chooses execution model based on intent.  
 - **netlify/functions/openrouterClient.js**  
@@ -180,8 +180,8 @@ Response:
 ## Features
 
 ? Serverless AI intent routing on Netlify Functions  
-? Lightweight classification with gpt-4o-mini  
-? Dynamic routing to gpt-4o-mini-high for ?coding? prompts  
+? Lightweight classification with openai/4o-mini
+? Dynamic routing to openai/o4-mini-high for ?coding? prompts
 ? Static admin UI with glowing, animated metrics  
 ? Zero build step?deploy static files & functions directly  
 
