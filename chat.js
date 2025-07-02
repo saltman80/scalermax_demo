@@ -101,17 +101,8 @@
             signal
         });
         if (!res.ok) {
-            let errorMessage = `Error ${res.status}: ${res.statusText}`;
-            try {
-                const errorData = await res.json();
-                if (errorData?.error) {
-                    errorMessage = `❌ ${errorData.error}`;
-                }
-            } catch {
-                const raw = await res.text();
-                if (raw) errorMessage = `❌ ${raw}`;
-            }
-            throw new Error(errorMessage);
+            const text = await res.text();
+            throw new Error(`AI Server error ${res.status}: ${text}`);
         }
         if (!res.body) throw new Error('ReadableStream not supported in this browser.');
         const reader = res.body.getReader();
