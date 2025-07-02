@@ -1,0 +1,184 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScalerMax Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap" rel="stylesheet">
+  <style>
+    * {box-sizing:border-box;margin:0;padding:0;}
+    body {background:#f4f6f8;color:#333;font-family:'Inter',sans-serif;line-height:1.6;}
+    .container {max-width:1200px;margin:0 auto;padding:20px;}
+    header {display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+    header h1 {font-size:1.8rem;color:#444;}
+    .stats-cards {display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:40px;}
+    .card {background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.1);opacity:0;transform:translateY(20px);animation:fadeInUp 0.6s forwards;transition:transform .3s;}
+    .card:hover {transform:scale(1.05);}
+    .card h3 {font-size:1rem;color:#666;margin-bottom:10px;}
+    .card p.value {font-size:1.6rem;color:#222;font-weight:600;}
+    .card:nth-child(1){animation-delay:0.1s;}
+    .card:nth-child(2){animation-delay:0.2s;}
+    .card:nth-child(3){animation-delay:0.3s;}
+    .card:nth-child(4){animation-delay:0.4s;}
+    .card:nth-child(5){animation-delay:0.5s;}
+    .card:nth-child(6){animation-delay:0.6s;}
+    @keyframes fadeInUp {to {opacity:1;transform:translateY(0);}}
+    .charts {display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px;}
+    .chart-container {background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.1);height:300px;position:relative;}
+    .chart-container canvas {width:100%;height:100%;}
+    figure {margin:0;height:100%;}
+    figure figcaption {text-align:center;font-size:0.9rem;color:#666;margin-top:8px;}
+    @media(max-width:768px){.charts {grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>ScalerMax Dashboard</h1>
+      <div class="last-updated">Last updated: <span id="lastUpdated"></span></div>
+    </header>
+    <section class="stats-cards">
+      <div class="card">
+        <h3>Total Intents Classified</h3>
+        <p id="totalIntents" class="value">0</p>
+      </div>
+      <div class="card">
+        <h3>Requests/min</h3>
+        <p id="requestsPerMinute" class="value">0</p>
+      </div>
+      <div class="card">
+        <h3>Avg Response Time</h3>
+        <p id="avgResponseTime" class="value">0ms</p>
+      </div>
+      <div class="card">
+        <h3>Routing Accuracy</h3>
+        <p id="routingAccuracy" class="value">0%</p>
+      </div>
+      <div class="card">
+        <h3>CPU Usage</h3>
+        <p id="cpuUsage" class="value">0%</p>
+      </div>
+      <div class="card">
+        <h3>Memory Usage</h3>
+        <p id="memoryUsage" class="value">0%</p>
+      </div>
+    </section>
+    <section class="charts">
+      <div class="chart-container">
+        <figure aria-label="Requests per minute over time">
+          <canvas id="rpmChart">Your browser does not support the canvas element.</canvas>
+          <figcaption>Requests per minute over time</figcaption>
+        </figure>
+      </div>
+      <div class="chart-container">
+        <figure aria-label="Model usage distribution">
+          <canvas id="distributionChart">Your browser does not support the canvas element.</canvas>
+          <figcaption>Model usage distribution</figcaption>
+        </figure>
+      </div>
+      <div class="chart-container">
+        <figure aria-label="Average response time by model">
+          <canvas id="responseTimeChart">Your browser does not support the canvas element.</canvas>
+          <figcaption>Average response time by model</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <script>
+    (function(){
+      function adminRandomInt(min,max){
+        return Math.floor(Math.random()*(max-min+1))+min;
+      }
+      function adminAnimateValue(el,start,end,suffix,duration){
+        let range = end - start, startTime = null;
+        function step(timestamp){
+          if(!startTime) startTime = timestamp;
+          let progress = timestamp - startTime;
+          let val = start + range*(progress/duration);
+          val = range>0 ? Math.min(val,end) : Math.max(val,end);
+          el.innerText = Math.floor(val) + suffix;
+          if(progress < duration) window.requestAnimationFrame(step);
+          else el.innerText = end + suffix;
+        }
+        window.requestAnimationFrame(step);
+      }
+      const metricsConfig = [
+        {id:'totalIntents',suffix:'',isAccum:true,min:100,max:500},
+        {id:'requestsPerMinute',suffix:'',isAccum:false,min:20,max:200},
+        {id:'avgResponseTime',suffix:'ms',isAccum:false,min:100,max:600},
+        {id:'routingAccuracy',suffix:'%',isAccum:false,min:80,max:100},
+        {id:'cpuUsage',suffix:'%',isAccum:false,min:10,max:90},
+        {id:'memoryUsage',suffix:'%',isAccum:false,min:20,max:95}
+      ];
+      let metricsState = {}, metricEls = {}, lastUpdatedEl;
+      function initMetrics(){
+        metricsConfig.forEach(cfg=>{
+          let el = metricEls[cfg.id];
+          let value = cfg.isAccum
+            ? adminRandomInt(5000,10000)
+            : adminRandomInt(cfg.min,cfg.max);
+          metricsState[cfg.id] = value;
+          adminAnimateValue(el,0,value,cfg.suffix,2000);
+        });
+      }
+      function updateAdminMetrics(){
+        metricsConfig.forEach(cfg=>{
+          let el = metricEls[cfg.id];
+          let current = metricsState[cfg.id];
+          let newValue = cfg.isAccum
+            ? current + adminRandomInt(cfg.min,cfg.max)
+            : adminRandomInt(cfg.min,cfg.max);
+          adminAnimateValue(el,current,newValue,cfg.suffix,1000);
+          metricsState[cfg.id] = newValue;
+        });
+        lastUpdatedEl.innerText = new Date().toLocaleTimeString();
+      }
+      function randomDistribution(count){
+        let arr = [], sum = 0;
+        for(let i=0;i<count;i++){ let r = Math.random(); arr.push(r); sum += r; }
+        let dist = arr.map(v=>v/sum*100), rounded = dist.map(v=>Math.floor(v));
+        let diff = 100 - rounded.reduce((a,b)=>a+b,0);
+        for(let i=0;i<diff;i++){ rounded[i%count]++; }
+        return rounded;
+      }
+      document.addEventListener('DOMContentLoaded',function(){
+        metricsConfig.forEach(cfg=>{ metricEls[cfg.id] = document.getElementById(cfg.id); });
+        lastUpdatedEl = document.getElementById('lastUpdated');
+        initMetrics();
+        lastUpdatedEl.innerText = new Date().toLocaleTimeString();
+        const models = ['GPT-4','GPT-3.5','Claude','Bard'];
+        const rpmLabels = Array.from({length:10},(_,i)=>new Date(Date.now()-(9-i)*5000).toLocaleTimeString());
+        const rpmData = rpmLabels.map(()=>adminRandomInt(30,150));
+        const rpmCtx = document.getElementById('rpmChart').getContext('2d');
+        const rpmChart = new Chart(rpmCtx,{
+          type:'line',
+          data:{labels:rpmLabels,datasets:[{label:'Req/min',data:rpmData,borderColor:'#4CAF50',backgroundColor:'rgba(76,175,80,0.2)',fill:true,tension:0.4}]},
+          options:{responsive:true,maintainAspectRatio:false,animation:{duration:1000},scales:{x:{display:true},y:{beginAtZero:true}}}
+        });
+        const distCtx = document.getElementById('distributionChart').getContext('2d');
+        const distChart = new Chart(distCtx,{
+          type:'pie',
+          data:{labels:models,datasets:[{data:randomDistribution(models.length),backgroundColor:['#2196F3','#FF9800','#9C27B0','#F44336']}]},
+          options:{responsive:true,maintainAspectRatio:false,animation:{duration:1000}}
+        });
+        const barCtx = document.getElementById('responseTimeChart').getContext('2d');
+        const barChart = new Chart(barCtx,{
+          type:'bar',
+          data:{labels:models,datasets:[{label:'Avg Response (ms)',data:models.map(()=>adminRandomInt(100,600)),backgroundColor:['#3F51B5','#03A9F4','#8BC34A','#FFC107']}]},
+          options:{responsive:true,maintainAspectRatio:false,animation:{duration:1000},scales:{y:{beginAtZero:true}}}
+        });
+        setInterval(function(){
+          updateAdminMetrics();
+          const newTime = new Date().toLocaleTimeString();
+          rpmLabels.push(newTime); rpmLabels.shift();
+          rpmData.push(adminRandomInt(30,150)); rpmData.shift();
+          rpmChart.data.labels = rpmLabels; rpmChart.data.datasets[0].data = rpmData; rpmChart.update();
+          distChart.data.datasets[0].data = randomDistribution(models.length); distChart.update();
+          barChart.data.datasets[0].data = models.map(()=>adminRandomInt(100,600)); barChart.update();
+        },5000);
+      });
+    })();
+  </script>
+</body>
+</html>
