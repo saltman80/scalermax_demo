@@ -68,6 +68,79 @@
       font-size: 0.9rem;
       margin-top: 0.25rem;
     }
+
+    .highlight-box {
+      background: #141324;
+      box-shadow: 0 0 20px rgba(155, 92, 245, 0.4);
+      border-radius: 1rem;
+      padding: 3rem 1.5rem;
+      margin: 2rem auto;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .highlight-inner h2 {
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #ccc;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .demo-note {
+      font-size: 0.9rem;
+      color: #fbbf24;
+      margin: 0.25rem 0;
+    }
+
+    .key-input-wrap {
+      margin-top: 2rem;
+    }
+
+    .key-input-wrap h3 {
+      font-size: 1.2rem;
+      color: #f3e8ff;
+      margin-bottom: 1rem;
+    }
+
+    .key-form {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .key-input {
+      padding: 0.75rem 1rem;
+      background: #1e1b33;
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      min-width: 200px;
+      box-shadow: inset 0 0 5px rgba(100, 70, 200, 0.2);
+    }
+
+    #chat-input {
+      flex: 1;
+      font-size: 1.05rem;
+    }
+
+    #chat-form .glow-button {
+      padding: 0.75rem 1.4rem;
+    }
   </style>
 </head>
 <body>
@@ -80,31 +153,37 @@
     <a href="#">Settings</a>
   </aside>
     <main role="main" class="container-fluid">
-<div class="connect-provider-section" style="background: #131124; border-radius: 16px; padding: 2.5rem 1.5rem; text-align: center; box-shadow: 0 0 15px rgba(140, 100, 255, 0.35); max-width: 600px; margin: 2rem auto;">
-  <h2 style="color: #f2f2ff; font-size: 1.6rem; font-weight: 600; margin-bottom: 0.5rem;">Connect Your AI Provider</h2>
-  <p style="color: #aaa; font-size: 0.95rem; margin-bottom: 1.5rem;">Connect your accounts to get started.</p>
+  <section class="highlight-box">
+    <div class="highlight-inner">
+      <h2>Connect Your AI Provider</h2>
+      <p class="subtitle">Connect your accounts to get started.</p>
 
-  <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
-    <button onclick="showDemoText('demo-openrouter')" class="glow-button">OpenRouter</button>
-    <button onclick="showDemoText('demo-straico')" class="glow-button">Straico</button>
-  </div>
+      <div class="button-row">
+        <button onclick="showDemoText('demo-openrouter')" class="glow-button">OpenRouter</button>
+        <button onclick="showDemoText('demo-straico')" class="glow-button">Straico</button>
+      </div>
 
-  <div id="demo-openrouter" class="demo-text">🔒 Demo Only</div>
-  <div id="demo-straico" class="demo-text">🔒 Demo Only</div>
+      <div id="demo-openrouter" class="demo-note" style="display:none;">🔒 Demo Only</div>
+      <div id="demo-straico" class="demo-note" style="display:none;">🔒 Demo Only</div>
 
-  <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
-    <input type="text" placeholder="Name of Key" class="glow-input" />
-    <button class="glow-button">Get Key</button>
-  </div>
-</div>
+      <div class="key-input-wrap">
+        <h3>ScalerMax Key - <span style="color:#9b5cf5;">Build Smart Tools Faster!</span></h3>
+        <div class="key-form">
+          <input type="text" placeholder="Name of Key" class="key-input" />
+          <button onclick="showDemoMessage()" class="glow-button">Get Key</button>
+        </div>
+        <p id="keyStatus" class="demo-note" style="display:none;">🔒 Demo Only</p>
+      </div>
+    </div>
+  </section>
     <div class="row">
       <div class="col-lg-4 order-lg-1 mb-4">
         <h2>Chat Demo</h2>
         <div class="card chat-card text-light">
           <div id="chat-container" class="mb-2" aria-live="polite" role="log"></div>
-          <form id="chat-form" class="d-flex">
-            <input id="chat-input" type="text" class="form-control form-control-lg me-2" placeholder="Type a message..." aria-label="chat input" disabled>
-            <button id="send-button" class="btn send-btn btn-lg" type="submit" disabled>Send</button>
+          <form id="chat-form" class="d-flex gap-2">
+            <input id="chat-input" type="text" class="glow-input flex-grow-1" placeholder="Type a message..." aria-label="chat input" disabled>
+            <button id="send-button" class="glow-button" type="submit" disabled>Send</button>
           </form>
         </div>
       </div>
@@ -306,6 +385,10 @@
   <script>
     function showDemoText(id) {
       document.getElementById(id).style.display = "block";
+    }
+
+    function showDemoMessage() {
+      document.getElementById("keyStatus").style.display = "block";
     }
   </script>
   <script src="dashboard.js" nonce="a1b2c3"></script>
