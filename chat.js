@@ -1,8 +1,11 @@
 (function() {
-    const API_URL = '/api/chat';
+    const API_URL = '/api/scalermax-api';
     const REQUEST_TIMEOUT = 120000; // 2 minutes
 
+    const MESSAGE_COOLDOWN_MS = 60000; // 1 minute
+
     let chatContainer, chatForm, chatInput, sendButton;
+    let lastSentTime = 0;
     let scrollScheduled = false;
 
     document.addEventListener('DOMContentLoaded', initChat);
@@ -24,6 +27,11 @@
             e.preventDefault();
             const prompt = chatInput.value.trim();
             if (!prompt) return;
+            const now = Date.now();
+            if (now - lastSentTime < MESSAGE_COOLDOWN_MS) {
+                renderMessage('Please wait 1 minute before sending another message.', 'system');
+                return;
+            }
             sendPrompt(prompt);
         });
         chatInput.focus();
@@ -43,7 +51,10 @@
 
     function renderMessage(message, sender) {
         const el = document.createElement('div');
-        el.classList.add('message', sender === 'user' ? 'message-user' : 'message-ai');
+        let cls = 'message-ai';
+        if (sender === 'user') cls = 'message-user';
+        else if (sender === 'system') cls = 'message-system';
+        el.classList.add('message', cls);
         el.textContent = message;
         chatContainer.appendChild(el);
         scrollToBottom();
@@ -55,6 +66,11 @@
         chatInput.value = '';
         sendButton.disabled = true;
         chatInput.disabled = true;
+        lastSentTime = Date.now();
+        setTimeout(() => {
+            sendButton.disabled = false;
+            chatInput.disabled = false;
+        }, MESSAGE_COOLDOWN_MS);
         const aiEl = renderMessage('', 'ai');
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
@@ -72,8 +88,6 @@
             scrollToBottom();
         } finally {
             clearTimeout(timeoutId);
-            sendButton.disabled = false;
-            chatInput.disabled = false;
             chatInput.focus();
         }
     }
