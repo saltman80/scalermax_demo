@@ -12,7 +12,7 @@ const MAX_PROMPT_LENGTH = parseInt(process.env.MAX_PROMPT_LENGTH) || 2000;
 const MAX_TOKENS = parseInt(process.env.MAX_TOKENS) || 512;
 const RATE_LIMIT_WINDOW_MS = parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 60000;
 const MAX_REQUESTS_PER_WINDOW = parseInt(process.env.MAX_REQUESTS_PER_WINDOW) || 60;
-const AUTH_API_KEY = process.env.API_KEY;
+const AUTH_API_KEY = process.env.OPENROUTER_API_KEY;
 const OPENROUTER_API_URL = process.env.OPENROUTER_API_URL || 'https://openrouter.ai/api/v1/chat/completions';
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
@@ -65,8 +65,8 @@ exports.handler = async function(event, context) {
     return errorResponse(405, 'Method Not Allowed');
   }
   if (!AUTH_API_KEY) {
-    logError('Missing server API_KEY');
-    return errorResponse(500, 'Server misconfiguration');
+    logError('Missing OPENROUTER_API_KEY (used as unified backend key)');
+    return errorResponse(500, 'Server misconfiguration: Missing API key');
   }
   const clientApiKey = headers['x-api-key'];
   if (!clientApiKey || clientApiKey !== AUTH_API_KEY) {

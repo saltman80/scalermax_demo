@@ -1,5 +1,6 @@
 (function() {
     const API_URL = '/api/scalermax-api';
+    const API_KEY = 'sk-or-REPLACE_WITH_YOUR_KEY';
     const REQUEST_TIMEOUT = 120000; // 2 minutes
 
     const MESSAGE_COOLDOWN_MS = 60000; // 1 minute
@@ -96,7 +97,10 @@
     async function streamResponse(prompt, onData, signal) {
         const res = await fetch(API_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-api-key': API_KEY
+            },
             body: JSON.stringify({ prompt }),
             signal
         });
