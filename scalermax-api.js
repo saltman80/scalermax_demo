@@ -1,4 +1,5 @@
 const { logRequest, logResponse, logError } = require('./logger');
+const { sendRequest } = require('./openrouterclient');
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -12,7 +13,7 @@ const MAX_TOKENS = parseInt(process.env.MAX_TOKENS) || 512;
 const RATE_LIMIT_WINDOW_MS = parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 60000;
 const MAX_REQUESTS_PER_WINDOW = parseInt(process.env.MAX_REQUESTS_PER_WINDOW) || 60;
 const AUTH_API_KEY = process.env.API_KEY;
-const OPENROUTER_API_URL = process.env.OPENROUTER_API_URL || 'https://openrouter.ai/v1/chat/completions';
+const OPENROUTER_API_URL = process.env.OPENROUTER_API_URL || 'https://openrouter.ai/api/v1/chat/completions';
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 const rateLimitMap = new Map();
@@ -27,22 +28,29 @@ function errorResponse(statusCode, message) {
 
 function classifyPrompt(prompt) {
   const text = prompt.toLowerCase();
-  const patterns = [
-    { intent: 'coding', keywords: ['code', 'bug', 'error', 'function', 'variable', 'javascript', 'python', 'java', 'typescript'] },
-    { intent: 'writing', keywords: ['write', 'email', 'letter', 'blog', 'article', 'story', 'essay'] },
-    { intent: 'summarization', keywords: ['summarize', 'summary', 'tl;dr', 'overview'] }
+  const codingKeywords = [
+    'code',
+    'bug',
+    'error',
+    'function',
+    'variable',
+    'javascript',
+    'python',
+    'java',
+    'typescript',
+    'c++',
+    'ruby',
+    'php'
   ];
-  for (const { intent, keywords } of patterns) {
-    if (keywords.some(k => text.includes(k))) return intent;
+  if (codingKeywords.some(k => text.includes(k))) {
+    return 'coding';
   }
-  return 'general';
+  return 'planning';
 }
 
 const ROUTER_CONFIG = {
-  coding: { model: process.env.CODING_MODEL || 'gpt-4o-mini' },
-  writing: { model: process.env.WRITING_MODEL || 'gpt-3.5-turbo' },
-  summarization: { model: process.env.SUMMARIZATION_MODEL || 'gpt-3.5-turbo' },
-  general: { model: process.env.GENERAL_MODEL || 'gpt-3.5-turbo' }
+  coding: { model: process.env.CODING_MODEL || 'openai/o4-mini-high' },
+  planning: { model: process.env.PLANNING_MODEL || 'openai/4o-mini' }
 };
 
 exports.handler = async function(event, context) {
@@ -106,7 +114,7 @@ exports.handler = async function(event, context) {
     return errorResponse(500, 'Server misconfiguration');
   }
   const intent = classifyPrompt(prompt);
-  const route = ROUTER_CONFIG[intent] || ROUTER_CONFIG.general;
+  const route = ROUTER_CONFIG[intent] || ROUTER_CONFIG.planning;
   const messages = [
     { role: 'system', content: `You are a helpful assistant specialized in ${intent} tasks.` },
     { role: 'user', content: prompt }
@@ -121,24 +129,13 @@ exports.handler = async function(event, context) {
   };
   let aiResponse = '';
   try {
-    const res = await fetch(OPENROUTER_API_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
+    aiResponse = await sendRequest(payload.model, prompt, {
+      apiKey: OPENROUTER_API_KEY,
+      url: OPENROUTER_API_URL
     });
-    const json = await res.json();
-    if (!res.ok) {
-      logError({ status: res.status, body: json });
-      const errorMsg = json.error || 'AI service error';
-      return errorResponse(res.status || 500, errorMsg);
-    }
-    aiResponse = json.choices?.[0]?.message?.content || '';
   } catch (err) {
     logError(err);
-    return errorResponse(502, 'AI service communication error');
+    return errorResponse(502, err.message);
   }
   const responseBody = { intent, model: route.model, response: aiResponse };
   logResponse(responseBody);
