@@ -65,6 +65,73 @@ header {
   font-weight: 600;
   color: var(--color-primary);
 }
+
+/* Navigation menu */
+.nav-toggle {
+  display: none;
+  width: 2rem;
+  height: 2rem;
+  position: relative;
+  transition: transform var(--transition-fast);
+}
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-text);
+  transition: transform var(--transition-fast);
+}
+.hamburger {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.hamburger::before { top: -6px; }
+.hamburger::after { top: 6px; }
+.nav-toggle.is-open .hamburger { background: transparent; }
+.nav-toggle.is-open .hamburger::before { transform: translateY(6px) rotate(45deg); }
+.nav-toggle.is-open .hamburger::after { transform: translateY(-6px) rotate(-45deg); }
+
+.site-nav ul {
+  display: flex;
+  gap: 1rem;
+}
+.site-nav a {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  color: var(--color-text-light);
+  transition: background var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+}
+.site-nav a:hover {
+  color: #fff;
+  background: rgba(155, 92, 245, 0.2);
+}
+.site-nav a.active {
+  color: #fff;
+  box-shadow: 0 0 6px rgba(155, 92, 245, 0.8);
+}
+
+@media (max-width: 768px) {
+  .nav-toggle { display: block; }
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-header-bg);
+    transform: translateY(-200%);
+    opacity: 0;
+    transition: transform var(--transition-medium), opacity var(--transition-medium);
+  }
+  .site-nav.is-open {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .site-nav ul { flex-direction: column; padding: 1rem; }
+}
 .sidebar {
   position: fixed;
   top: 4rem;
@@ -75,16 +142,20 @@ header {
   color: var(--color-sidebar-text);
   padding: 1rem 0;
   overflow-y: auto;
+  transition: transform var(--transition-medium);
 }
 .sidebar nav a {
   display: block;
   padding: 0.75rem 1.5rem;
   font-size: 0.875rem;
-  transition: background var(--transition-fast);
+  color: var(--color-sidebar-text);
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
 }
 .sidebar nav a:hover,
 .sidebar nav a.active {
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(155,92,245,0.2);
+  box-shadow: 0 0 6px rgba(155,92,245,0.6);
+  color: #fff;
 }
 .main {
   margin-top: 4rem;
