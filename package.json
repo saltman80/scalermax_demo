@@ -2,7 +2,6 @@
   "name": "scalermax-fe",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "description": "Static multi-page demo frontend for ScalerMax AI Intent Server",
   "license": "MIT",
   "scripts": {
