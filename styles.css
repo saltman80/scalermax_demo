@@ -1,15 +1,15 @@
 :root {
-  --color-bg: #f4f6f8;
-  --color-sidebar-bg: #1f2937;
-  --color-sidebar-text: #e5e7eb;
-  --color-header-bg: #ffffff;
-  --color-card-bg: #ffffff;
-  --color-primary: #3b82f6;
-  --color-secondary: #10b981;
+  --color-bg: #0d0b1f;
+  --color-sidebar-bg: #1b1431;
+  --color-sidebar-text: #d1c4e9;
+  --color-header-bg: #1b1431;
+  --color-card-bg: #1d1533;
+  --color-primary: #9b5cf5;
+  --color-secondary: #c084fc;
   --color-accent: #f59e0b;
-  --color-text: #334155;
-  --color-text-light: #6b7280;
-  --color-border: #e5e7eb;
+  --color-text: #e0e0e0;
+  --color-text-light: #b0b0b0;
+  --color-border: #36304b;
   --font-sans: 'Inter', sans-serif;
   --transition-fast: 0.2s ease-in-out;
   --transition-medium: 0.4s ease-in-out;
@@ -278,4 +278,78 @@ button:focus,
 }
 @keyframes spinLoader {
   to { transform: rotate(360deg); }
+}
+
+/* Login form styling */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.login-form {
+  background-color: var(--color-card-bg);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 20px rgba(155, 92, 245, 0.6);
+  width: 100%;
+  max-width: 22rem;
+}
+
+.login-form h1 {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--color-primary);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--color-text-light);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  background-color: #22183c;
+  color: var(--color-text);
+}
+
+.error-message {
+  color: #f87171;
+  font-size: 0.875rem;
+  min-height: 1rem;
+  display: block;
+}
+
+.helper-text {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  text-align: center;
+  color: var(--color-text-light);
+}
+
+.btn {
+  display: inline-block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  transition: box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+.btn:hover {
+  background-color: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
 }
