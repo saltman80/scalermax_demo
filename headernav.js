@@ -49,6 +49,7 @@ let menuToggle, navMenu;
   }
 
   function initHeaderNav() {
+    console.log('[headernav] loaded');
     menuToggle = document.querySelector('[data-nav-toggle]');
     navMenu = document.querySelector('[data-nav-menu]');
     if (!menuToggle || !navMenu) return;
