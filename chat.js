@@ -3,7 +3,7 @@
     // The API key is injected at runtime via a global variable when deployed
     // on Netlify. Fallback to the placeholder so local demos can still work
     // if the user manually edits this file with their key.
-    const API_KEY = 'sk-or-xxxxxxxxxxxxxxxxxxxxxxxx'; // 🔑 Your actual OpenRouter key here
+    const API_KEY = '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'; // 🔑 Your actual OpenRouter key here
     const REQUEST_TIMEOUT = 120000; // 2 minutes
 
     const MESSAGE_COOLDOWN_MS = 60000; // 1 minute
