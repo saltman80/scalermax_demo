@@ -1,247 +1,200 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ScalerMax Dashboard</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body, #app { height: 100%; width: 100%; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-    #app { display: flex; }
-    .sidebar { width: 240px; background: #2c2c2c; color: #fff; display: flex; flex-direction: column; }
-    .sidebar.open { display: flex; position: absolute; top: 0; left: 0; height: 100%; z-index: 1000; }
-    .toggle-chat-list-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; margin-right: 10px; }
-    .sidebar-header { padding: 20px; font-size: 1.25rem; font-weight: bold; text-align: center; border-bottom: 1px solid #444; }
-    #chat-list { list-style: none; padding: 0; margin: 0; flex: 1; overflow-y: auto; }
-    #chat-list li { padding: 12px 20px; cursor: pointer; border-bottom: 1px solid #444; word-break: break-word; }
-    #chat-list li.active, #chat-list li:hover { background: #444; }
-    #new-chat { margin: 10px; padding: 10px; background: #4caf50; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
-    .main { flex: 1; display: flex; flex-direction: column; }
-    .chat-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #f5f5f5; border-bottom: 1px solid #ddd; }
-    .chat-header h2 { margin: 0; font-size: 1.25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%; }
-    .chat-header .logout-btn { padding: 6px 12px; border: none; background: #f44336; color: #fff; border-radius: 4px; cursor: pointer; }
-    .messages { flex: 1; padding: 20px; overflow-y: auto; background: #eaeaea; }
-    .message { max-width: 75%; margin-bottom: 15px; padding: 10px; border-radius: 8px; clear: both; white-space: pre-wrap; word-wrap: break-word; }
-    .message.user { background: #0084ff; color: #fff; margin-left: auto; }
-    .message.assistant { background: #fff; color: #000; margin-right: auto; }
-    .message-form { display: flex; padding: 10px 20px; border-top: 1px solid #ddd; background: #f5f5f5; }
-    #message-input { flex: 1; resize: none; padding: 10px; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; }
-    .message-form button { margin-left: 10px; padding: 10px 20px; font-size: 1rem; border: none; background: #0084ff; color: #fff; cursor: pointer; border-radius: 4px; }
-    @media (max-width: 600px) {
-      .sidebar { display: none; }
-      .toggle-chat-list-btn { display: block; }
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ScalerMax Admin Dashboard</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' https: 'nonce-a1b2c3'; style-src 'self' https: 'nonce-a1b2c3'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1CnGdZXQ7YKj+47HCsHEB2z9vOo5dKZ7HisZV64VAN2" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha512-p6N8z1lnjIYE/4ub2QzEC2lN6pGHixuJv2z7P7q+VZl+PvGhDwXMJv+0U1TpH+EOqs0c1aj3Gq38PDRYTq0c9w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <style nonce="a1b2c3">
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8f9fa; }
+    .sidebar-desktop { height: 100vh; position: fixed; top: 56px; left: 0; width: 240px; padding-top: 1rem; background-color: #343a40; overflow-y: auto; }
+    .sidebar-desktop a { color: #adb5bd; padding: .75rem 1.25rem; display: block; text-decoration: none; }
+    .sidebar-desktop a.active, .sidebar-desktop a:hover { color: #fff; background-color: #495057; }
+    main { margin-top: 56px; margin-left: 240px; padding: 1rem; }
+    @media (max-width: 768px) {
+      .sidebar-desktop { display: none; }
+      main { margin-left: 0; }
     }
+    .card-counter { display: flex; align-items: center; justify-content: space-between; padding: 1rem; color: #fff; }
+    .card-counter .icon { font-size: 2rem; opacity: .7; }
+    .card-counter .count { font-size: 1.75rem; font-weight: bold; }
   </style>
 </head>
 <body>
-  <div id="app">
-    <aside class="sidebar">
-      <div class="sidebar-header">ScalerMax AI</div>
-      <ul id="chat-list"></ul>
-      <button id="new-chat" type="button">+ New Chat</button>
-    </aside>
-    <main class="main">
-      <header class="chat-header">
-        <button id="toggle-chat-list" class="toggle-chat-list-btn" type="button">?</button>
-        <h2 id="chat-title">Chat</h2>
-        <button id="logout" class="logout-btn" type="button">Logout</button>
-      </header>
-      <div id="messages" class="messages"></div>
-      <form id="message-form" class="message-form">
-        <textarea id="message-input" placeholder="Type a message..." rows="1"></textarea>
-        <button type="submit">Send</button>
-      </form>
-    </main>
-  </div>
-  <script>
-    (function() {
-      const chatListEl = document.getElementById('chat-list');
-      const newChatBtn = document.getElementById('new-chat');
-      const logoutBtn = document.getElementById('logout');
-      const chatTitleEl = document.getElementById('chat-title');
-      const messagesEl = document.getElementById('messages');
-      const messageForm = document.getElementById('message-form');
-      const messageInput = document.getElementById('message-input');
-      const sidebarEl = document.querySelector('.sidebar');
-      const toggleChatListBtn = document.getElementById('toggle-chat-list');
-      let chats = [];
-      let currentChatId = null;
-
-      function saveChats() {
-        localStorage.setItem('scalermax_chats', JSON.stringify(chats));
-        localStorage.setItem('scalermax_current_chat', currentChatId);
-      }
-
-      function loadChats() {
-        try {
-          const stored = localStorage.getItem('scalermax_chats');
-          chats = stored ? JSON.parse(stored) : [];
-          if (!Array.isArray(chats)) chats = [];
-        } catch (e) {
-          chats = [];
-        }
-        try {
-          const storedId = localStorage.getItem('scalermax_current_chat');
-          if (storedId && chats.find(c => c.id === storedId)) {
-            currentChatId = storedId;
-          } else {
-            currentChatId = null;
-          }
-        } catch (e) {
-          currentChatId = null;
-        }
-        if (!currentChatId) {
-          createNewChat();
-        }
-      }
-
-      function createNewChat() {
-        const id = 'chat_' + Date.now();
-        const newChat = { id: id, title: 'New Chat', messages: [] };
-        chats.unshift(newChat);
-        currentChatId = id;
-        saveChats();
-        renderChatList();
-        renderChat();
-      }
-
-      function renderChatList() {
-        chatListEl.innerHTML = '';
-        chats.forEach(chat => {
-          const li = document.createElement('li');
-          li.textContent = chat.title || 'New Chat';
-          li.dataset.id = chat.id;
-          li.setAttribute('role', 'button');
-          li.tabIndex = 0;
-          if (chat.id === currentChatId) li.classList.add('active');
-          const selectChat = () => {
-            currentChatId = chat.id;
-            saveChats();
-            renderChatList();
-            renderChat();
-            if (window.innerWidth <= 600) closeSidebar();
-          };
-          li.addEventListener('click', selectChat);
-          li.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              selectChat();
-            }
-          });
-          chatListEl.appendChild(li);
+  <nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <button class="btn btn-dark d-md-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas"><i class="fas fa-bars"></i></button>
+      <a class="navbar-brand" href="#">ScalerMax Admin</a>
+      <span class="navbar-text text-light">v1.0.0</span>
+    </div>
+  </nav>
+  <aside class="sidebar-desktop">
+    <a href="#" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+    <a href="#"><i class="fas fa-brain me-2"></i>Intents</a>
+    <a href="#"><i class="fas fa-route me-2"></i>Routes</a>
+    <a href="#"><i class="fas fa-cogs me-2"></i>Settings</a>
+  </aside>
+  <aside class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+    <div class="offcanvas-header bg-dark text-white">
+      <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">ScalerMax Admin</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0 bg-dark">
+      <a href="#" class="d-block text-light px-3 py-2 active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+      <a href="#" class="d-block text-light px-3 py-2"><i class="fas fa-brain me-2"></i>Intents</a>
+      <a href="#" class="d-block text-light px-3 py-2"><i class="fas fa-route me-2"></i>Routes</a>
+      <a href="#" class="d-block text-light px-3 py-2"><i class="fas fa-cogs me-2"></i>Settings</a>
+    </div>
+  </aside>
+  <main role="main">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="h2">Dashboard</h1>
+      <button id="refreshBtn" class="btn btn-sm btn-outline-secondary"><i class="fas fa-sync-alt"></i> Refresh</button>
+    </div>
+    <div class="row g-3 mb-4">
+      <div class="col-sm-6 col-md-3">
+        <div class="card bg-primary">
+          <div class="card-counter">
+            <div>
+              <div class="card-title">Total Requests</div>
+              <div class="count"><span class="counter" data-target="12345">0</span></div>
+            </div>
+            <div class="icon"><i class="fas fa-chart-line"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="card bg-success">
+          <div class="card-counter">
+            <div>
+              <div class="card-title">Active Intents</div>
+              <div class="count"><span class="counter" data-target="456">0</span></div>
+            </div>
+            <div class="icon"><i class="fas fa-brain"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="card bg-warning">
+          <div class="card-counter">
+            <div>
+              <div class="card-title">Error Rate</div>
+              <div class="count"><span class="counter" data-target="2.5" data-decimals="1">0</span><span>%</span></div>
+            </div>
+            <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="card bg-danger">
+          <div class="card-counter">
+            <div>
+              <div class="card-title">Avg Latency</div>
+              <div class="count"><span class="counter" data-target="120">0</span><span>ms</span></div>
+            </div>
+            <div class="icon"><i class="fas fa-stopwatch"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">Requests per Hour</div>
+          <div class="card-body">
+            <canvas id="requestsChart" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">Latency Over Last 7 Days</div>
+          <div class="card-body">
+            <canvas id="latencyChart" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <h2>Recent Logs</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm align-middle">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Intent</th>
+              <th>Model</th>
+              <th>Latency</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="logsTable">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1CnGdZXQ7YKj+47HCsHEB2z9vOo5dKZ7HisZV64VAN2" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.min.js" integrity="sha512-pHTWx2cjYLuQHtyQpSkXw3tI+pBcj+oZ7qwy3Lf2XyZDjWzB+dpftafJ+zI74hiL2rOHYNOiLmKTjaezJ4+MaA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.6.2/countUp.umd.js" integrity="sha512-3fLb1LeKx9Gi+eZ9kr1OeU9wo3ArfLqNL/ODL5OwG0QLJV5vcVDZdJxzUP+vc3dZSOzM/6xY9cE1Cpf9sminbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script nonce="a1b2c3">
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.counter').forEach(function(el) {
+        const end = parseFloat(el.getAttribute('data-target'));
+        const decimals = parseInt(el.getAttribute('data-decimals')) || 0;
+        new countUp.CountUp(el, end, { duration: 2, decimalPlaces: decimals }).start();
+      });
+      const hours = Array.from({length:24}, (_,i) => i + ':00');
+      const reqData = hours.map(() => Math.floor(Math.random() * 400 + 100));
+      new Chart(document.getElementById('requestsChart'), {
+        type: 'line',
+        data: { labels: hours, datasets: [{ label: 'Requests', data: reqData, fill: true, backgroundColor: 'rgba(13,110,253,0.2)', borderColor: 'rgba(13,110,253,1)', tension: 0.4 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+      });
+      const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+      const latData = days.map(() => Math.floor(Math.random() * 200 + 50));
+      new Chart(document.getElementById('latencyChart'), {
+        type: 'bar',
+        data: { labels: days, datasets: [{ label: 'Latency (ms)', data: latData, backgroundColor: 'rgba(220,53,69,0.7)', borderColor: 'rgba(220,53,69,1)', borderWidth: 1 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+      });
+      const models = ['gpt-4','gpt-3.5-turbo','claude-v1','llama-2'];
+      const intents = ['Translate','Summarize','Answer','Classify','Generate'];
+      const statuses = ['Success','Error'];
+      const logs = [];
+      for (let i = 0; i < 8; i++) {
+        const time = new Date(Date.now() - Math.random() * 3600000 * 24).toISOString().slice(0,19).replace('T',' ');
+        logs.push({
+          timestamp: time,
+          intent: intents[Math.floor(Math.random()*intents.length)],
+          model: models[Math.floor(Math.random()*models.length)],
+          latency: Math.floor(Math.random()*200+50) + 'ms',
+          status: statuses[Math.random() < 0.9 ? 0 : 1]
         });
       }
-
-      function renderChat() {
-        const chat = chats.find(c => c.id === currentChatId);
-        if (!chat) return;
-        chatTitleEl.textContent = chat.title || 'Chat';
-        messagesEl.innerHTML = '';
-        chat.messages.forEach(m => appendMessageToDOM(m.role, m.content));
-        dashboardScrollToBottom();
-      }
-
-      function appendMessageToDOM(role, content) {
-        const div = document.createElement('div');
-        div.classList.add('message', role);
-        div.textContent = content;
-        messagesEl.appendChild(div);
-      }
-
-      function dashboardScrollToBottom() {
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-      }
-
-      function openSidebar() {
-        sidebarEl.classList.add('open');
-      }
-
-      function closeSidebar() {
-        sidebarEl.classList.remove('open');
-      }
-
-      toggleChatListBtn.addEventListener('click', () => {
-        if (sidebarEl.classList.contains('open')) closeSidebar();
-        else openSidebar();
+      const tbody = document.getElementById('logsTable');
+      logs.forEach(log => {
+        const tr = document.createElement('tr');
+        const tdTime = document.createElement('td');
+        tdTime.textContent = log.timestamp;
+        tr.appendChild(tdTime);
+        const tdIntent = document.createElement('td');
+        tdIntent.textContent = log.intent;
+        tr.appendChild(tdIntent);
+        const tdModel = document.createElement('td');
+        tdModel.textContent = log.model;
+        tr.appendChild(tdModel);
+        const tdLatency = document.createElement('td');
+        tdLatency.textContent = log.latency;
+        tr.appendChild(tdLatency);
+        const tdStatus = document.createElement('td');
+        tdStatus.textContent = log.status;
+        tr.appendChild(tdStatus);
+        tbody.appendChild(tr);
       });
-
-      async function handleSubmit(e) {
-        e.preventDefault();
-        const content = messageInput.value.trim();
-        if (!content) return;
-        messageInput.value = '';
-        const chat = chats.find(c => c.id === currentChatId);
-        const userMsg = { role: 'user', content };
-        chat.messages.push(userMsg);
-        if (!chat.title || chat.title === 'New Chat') {
-          chat.title = content.length > 20 ? content.substring(0, 20) + '...' : content;
-          renderChatList();
-        }
-        appendMessageToDOM('user', content);
-        dashboardScrollToBottom();
-        saveChats();
-        const assistantMsgEl = document.createElement('div');
-        assistantMsgEl.classList.add('message', 'assistant');
-        assistantMsgEl.textContent = '';
-        messagesEl.appendChild(assistantMsgEl);
-        dashboardScrollToBottom();
-        try {
-          const response = await fetch('/api/ai', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ messages: chat.messages, stream: true })
-          });
-          if (!response.ok) throw new Error('Network error');
-          const reader = response.body.getReader();
-          const decoder = new TextDecoder('utf-8');
-          let done = false;
-          let buffer = '';
-          let assistantContent = '';
-          while (!done) {
-            const { value, done: doneReading } = await reader.read();
-            done = doneReading;
-            buffer += decoder.decode(value || new Uint8Array(), { stream: true });
-            const parts = buffer.split('\n\n');
-            buffer = parts.pop();
-            for (const part of parts) {
-              if (part.indexOf('data:') === 0) {
-                const data = part.replace(/^data:\s*/, '');
-                if (data === '[DONE]') { done = true; break; }
-                try {
-                  const parsed = JSON.parse(data);
-                  const char = parsed.choices[0].delta.content;
-                  if (char) {
-                    assistantContent += char;
-                    assistantMsgEl.textContent = assistantContent;
-                    dashboardScrollToBottom();
-                  }
-                } catch {}
-              }
-            }
-          }
-          chat.messages.push({ role: 'assistant', content: assistantContent });
-          saveChats();
-        } catch (err) {
-          assistantMsgEl.textContent = 'Error: ' + err.message;
-          dashboardScrollToBottom();
-        }
-      }
-
-      newChatBtn.addEventListener('click', () => {
-        createNewChat();
-        if (window.innerWidth <= 600) closeSidebar();
-      });
-      logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('scalermax_chats');
-        localStorage.removeItem('scalermax_current_chat');
-        window.location.href = 'login.html';
-      });
-      messageForm.addEventListener('submit', handleSubmit);
-
-      loadChats();
-      renderChatList();
-      renderChat();
-    })();
+      document.getElementById('refreshBtn').addEventListener('click', () => location.reload());
+    });
   </script>
 </body>
 </html>
