@@ -78,7 +78,7 @@ exports.handler = async function(event, context) {
   }
   const clientApiKey = headers['x-api-key'];
   if (!clientApiKey || clientApiKey !== AUTH_API_KEY) {
-    return errorResponse(401, 'Unauthorized');
+    return errorResponse(401, 'Unauthorized: x-api-key header missing or invalid');
   }
   const clientId = headers['x-forwarded-for'] || headers['x-nf-client-connection-ip'] || 'unknown';
   const now = Date.now();
@@ -104,14 +104,14 @@ exports.handler = async function(event, context) {
   let temperature = typeof body.temperature === 'number' ? body.temperature : 0.7;
   temperature = Math.min(Math.max(temperature, 0.0), 1.0);
   if (!prompt || typeof prompt !== 'string') {
-    return errorResponse(400, 'Missing prompt');
+    return errorResponse(400, 'Missing prompt in request body');
   }
   if (prompt.length > MAX_PROMPT_LENGTH) {
     return errorResponse(400, `Prompt too long (max ${MAX_PROMPT_LENGTH} characters)`);
   }
   if (!OPENROUTER_API_KEY) {
     logError('Missing OPENROUTER_API_KEY');
-    return errorResponse(500, 'Server misconfiguration');
+    return errorResponse(500, 'Server misconfiguration: Missing OPENROUTER_API_KEY');
   }
   const intent = classifyPrompt(prompt);
   const route = ROUTER_CONFIG[intent] || ROUTER_CONFIG.planning;
