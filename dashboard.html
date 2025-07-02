@@ -226,49 +226,43 @@
     </div>
   </section>
     <div class="row">
-      <div class="col-lg-4 order-lg-1 mb-4">
+      <div class="col-lg-6 offset-lg-3 mb-4 text-center">
         <h2>Chat Demo</h2>
         <div class="card chat-card text-light">
           <div id="chat-container" class="mb-2" aria-live="polite" role="log"></div>
-          <form id="chat-form" class="d-flex gap-2">
-            <textarea id="chat-input" class="glow-input flex-grow-1" placeholder="Type a message..." aria-label="chat input" rows="3" disabled></textarea>
+          <form id="chat-form" class="d-flex flex-column gap-2 align-items-center">
+            <textarea id="chat-input" class="glow-input w-100" placeholder="Type a message..." aria-label="chat input" rows="3" disabled></textarea>
             <button id="send-button" class="glow-button" type="submit" disabled>Send</button>
           </form>
         </div>
       </div>
       <div class="col-lg-8 order-lg-2">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="mb-2 d-flex justify-content-between align-items-center">
           <h1 class="h2 m-0">Dashboard</h1>
-          <div>
-            <button id="refreshBtn" class="btn btn-sm btn-outline-secondary">Refresh</button>
-          </div>
+        </div>
+        <div class="text-center mb-4">
+          <button id="refreshBtn" class="btn btn-outline-secondary">Refresh</button>
         </div>
         <div class="card p-3 mb-4">
           <h5 class="mb-4">Your Project Keys</h5>
-          <div class="row row-cols-1 row-cols-md-3 g-3">
-            <div class="col">
-              <div class="tile card h-100 text-center p-3">
-                <h5 class="mb-2">VibeSheet</h5>
-                <span class="badge bg-success mb-2">✅ Active</span>
-                <p class="small text-muted">Requests Today: <strong>128</strong></p>
-                <p class="small text-muted">Failures: <strong>1</strong></p>
-              </div>
+          <div class="project-keys d-grid gap-3" style="grid-template-columns:repeat(3,1fr);">
+            <div class="tile card h-100 text-center p-3">
+              <h5 class="mb-2">VibeSheet</h5>
+              <span class="badge bg-success mb-2">✅ Active</span>
+              <p class="small text-muted">Requests Today: <strong>128</strong></p>
+              <p class="small text-muted">Failures: <strong>1</strong></p>
             </div>
-            <div class="col">
-              <div class="tile card h-100 text-center p-3">
-                <h5 class="mb-2">AahSheet</h5>
-                <span class="badge bg-success mb-2">✅ Active</span>
-                <p class="small text-muted">Requests Today: <strong>64</strong></p>
-                <p class="small text-muted">Failures: <strong>0</strong></p>
-              </div>
+            <div class="tile card h-100 text-center p-3">
+              <h5 class="mb-2">AahSheet</h5>
+              <span class="badge bg-success mb-2">✅ Active</span>
+              <p class="small text-muted">Requests Today: <strong>64</strong></p>
+              <p class="small text-muted">Failures: <strong>0</strong></p>
             </div>
-            <div class="col">
-              <div class="tile card h-100 text-center p-3">
-                <h5 class="mb-2">AI Tool</h5>
-                <span class="badge bg-success mb-2">✅ Active</span>
-                <p class="small text-muted">Requests Today: <strong>89</strong></p>
-                <p class="small text-muted">Failures: <strong>2</strong></p>
-              </div>
+            <div class="tile card h-100 text-center p-3">
+              <h5 class="mb-2">AI Tool</h5>
+              <span class="badge bg-success mb-2">✅ Active</span>
+              <p class="small text-muted">Requests Today: <strong>89</strong></p>
+              <p class="small text-muted">Failures: <strong>2</strong></p>
             </div>
           </div>
         </div>
