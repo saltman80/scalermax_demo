@@ -5,6 +5,29 @@
   const API_KEY =
     (typeof process !== "undefined" && process.env.SCALERMAX_BACKEND_KEY) ||
     window.SCALERMAX_BACKEND_KEY;
+
+  // --- DEBUG DUMP ---
+  const debugEl = document.getElementById('debug-dump');
+  function dumpDebug(obj) {
+    if (!debugEl) return;
+    debugEl.textContent = JSON.stringify(obj, null, 2);
+  }
+
+  console.groupCollapsed('🔍 SCALERMAX DEBUG');
+  console.log('window.SCALERMAX_BACKEND_KEY:', window.SCALERMAX_BACKEND_KEY);
+  console.log('window.OPENROUTER_BASE_URL :', window.OPENROUTER_BASE_URL);
+  console.log('window.OPENROUTER_API_KEY  :', window.OPENROUTER_API_KEY);
+  console.groupEnd();
+
+  dumpDebug({
+    SCALERMAX_BACKEND_KEY: window.SCALERMAX_BACKEND_KEY,
+    OPENROUTER_BASE_URL: window.OPENROUTER_BASE_URL,
+    OPENROUTER_API_KEY: window.OPENROUTER_API_KEY,
+    API_URL: API_URL,
+    CLIENT_TIME: new Date().toISOString(),
+  });
+  // ----------------------
+
   if (!API_KEY) {
     console.error("❌ SCALERMAX_BACKEND_KEY not provided to client");
   }
@@ -103,7 +126,17 @@
       if (err.name === "AbortError") {
         aiEl.textContent = "Error: Request timed out";
       } else {
-        aiEl.textContent = `⚠️ ${err.message}`;
+        const errorDetails = {
+          time: new Date().toISOString(),
+          message: err.message,
+          name: err.name,
+          stack: err.stack,
+          apiKey: API_KEY,
+          apiUrl: API_URL,
+        };
+        aiEl.textContent = '❌ Error, see debug dump below';
+        console.error('🔴 FETCH ERROR:', errorDetails);
+        dumpDebug(errorDetails);
         aiEl.classList.add("message-system");
       }
       scrollToBottom();
