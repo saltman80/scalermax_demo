@@ -111,11 +111,16 @@
       chatInput.disabled = false;
     }, MESSAGE_COOLDOWN_MS);
     const aiEl = renderMessage("", "ai");
+    const headers = {
+      "Content-Type": "application/json",
+      "x-api-key": API_KEY,
+    };
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
     try {
       await streamResponse(
         prompt,
+        headers,
         (chunk) => {
           aiEl.textContent += chunk;
           scrollToBottom();
@@ -126,17 +131,21 @@
       if (err.name === "AbortError") {
         aiEl.textContent = "Error: Request timed out";
       } else {
-        const errorDetails = {
+        const debugData = {
           time: new Date().toISOString(),
-          message: err.message,
-          name: err.name,
-          stack: err.stack,
-          apiKey: API_KEY,
+          prompt,
           apiUrl: API_URL,
+          injectedKey: window.SCALERMAX_BACKEND_KEY,
+          clientApiKeyHeader: API_KEY,
+          rawHeaders: headers,
+          errorName: err.name,
+          errorMessage: err.message,
+          stack: err.stack,
         };
         aiEl.textContent = '❌ Error, see debug dump below';
-        console.error('🔴 FETCH ERROR:', errorDetails);
-        dumpDebug(errorDetails);
+        const dumpEl = document.getElementById('debug-dump');
+        if (dumpEl) dumpEl.textContent = JSON.stringify(debugData, null, 2);
+        console.error('🛠 Full debug dump:', debugData);
         aiEl.classList.add("message-system");
       }
       scrollToBottom();
@@ -146,13 +155,10 @@
     }
   }
 
-  async function streamResponse(prompt, onData, signal) {
+  async function streamResponse(prompt, headers, onData, signal) {
     const res = await fetch(API_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": API_KEY,
-      },
+      headers,
       body: JSON.stringify({ prompt }),
       signal,
     });
