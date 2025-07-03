@@ -471,6 +471,15 @@ button:focus,
   box-shadow: 0 0 10px var(--color-primary);
 }
 
+/* Gradient buttons on home page */
+.home .btn-primary {
+  background: linear-gradient(90deg, #16a34a, #9b5cf5);
+}
+
+.home .btn-primary:hover {
+  background: linear-gradient(90deg, #16a34a, #9b5cf5);
+}
+
 /* Layout helpers */
 .container {
   width: 90%;
