@@ -86,6 +86,8 @@ exports.handler = async function (event, context) {
     return errorResponse(500, "Server misconfiguration: Missing API key");
   }
   const clientApiKey = headers["x-api-key"];
+  console.log("[Debug] Expected key:", AUTH_API_KEY);
+  console.log("[Debug] Received key:", clientApiKey);
   if (!clientApiKey || clientApiKey !== AUTH_API_KEY) {
     return errorResponse(
       401,

@@ -11,13 +11,22 @@ if (!key) {
 
 try {
   let content = fs.readFileSync(htmlFile, 'utf8');
-  const placeholder = '{{SCALERMAX_BACKEND_KEY}}';
-  if (!content.includes(placeholder)) {
-    console.warn('Placeholder not found in dashboard.html');
-  } else {
-    content = content.replace(placeholder, key);
+  const placeholders = [
+    '{{SCALERMAX_BACKEND_KEY}}',
+    '{{ process.env.SCALERMAX_BACKEND_KEY }}'
+  ];
+  let replaced = false;
+  for (const ph of placeholders) {
+    if (content.includes(ph)) {
+      content = content.replace(ph, key);
+      replaced = true;
+    }
+  }
+  if (replaced) {
     fs.writeFileSync(htmlFile, content);
     console.log('Injected SCALERMAX_BACKEND_KEY into dashboard.html');
+  } else {
+    console.warn('Placeholder not found in dashboard.html');
   }
 } catch (err) {
   console.error('Failed to inject key:', err);

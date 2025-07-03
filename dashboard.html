@@ -768,7 +768,7 @@
     </script>
     <script src="dashboard.js" nonce="a1b2c3"></script>
     <script>
-      window.SCALERMAX_BACKEND_KEY = "{{SCALERMAX_BACKEND_KEY}}"; // replaced at build time
+      window.SCALERMAX_BACKEND_KEY = "{{ process.env.SCALERMAX_BACKEND_KEY }}";
     </script>
     <script src="chat.js" nonce="a1b2c3"></script>
   </body>
