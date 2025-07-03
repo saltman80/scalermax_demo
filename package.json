@@ -5,7 +5,7 @@
   "description": "Static multi-page demo frontend for ScalerMax AI Intent Server",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/inject.js && vite",
     "build": "node scripts/inject.js && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
