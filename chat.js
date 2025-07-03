@@ -115,7 +115,7 @@
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...(API_KEY ? { "x-api-key": API_KEY } : {}),
+        "x-api-key": API_KEY,
       },
       body: JSON.stringify({ prompt }),
       signal,
