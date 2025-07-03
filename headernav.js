@@ -114,8 +114,8 @@
     if (!navMenu) return;
     const dashboardItem = navMenu.querySelector('[data-dashboard-link]');
     if (!dashboardItem) return;
-    const hasToken = document.cookie.split(';').some(c => c.trim().startsWith('authToken='));
-    dashboardItem.style.display = hasToken ? '' : 'none';
+    // Always hide the dashboard link so the main menu only shows Login
+    dashboardItem.style.display = 'none';
   }
 
   function navigateTo(route, shouldPush = true, shouldScroll = true) {
