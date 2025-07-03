@@ -1,10 +1,20 @@
 (function() {
-let menuToggle, navMenu;
+  // Disable automatic scroll restoration so our custom behavior isn't overridden
+  if (history.scrollRestoration) {
+    history.scrollRestoration = 'manual';
+  }
+
+  let menuToggle, navMenu;
   const focusableSelector = 'a[href], area[href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]';
   let focusableElements = [];
   let firstFocusableElement = null;
   let lastFocusableElement = null;
   let previousActiveElement = null;
+  const defaultRoute = '';
+
+  function getCurrentRoute() {
+    return location.hash.replace(/^#/, '');
+  }
 
   function handleFocusTrap(event) {
     if (event.key !== 'Tab') return;
@@ -73,8 +83,8 @@ let menuToggle, navMenu;
       if (link.getAttribute('href').startsWith('#')) {
         link.addEventListener('click', event => {
           event.preventDefault();
-          const targetId = link.getAttribute('href').slice(1);
-          smoothScrollTo(targetId);
+          const route = link.getAttribute('href').slice(1);
+          navigateTo(route, true, true);
           if (menuToggle.getAttribute('aria-expanded') === 'true') {
             toggleMobileMenu();
           }
@@ -108,6 +118,17 @@ let menuToggle, navMenu;
     dashboardItem.style.display = hasToken ? '' : 'none';
   }
 
+  function navigateTo(route, shouldPush = true, shouldScroll = true) {
+    if (shouldScroll) {
+      smoothScrollTo(route);
+      if (shouldPush) {
+        history.pushState({ route }, '', `#${route}`);
+      }
+    } else if (shouldPush) {
+      history.replaceState({ route }, '', `#${route}`);
+    }
+  }
+
   function toggleMobileMenu() {
     const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
     menuToggle.setAttribute('aria-expanded', String(!isExpanded));
@@ -120,18 +141,13 @@ let menuToggle, navMenu;
     }
   }
 
-  function smoothScrollTo(targetId) {
+  function smoothScrollTo(targetId, behavior = 'smooth') {
     const targetEl = document.getElementById(targetId);
     if (!targetEl) return;
     const header = document.querySelector('header');
     const offset = header ? header.offsetHeight : 0;
     const top = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
-    window.scrollTo({ top, behavior: 'smooth' });
-    if (history.replaceState) {
-      history.replaceState(null, '', `#${targetId}`);
-    } else {
-      location.hash = `#${targetId}`;
-    }
+    window.scrollTo({ top, behavior });
   }
 
   function handleDocumentClick(event) {
@@ -147,5 +163,14 @@ let menuToggle, navMenu;
     }
   }
 
-  document.addEventListener('DOMContentLoaded', initHeaderNav);
+  document.addEventListener('DOMContentLoaded', () => {
+    initHeaderNav();
+    const initRoute = getCurrentRoute() || defaultRoute;
+    navigateTo(initRoute, false, false);
+  });
+
+  window.addEventListener('popstate', e => {
+    const route = (e.state && e.state.route) || getCurrentRoute() || defaultRoute;
+    navigateTo(route, false, true);
+  });
 })();
