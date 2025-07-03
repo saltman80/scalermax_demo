@@ -19,12 +19,15 @@ const RATE_LIMIT_WINDOW_MS =
   parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 60000;
 const MAX_REQUESTS_PER_WINDOW =
   parseInt(process.env.MAX_REQUESTS_PER_WINDOW) || 60;
-const AUTH_API_KEY = process.env.SCALERMAX_BACKEND_KEY;
-const OPENROUTER_API_URL =
-  (process.env.OPENROUTER_BASE_URL || process.env.OPENROUTER_API_URL ||
-    "https://openrouter.ai") +
-  "/api/v1/chat/completions";
+
+const SCALERMAX_BACKEND_KEY =
+  process.env.SCALERMAX_BACKEND_KEY || 'xyz789-scalermax-secret';
+const OPENROUTER_BASE_URL =
+  process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1';
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const AUTH_API_KEY = SCALERMAX_BACKEND_KEY;
+const OPENROUTER_API_URL =
+  `${OPENROUTER_BASE_URL.replace(/\/$/, '')}/chat/completions`;
 
 if (!AUTH_API_KEY) {
   console.error("❌ Missing SCALERMAX_BACKEND_KEY in environment");
