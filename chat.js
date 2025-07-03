@@ -1,7 +1,10 @@
 (function () {
   const API_URL = "/api/scalermax-api";
   // The API key is expected via a runtime-injected global variable.
-  const API_KEY = window.SCALERMAX_BACKEND_KEY;
+  // Prefer the build-time injected env var with a runtime fallback
+  const API_KEY =
+    (typeof process !== "undefined" && process.env.SCALERMAX_BACKEND_KEY) ||
+    window.SCALERMAX_BACKEND_KEY;
   if (!API_KEY) {
     console.error("❌ SCALERMAX_BACKEND_KEY not provided to client");
   }
