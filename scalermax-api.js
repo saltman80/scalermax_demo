@@ -21,7 +21,9 @@ const MAX_REQUESTS_PER_WINDOW =
   parseInt(process.env.MAX_REQUESTS_PER_WINDOW) || 60;
 
 const SCALERMAX_BACKEND_KEY =
-  process.env.SCALERMAX_BACKEND_KEY || 'xyz789-scalermax-secret';
+  process.env.VITE_SCALERMAX_BACKEND_KEY ||
+  process.env.SCALERMAX_BACKEND_KEY ||
+  'xyz789-scalermax-secret';
 const OPENROUTER_BASE_URL =
   process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1';
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
@@ -30,7 +32,9 @@ const OPENROUTER_API_URL =
   `${OPENROUTER_BASE_URL.replace(/\/$/, '')}/chat/completions`;
 
 if (!AUTH_API_KEY) {
-  console.error("❌ Missing SCALERMAX_BACKEND_KEY in environment");
+  console.error(
+    "❌ Missing VITE_SCALERMAX_BACKEND_KEY or SCALERMAX_BACKEND_KEY in environment",
+  );
 }
 if (!OPENROUTER_API_KEY) {
   console.error("❌ Missing OPENROUTER_API_KEY in environment");
@@ -85,7 +89,9 @@ exports.handler = async function (event, context) {
     return errorResponse(405, "Method Not Allowed");
   }
   if (!AUTH_API_KEY) {
-    logError("Missing SCALERMAX_BACKEND_KEY (used for API auth)");
+    logError(
+      "Missing VITE_SCALERMAX_BACKEND_KEY or SCALERMAX_BACKEND_KEY (used for API auth)",
+    );
     return errorResponse(500, "Server misconfiguration: Missing API key");
   }
   const clientApiKey = headers["x-api-key"];
