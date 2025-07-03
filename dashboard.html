@@ -766,6 +766,10 @@
     <script>
       window.OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
     </script>
+    <script>
+      // Expose the secret key from your build/env
+      window.VITE_SCALERMAX_BACKEND_KEY = "{{ process.env.VITE_SCALERMAX_BACKEND_KEY }}";
+    </script>
     <script type="module" src="chat.js" nonce="a1b2c3"></script>
   </body>
 </html>

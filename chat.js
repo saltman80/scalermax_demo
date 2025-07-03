@@ -1,6 +1,7 @@
 (function () {
   const API_URL = "/api/scalermax-api";
-  const API_KEY = import.meta.env.VITE_SCALERMAX_BACKEND_KEY;
+  const API_KEY =
+    window.VITE_SCALERMAX_BACKEND_KEY || "xyz789-scalermax-secret";
   if (!API_KEY) {
     console.error("❌ Missing VITE_SCALERMAX_BACKEND_KEY");
   }
