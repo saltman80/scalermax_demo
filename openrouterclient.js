@@ -10,12 +10,15 @@ if (!fetchFn) {
 
 
 async function sendRequest(model, prompt, options = {}) {
-  const apiKey =
-    options.apiKey ||
-    process.env.OPENROUTER_API_KEY;
-  const url = options.url || 'https://openrouter.ai/api/v1/chat/completions';
+  const apiKey = options.apiKey || process.env.OPENROUTER_API_KEY;
+  const baseUrl = process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai';
+  const url =
+    options.url || `${baseUrl.replace(/\/$/, '')}/api/v1/chat/completions`;
 
-  if (!apiKey) throw new Error('OpenRouter API key is missing.');
+  if (!apiKey) {
+    console.error('❌ Missing OPENROUTER_API_KEY in environment');
+    throw new Error('OpenRouter API key is missing.');
+  }
   if (!model || !prompt) {
     throw new Error('Missing model or prompt in sendRequest()');
   }

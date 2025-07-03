@@ -21,9 +21,17 @@ const MAX_REQUESTS_PER_WINDOW =
   parseInt(process.env.MAX_REQUESTS_PER_WINDOW) || 60;
 const AUTH_API_KEY = process.env.SCALERMAX_BACKEND_KEY;
 const OPENROUTER_API_URL =
-  process.env.OPENROUTER_API_URL ||
-  "https://openrouter.ai/api/v1/chat/completions";
+  (process.env.OPENROUTER_BASE_URL || process.env.OPENROUTER_API_URL ||
+    "https://openrouter.ai") +
+  "/api/v1/chat/completions";
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+
+if (!AUTH_API_KEY) {
+  console.error("❌ Missing SCALERMAX_BACKEND_KEY in environment");
+}
+if (!OPENROUTER_API_KEY) {
+  console.error("❌ Missing OPENROUTER_API_KEY in environment");
+}
 
 const rateLimitMap = new Map();
 
