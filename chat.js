@@ -98,9 +98,9 @@
     async function streamResponse(prompt, onData, signal) {
         const res = await fetch(API_URL, {
             method: 'POST',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': API_KEY
+                'x-api-key': 'REPLACE_THIS_WITH_SCALERMAX_BACKEND_KEY'
             },
             body: JSON.stringify({ prompt }),
             signal
