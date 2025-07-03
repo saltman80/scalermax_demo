@@ -8,14 +8,16 @@ if (!fetchFn) {
   }
 }
 
+const DEFAULT_BASE_URL = process.env.OPENROUTER_BASE_URL ||
+  'https://openrouter.ai/api/v1';
+
 
 async function sendRequest(model, prompt, options = {}) {
   const apiKey = options.apiKey || process.env.OPENROUTER_API_KEY;
-  const baseUrl = process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai';
-  const url =
-    options.url || `${baseUrl.replace(/\/$/, '')}/api/v1/chat/completions`;
+  const baseUrl = options.baseUrl || DEFAULT_BASE_URL;
+  const url = options.url || `${baseUrl.replace(/\/$/, '')}/chat/completions`;
 
-  if (!apiKey) {
+  if (!apiKey || !apiKey.trim()) {
     console.error('❌ Missing OPENROUTER_API_KEY in environment');
     throw new Error('OpenRouter API key is missing.');
   }
