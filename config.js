@@ -16,6 +16,10 @@ if (dotenv) {
   }
 }
 
+if (!process.env.OPENROUTER_API_KEY) {
+  throw new Error('FATAL: OPENROUTER_API_KEY is missing in environment.')
+}
+
 function getConfig() {
   let port = parseInt(process.env.PORT, 10)
   if (isNaN(port) || port <= 0) {
