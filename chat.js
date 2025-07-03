@@ -1,10 +1,7 @@
 (function () {
   const API_URL = "/api/scalermax-api";
-  // The API key is expected via a runtime-injected global variable.
-  // Prefer the build-time injected env var with a runtime fallback
-  const API_KEY =
-    (typeof process !== "undefined" && process.env.SCALERMAX_BACKEND_KEY) ||
-    window.SCALERMAX_BACKEND_KEY;
+  // we only ever inject at runtime, so drop the build-time fallback
+  const API_KEY = window.SCALERMAX_BACKEND_KEY;
 
   // --- DEBUG DUMP ---
   const debugEl = document.getElementById('debug-dump');
@@ -101,6 +98,12 @@
   }
 
   async function sendPrompt(prompt) {
+    // 🔍 DEBUG: log every possible source of the key
+    console.error('🛠️ DEBUG KEYS:', {
+      globalKey: window.SCALERMAX_BACKEND_KEY,
+      envKey: (typeof process !== 'undefined' && process.env?.SCALERMAX_BACKEND_KEY),
+      API_KEY,
+    });
     renderMessage(prompt, "user");
     chatInput.value = "";
     sendButton.disabled = true;
