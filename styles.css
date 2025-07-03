@@ -24,6 +24,8 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  /* ensure any anchor-link or scrollIntoView respects the fixed header */
+  scroll-padding-top: 4rem;
 }
 body {
   font-family: var(--font-sans);
@@ -480,6 +482,8 @@ button:focus,
 .hero {
   position: relative;
   min-height: 60vh;
+  /* push hero content below the fixed header */
+  padding-top: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -500,6 +504,9 @@ button:focus,
   font-size: 3rem;
   margin-bottom: 1rem;
   color: #fff;
+  /* keep the title anchored just below the header */
+  position: relative;
+  top: 0;
 }
 
 .hero-subtitle {
