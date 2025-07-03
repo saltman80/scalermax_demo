@@ -8,16 +8,14 @@ if (!fetchFn) {
   }
 }
 
-// For demo purposes a hardcoded API key can be placed below.
-// Leave as an empty string to rely on the OPENROUTER_API_KEY environment variable.
-const HARDCODED_API_KEY = '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';
 
 async function sendRequest(model, prompt, options = {}) {
-  const apiKey = options.apiKey || process.env.OPENROUTER_API_KEY || HARDCODED_API_KEY;
+  const apiKey = options.apiKey || process.env.OPENROUTER_API_KEY;
   const url = options.url || 'https://openrouter.ai/api/v1/chat/completions';
 
-  if (!apiKey || !model || !prompt) {
-    throw new Error('Missing apiKey, model, or prompt in sendRequest()');
+  if (!apiKey) throw new Error('OpenRouter API key is missing.');
+  if (!model || !prompt) {
+    throw new Error('Missing model or prompt in sendRequest()');
   }
 
   const payload = {
