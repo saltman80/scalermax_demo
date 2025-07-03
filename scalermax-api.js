@@ -127,7 +127,7 @@ exports.handler = async function (event, context) {
     console.error("❌ Missing OPENROUTER_API_KEY in environment");
     return errorResponse(
       500,
-      "Server misconfiguration: missing OpenRouter API key",
+      "Server misconfiguration: missing OpenRouter API key. Please set OPENROUTER_API_KEY in your environment variables."
     );
   }
 

@@ -86,6 +86,7 @@ ScalerMax is a demo-ready AI Intent Server deployed on Netlify. It classifies us
 3. Deploy to Netlify
    - Connect this repo to your Netlify account
    - Ensure `netlify/functions` is set as your Functions directory in `netlify.toml`
+   - Add `OPENROUTER_API_KEY` in **Site Settings → Environment Variables**
 
 ---
 
