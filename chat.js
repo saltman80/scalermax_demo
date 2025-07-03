@@ -1,7 +1,6 @@
 (function () {
   const API_URL = "/api/scalermax-api";
-  // we only ever inject at runtime, so drop the build-time fallback
-  const API_KEY = window.SCALERMAX_BACKEND_KEY;
+  const API_KEY = import.meta.env.VITE_SCALERMAX_BACKEND_KEY;
 
   // --- DEBUG DUMP ---
   const debugEl = document.getElementById('debug-dump');
@@ -11,13 +10,13 @@
   }
 
   console.groupCollapsed('🔍 SCALERMAX DEBUG');
-  console.log('window.SCALERMAX_BACKEND_KEY:', window.SCALERMAX_BACKEND_KEY);
+  console.log('VITE_SCALERMAX_BACKEND_KEY:', API_KEY);
   console.log('window.OPENROUTER_BASE_URL :', window.OPENROUTER_BASE_URL);
   console.log('window.OPENROUTER_API_KEY  :', window.OPENROUTER_API_KEY);
   console.groupEnd();
 
   dumpDebug({
-    SCALERMAX_BACKEND_KEY: window.SCALERMAX_BACKEND_KEY,
+    SCALERMAX_BACKEND_KEY: API_KEY,
     OPENROUTER_BASE_URL: window.OPENROUTER_BASE_URL,
     OPENROUTER_API_KEY: window.OPENROUTER_API_KEY,
     API_URL: API_URL,
@@ -100,9 +99,7 @@
   async function sendPrompt(prompt) {
     // 🔍 DEBUG: log every possible source of the key
     console.error('🛠️ DEBUG KEYS:', {
-      globalKey: window.SCALERMAX_BACKEND_KEY,
-      envKey: (typeof process !== 'undefined' && process.env?.SCALERMAX_BACKEND_KEY),
-      API_KEY,
+      viteKey: API_KEY,
     });
     renderMessage(prompt, "user");
     chatInput.value = "";
@@ -137,7 +134,7 @@
           time: new Date().toISOString(),
           prompt,
           apiUrl: API_URL,
-          injectedKey: window.SCALERMAX_BACKEND_KEY,
+          injectedKey: API_KEY,
           clientApiKey: API_KEY,
           sentHeaders: {
             "Content-Type": "application/json",
@@ -163,7 +160,6 @@
 
   async function streamResponse(prompt, onData, signal) {
     console.error('DEBUG:', {
-      injectedKey: window.SCALERMAX_BACKEND_KEY,
       clientApiKey: API_KEY,
     });
     const res = await fetch(API_URL, {
