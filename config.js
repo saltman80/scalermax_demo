@@ -17,7 +17,11 @@ if (dotenv) {
 }
 
 if (!process.env.OPENROUTER_API_KEY) {
+  console.error('❌ Missing OPENROUTER_API_KEY in environment')
   throw new Error('FATAL: OPENROUTER_API_KEY is missing in environment.')
+}
+if (!process.env.SCALERMAX_BACKEND_KEY) {
+  console.error('❌ Missing SCALERMAX_BACKEND_KEY in environment')
 }
 
 function getConfig() {

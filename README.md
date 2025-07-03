@@ -95,10 +95,11 @@ ScalerMax is a demo-ready AI Intent Server deployed on Netlify. It classifies us
 - `openrouterClient.js` now relies solely on the `OPENROUTER_API_KEY` environment variable.
 - `scalermax-api.js` authenticates requests using `SCALERMAX_BACKEND_KEY`.
 - Set these variables before running the demo:
-  ```
-  OPENROUTER_API_KEY=your_openrouter_key
-  SCALERMAX_BACKEND_KEY=your_backend_key
-  ```
+```
+OPENROUTER_API_KEY=your_openrouter_key
+SCALERMAX_BACKEND_KEY=your_backend_key
+OPENROUTER_BASE_URL=https://openrouter.ai # optional
+```
   or edit `netlify/functions/config.js` to load from `process.env.OPENROUTER_API_KEY`.
 
 ---

@@ -1,7 +1,10 @@
 (function () {
   const API_URL = "/api/scalermax-api";
   // The API key is expected via a runtime-injected global variable.
-  const API_KEY = window.SCALERMAX_BACKEND_KEY || "";
+  const API_KEY = window.SCALERMAX_BACKEND_KEY;
+  if (!API_KEY) {
+    console.error("❌ SCALERMAX_BACKEND_KEY not provided to client");
+  }
   const REQUEST_TIMEOUT = 120000; // 2 minutes
 
   const MESSAGE_COOLDOWN_MS = 60000; // 1 minute
@@ -112,7 +115,7 @@
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": API_KEY,
+        ...(API_KEY ? { "x-api-key": API_KEY } : {}),
       },
       body: JSON.stringify({ prompt }),
       signal,
