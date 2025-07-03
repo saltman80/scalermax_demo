@@ -120,7 +120,6 @@
     try {
       await streamResponse(
         prompt,
-        headers,
         (chunk) => {
           aiEl.textContent += chunk;
           scrollToBottom();
@@ -136,7 +135,11 @@
           prompt,
           apiUrl: API_URL,
           injectedKey: window.SCALERMAX_BACKEND_KEY,
-          clientApiKeyHeader: API_KEY,
+          clientApiKey: API_KEY,
+          sentHeaders: {
+            "Content-Type": "application/json",
+            "x-api-key": API_KEY,
+          },
           rawHeaders: headers,
           errorName: err.name,
           errorMessage: err.message,
@@ -155,10 +158,13 @@
     }
   }
 
-  async function streamResponse(prompt, headers, onData, signal) {
+  async function streamResponse(prompt, onData, signal) {
     const res = await fetch(API_URL, {
       method: "POST",
-      headers,
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": API_KEY,
+      },
       body: JSON.stringify({ prompt }),
       signal,
     });
