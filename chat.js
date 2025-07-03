@@ -1,6 +1,9 @@
 (function () {
   const API_URL = "/api/scalermax-api";
-  const API_KEY = window.SCALERMAX_BACKEND_KEY;
+  const API_KEY = import.meta.env.VITE_SCALERMAX_BACKEND_KEY;
+  if (!API_KEY) {
+    console.error("❌ Missing VITE_SCALERMAX_BACKEND_KEY");
+  }
 
   // --- DEBUG DUMP ---
   const debugEl = document.getElementById('debug-dump');
@@ -10,23 +13,19 @@
   }
 
   console.groupCollapsed('🔍 SCALERMAX DEBUG');
-  console.log('SCALERMAX_BACKEND_KEY:', API_KEY);
+  console.log('VITE_SCALERMAX_BACKEND_KEY:', API_KEY);
   console.log('window.OPENROUTER_BASE_URL :', window.OPENROUTER_BASE_URL);
   console.log('window.OPENROUTER_API_KEY  :', window.OPENROUTER_API_KEY);
   console.groupEnd();
 
   dumpDebug({
-    SCALERMAX_BACKEND_KEY: API_KEY,
+    VITE_SCALERMAX_BACKEND_KEY: API_KEY,
     OPENROUTER_BASE_URL: window.OPENROUTER_BASE_URL,
     OPENROUTER_API_KEY: window.OPENROUTER_API_KEY,
     API_URL: API_URL,
     CLIENT_TIME: new Date().toISOString(),
   });
   // ----------------------
-
-  if (!API_KEY) {
-    console.error("❌ SCALERMAX_BACKEND_KEY not provided to client");
-  }
   const REQUEST_TIMEOUT = 120000; // 2 minutes
 
   const MESSAGE_COOLDOWN_MS = 60000; // 1 minute
