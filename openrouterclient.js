@@ -10,7 +10,9 @@ if (!fetchFn) {
 
 
 async function sendRequest(model, prompt, options = {}) {
-  const apiKey = options.apiKey || process.env.OPENROUTER_API_KEY;
+  const apiKey =
+    options.apiKey ||
+    process.env.OPENROUTER_API_KEY;
   const url = options.url || 'https://openrouter.ai/api/v1/chat/completions';
 
   if (!apiKey) throw new Error('OpenRouter API key is missing.');
