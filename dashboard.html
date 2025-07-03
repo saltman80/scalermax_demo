@@ -394,6 +394,7 @@
           </div>
         </div>
       </div>
+      <pre id="debug-dump" style="background:#111;color:#0f0;padding:10px;overflow:auto;height:200px;"></pre>
       <div class="row">
         <div class="col-lg-8 order-lg-2">
           <div class="mb-2 d-flex justify-content-between align-items-center">
@@ -769,6 +770,8 @@
     <script src="dashboard.js" nonce="a1b2c3"></script>
     <script>
       window.SCALERMAX_BACKEND_KEY = "{{ process.env.SCALERMAX_BACKEND_KEY }}";
+      window.OPENROUTER_BASE_URL = "{{ process.env.OPENROUTER_BASE_URL }}";
+      window.OPENROUTER_API_KEY  = "{{ process.env.OPENROUTER_API_KEY  }}";
     </script>
     <script src="chat.js" nonce="a1b2c3"></script>
   </body>
