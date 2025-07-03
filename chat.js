@@ -159,6 +159,10 @@
   }
 
   async function streamResponse(prompt, onData, signal) {
+    console.error('DEBUG:', {
+      injectedKey: window.SCALERMAX_BACKEND_KEY,
+      clientApiKey: API_KEY,
+    });
     const res = await fetch(API_URL, {
       method: "POST",
       headers: {
