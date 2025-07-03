@@ -702,3 +702,23 @@ button:focus,
 .tile.card:hover {
   transform: scale(1.03);
 }
+
+/* Dashboard flex layout */
+.dashboard-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+.provider-panel,
+.chat-panel {
+  flex: 1;
+  min-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+}

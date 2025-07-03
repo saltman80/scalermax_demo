@@ -310,12 +310,11 @@
       <a href="#">Settings</a>
     </aside>
     <main role="main" class="container-fluid">
-      <div class="row mb-4">
-        <div class="col-lg-6 order-lg-2">
-          <section class="highlight-box">
-            <div class="highlight-inner">
-              <h2>Connect Your AI Provider</h2>
-              <p class="subtitle">Connect your accounts to get started.</p>
+      <div class="dashboard-layout mb-4">
+        <section class="provider-panel highlight-box">
+          <div class="highlight-inner">
+            <h2>Connect Your AI Provider</h2>
+            <p class="subtitle">Connect your accounts to get started.</p>
 
               <div class="button-row">
                 <button onclick="showDemoText()" class="glow-button">
@@ -357,9 +356,9 @@
                 <!-- demoMessage reused for key status -->
               </div>
             </div>
-          </section>
-        </div>
-        <div class="col-lg-6 order-lg-1">
+          </div>
+        </section>
+        <section class="chat-panel">
           <div class="chat-wrapper mb-4 text-center">
             <h2>Chat Demo</h2>
             <div class="card chat-card text-light">
@@ -392,7 +391,7 @@
               </form>
             </div>
           </div>
-        </div>
+        </section>
       </div>
       <div class="row">
         <div class="col-lg-8 order-lg-2">
