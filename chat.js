@@ -5,27 +5,6 @@
     console.error("❌ Missing VITE_SCALERMAX_BACKEND_KEY");
   }
 
-  // --- DEBUG DUMP ---
-  const debugEl = document.getElementById('debug-dump');
-  function dumpDebug(obj) {
-    if (!debugEl) return;
-    debugEl.textContent = JSON.stringify(obj, null, 2);
-  }
-
-  console.groupCollapsed('🔍 SCALERMAX DEBUG');
-  console.log('VITE_SCALERMAX_BACKEND_KEY:', API_KEY);
-  console.log('window.OPENROUTER_BASE_URL :', window.OPENROUTER_BASE_URL);
-  console.log('window.OPENROUTER_API_KEY  :', window.OPENROUTER_API_KEY);
-  console.groupEnd();
-
-  dumpDebug({
-    VITE_SCALERMAX_BACKEND_KEY: API_KEY,
-    OPENROUTER_BASE_URL: window.OPENROUTER_BASE_URL,
-    OPENROUTER_API_KEY: window.OPENROUTER_API_KEY,
-    API_URL: API_URL,
-    CLIENT_TIME: new Date().toISOString(),
-  });
-  // ----------------------
   const REQUEST_TIMEOUT = 120000; // 2 minutes
 
   const MESSAGE_COOLDOWN_MS = 60000; // 1 minute
@@ -96,10 +75,6 @@
   }
 
   async function sendPrompt(prompt) {
-    // 🔍 DEBUG: log every possible source of the key
-    console.error('🛠️ DEBUG KEYS:', {
-      viteKey: API_KEY,
-    });
     renderMessage(prompt, "user");
     chatInput.value = "";
     sendButton.disabled = true;
@@ -110,46 +85,26 @@
       chatInput.disabled = false;
     }, MESSAGE_COOLDOWN_MS);
     const aiEl = renderMessage("", "ai");
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+    let aiResponseJSON = "";
     try {
       await streamResponse(
         prompt,
         (chunk) => {
-          aiEl.textContent += chunk;
-          scrollToBottom();
+          aiResponseJSON += chunk;
         },
         controller.signal,
       );
+      const { intent, model, response } = JSON.parse(aiResponseJSON);
+      aiEl.textContent = `(${intent} | ${model})\n\n${response}`;
     } catch (err) {
       if (err.name === "AbortError") {
-        aiEl.textContent = "Error: Request timed out";
+        aiEl.textContent = "⚠️ Something went wrong. Please try again.";
       } else {
-        const debugData = {
-          time: new Date().toISOString(),
-          prompt,
-          apiUrl: API_URL,
-          injectedKey: API_KEY,
-          clientApiKey: API_KEY,
-          sentHeaders: {
-            "Content-Type": "application/json",
-            "x-api-key": API_KEY,
-          },
-          rawHeaders: headers,
-          errorName: err.name,
-          errorMessage: err.message,
-          stack: err.stack,
-        };
-        aiEl.textContent = '❌ Error, see debug dump below';
-        const dumpEl = document.getElementById('debug-dump');
-        if (dumpEl) dumpEl.textContent = JSON.stringify(debugData, null, 2);
-        console.error('🛠 Full debug dump:', debugData);
-        aiEl.classList.add("message-system");
+        aiEl.textContent = "⚠️ Something went wrong. Please try again.";
       }
+      aiEl.classList.add("message-system");
       scrollToBottom();
     } finally {
       clearTimeout(timeoutId);
@@ -158,9 +113,6 @@
   }
 
   async function streamResponse(prompt, onData, signal) {
-    console.error('DEBUG:', {
-      clientApiKey: API_KEY,
-    });
     const res = await fetch(API_URL, {
       method: "POST",
       headers: {
