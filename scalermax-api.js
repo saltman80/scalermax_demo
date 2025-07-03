@@ -74,7 +74,7 @@ function classifyPrompt(prompt) {
 
 const ROUTER_CONFIG = {
   coding: { model: process.env.CODING_MODEL || "openai/o4-mini-high" },
-  planning: { model: process.env.PLANNING_MODEL || "openai/4o-mini" },
+  planning: { model: process.env.PLANNING_MODEL || "openai/gpt-4o-mini" },
 };
 
 exports.handler = async function (event, context) {
