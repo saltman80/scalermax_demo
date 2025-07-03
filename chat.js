@@ -1,6 +1,6 @@
 (function () {
   const API_URL = "/api/scalermax-api";
-  const API_KEY = import.meta.env.VITE_SCALERMAX_BACKEND_KEY;
+  const API_KEY = window.SCALERMAX_BACKEND_KEY;
 
   // --- DEBUG DUMP ---
   const debugEl = document.getElementById('debug-dump');
@@ -10,7 +10,7 @@
   }
 
   console.groupCollapsed('🔍 SCALERMAX DEBUG');
-  console.log('VITE_SCALERMAX_BACKEND_KEY:', API_KEY);
+  console.log('SCALERMAX_BACKEND_KEY:', API_KEY);
   console.log('window.OPENROUTER_BASE_URL :', window.OPENROUTER_BASE_URL);
   console.log('window.OPENROUTER_API_KEY  :', window.OPENROUTER_API_KEY);
   console.groupEnd();
