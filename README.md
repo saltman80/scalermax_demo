@@ -102,6 +102,11 @@ OPENROUTER_BASE_URL=https://openrouter.ai # optional
 ```
   or edit `netlify/functions/config.js` to load from `process.env.OPENROUTER_API_KEY`.
 
+When building the frontend, the `SCALERMAX_BACKEND_KEY` value is injected into
+`dashboard.html`. The build script automatically replaces the placeholder
+`{{SCALERMAX_BACKEND_KEY}}` with the value from your environment. Ensure this
+variable is set before running `npm run build` or deploying to Netlify.
+
 ---
 
 ## Usage
